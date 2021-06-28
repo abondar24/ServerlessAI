@@ -11,3 +11,4 @@ Examples of using AWS Lambda for Machine learning based on 'AI as a service' Boo
 - AWS S3
 - AWS Lambda
 - Serverless framework
+- Java 11
