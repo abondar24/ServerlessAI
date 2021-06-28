@@ -1,5 +1,5 @@
 # ServerlessAI
-Examples of using AWS Lambda for Machine learning
+Examples of using AWS Lambda for Machine learning based on 'AI as a service' Book.
 
 # Examples
 
