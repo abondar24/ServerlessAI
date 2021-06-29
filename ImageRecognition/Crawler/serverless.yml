@@ -8,41 +8,41 @@ custom:
   accountid: 203212890819 #changeme
 
 
-  provider:
-    name: aws
-    runtime: nodejs12.x
-    stage: dev
-    region: 'eu-west-1'
-    iamRoleStatements:
-       - Effect: Allow
-         Action:
-           - s3:PutObject
-         Resource: "arn:aws:s3:::${self:custom.bucket}/*"
-       - Effect: Allow
-         Action:
-           - sqs:ListQueues
-         Resource: "arn:aws:sqs:${self:provider.region}:*:*"
-       - Effect: Allow
-         Action:
-          - sqs:RecieveMessage
-          - sqs:DeleteMessage
-          - sqs:GetQueueUrl
-         Resource: "arn:aws:sqs:*:*:${self:custom.crawlerqueue}"
-       - Effect: Allow
-         Action:
-          - sqs:SendMessage
-          - sqs:DeleteMessage
-          - sqs:GetQueueUrl
-         Resource: "arn:aws:sqs:*:*:${self:custom.analysisqueue}"
+provider:
+  name: aws
+  runtime: java11
+  stage: dev
+  region: 'eu-west-1'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+    - Effect: Allow
+      Action:
+        - sqs:ListQueues
+      Resource: "arn:aws:sqs:${self:provider.region}:*:*"
+    - Effect: Allow
+      Action:
+        - sqs:RecieveMessage
+        - sqs:DeleteMessage
+        - sqs:GetQueueUrl
+      Resource: "arn:aws:sqs:*:*:${self:custom.crawlerqueue}"
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:DeleteMessage
+        - sqs:GetQueueUrl
+      Resource: "arn:aws:sqs:*:*:${self:custom.analysisqueue}"
 
 
-  functions:
-    crawlImage:
-      handler: handler.handleRequest
-      environment:
-        BUCKET: ${self:custom.bucket}
-        ANALYSIS_QUEUE: ${self:custom.analysisqueue}
-        ACCOUNTID: ${self:custom.accountid}
-      events:
-        - sqs:
-             arn: "arn:aws:sqs:${self:provider.region}:203212890819:${self:custom.crawlerqueue}"
+functions:
+  crawlImage:
+    handler: handler.handleRequest
+    environment:
+      BUCKET: ${self:custom.bucket}
+      ANALYSIS_QUEUE: ${self:custom.analysisqueue}
+      ACCOUNTID: ${self:custom.accountid}
+    events:
+      - sqs:
+          arn: "arn:aws:sqs:${self:provider.region}:203212890819:${self:custom.crawlerqueue}"
