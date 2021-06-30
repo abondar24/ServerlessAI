@@ -9,3 +9,7 @@ variable "lambda_crawler"{
 variable "lambda_exec_role" {
   default = "lambda_exec_role"
 }
+
+variable "lambda_crawler_zip" {
+  default = "Crawler-1.0-SNAPSHOT.zip"
+}

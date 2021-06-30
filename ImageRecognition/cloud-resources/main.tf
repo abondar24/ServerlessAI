@@ -83,12 +83,12 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 }
 
 resource "aws_lambda_function" "crawler_func" {
-  filename      = "../Crawler/build/distributions/Crawler-1.0-SNAPSHOT.zip"
+  filename      = "../Crawler/build/distributions/${var.lambda_crawler_zip}"
   function_name = var.lambda_crawler
   role          = aws_iam_role.lambda_exec_role.arn
   handler       = "Handler.requestHandler"
 
-  source_code_hash = filebase64sha256("../Crawler/build/distributions/Crawler-1.0-SNAPSHOT.zip")
+  source_code_hash = filebase64sha256("../Crawler/build/distributions/${var.lambda_crawler_zip}")
 
   runtime = "java11"
 
