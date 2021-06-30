@@ -20,3 +20,12 @@ resource "aws_lambda_event_source_mapping" "crawler_func" {
 
 }
 
+resource "aws_lambda_function_event_invoke_config" "invoke_anls" {
+  function_name = var.lambda_crawler
+
+  destination_config {
+    on_success {
+      destination = aws_sqs_queue.img_rec_anl_queue.arn
+    }
+  }
+}
