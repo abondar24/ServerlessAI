@@ -2,6 +2,7 @@ package org.abondar.experimental.imagerec.crawler;
 
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,11 +44,11 @@ public class Handler implements RequestHandler<SQSEvent, String> {
 
                     if (event.getAction().equals(DOWNLOAD_ACTION) && event.getMsg() != null) {
                         var url = new URL(event.getMsg().getUrl());
-                        crawlImage(url, context);
-                        sendToAnalysis(url);
+                        crawlImage(event.getMsg().getUrl(), logger);
+                        sendToAnalysis(url, logger);
                     }
                 } catch (Exception ex) {
-                    logger.log(String.format("Error reading message body: %s", ex.getMessage()));
+                    logger.log( ex.getMessage());
                 }
 
             });
@@ -57,36 +58,39 @@ public class Handler implements RequestHandler<SQSEvent, String> {
     }
 
 
-    private void crawlImage(URL url, Context context) throws IOException {
-        context.getLogger().log(String.format("crawling %s", url.getHost()));
+    private void crawlImage(String url, LambdaLogger logger) throws IOException {
+        logger.log(String.format("crawling %s\n", url));
 
-        var doc = Jsoup.connect(url.toString()).post();
-        var elems = doc.getElementsByClass("block");
+        var doc = Jsoup.connect(url).get();
+        var elems = doc.getElementsByTag("img");
 
-        for (org.jsoup.nodes.Element blockElem : elems) {
-            var img = blockElem.getElementsByTag("img");
-            var imgUrl = new URL(img.attr("src"));
-            saveImage(new File(imgUrl.getFile()));
+        for (org.jsoup.nodes.Element imgElem : elems) {
+            var imgUrl = new URL(url+"/" + imgElem.attr("src"));
+
+            logger.log(String.format("Downloading image from %s\n", imgUrl));
+
+            saveImage(new File(imgUrl.getFile()), logger);
         }
     }
 
 
-    private void saveImage(File file) {
+    private void saveImage(File file, LambdaLogger logger) {
         var s3 = S3Client.builder()
                 .region(Region.EU_WEST_1)
                 .build();
 
+        logger.log(String.format("Putting file %s\n", file.getName()));
         s3.putObject(buildPutRequest(), RequestBody.fromFile(file));
     }
 
-    private PutObjectRequest buildPutRequest(){
+    private PutObjectRequest buildPutRequest() {
         return PutObjectRequest.builder()
                 .bucket(BUCKET_NAME)
                 .key(BUCKET_KEY)
                 .build();
     }
 
-    private void sendToAnalysis(URL url) throws IOException {
+    private void sendToAnalysis(URL url, LambdaLogger logger) throws IOException {
         var queueUrl = String.format("https://sqs.%s.amazonaws.com/%s/%s",
                 Region.EU_WEST_1.toString(), ACC_ID, ANL_QUEUE);
 
@@ -96,11 +100,12 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 .region(Region.EU_WEST_1)
                 .build();
 
-        sqs.sendMessage(buildRequest(queueUrl,msgBody));
+        logger.log(String.format("Sending for analysis %s\n", msgBody));
+        sqs.sendMessage(buildRequest(queueUrl, msgBody));
 
     }
 
-    private String buildBody(String domain) throws IOException{
+    private String buildBody(String domain) throws IOException {
         var event = new Event();
         var msg = new EventMsg();
 
@@ -111,8 +116,8 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         return mapper.writeValueAsString(event);
     }
 
-    private SendMessageRequest buildRequest(String queueUrl,String msgBody){
-       return SendMessageRequest.builder()
+    private SendMessageRequest buildRequest(String queueUrl, String msgBody) {
+        return SendMessageRequest.builder()
                 .queueUrl(queueUrl)
                 .messageBody(msgBody)
                 .delaySeconds(10)

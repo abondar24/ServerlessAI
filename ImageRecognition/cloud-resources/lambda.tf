@@ -6,6 +6,8 @@ resource "aws_lambda_function" "crawler_func" {
 
   source_code_hash = filebase64sha256("../Crawler/build/distributions/${var.lambda_crawler_zip}")
 
+  timeout = 200
+  memory_size = 1024
   runtime = "java11"
 
   depends_on = [
