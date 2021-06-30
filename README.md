@@ -7,8 +7,13 @@ Examples of using AWS Lambda for Machine learning based on 'AI as a service' Boo
 
 
 # Tools
+- Java 11
+- Terraform
+- Amazon SDK
+- Gradle 
 
+# AWS Services
 - AWS S3
 - AWS Lambda
-- Serverless framework
-- Java 11
+- AWS SQS  
+
