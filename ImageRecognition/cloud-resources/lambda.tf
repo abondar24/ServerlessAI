@@ -2,7 +2,7 @@ resource "aws_lambda_function" "crawler_func" {
   filename = "../Crawler/build/distributions/${var.lambda_crawler_zip}"
   function_name = var.lambda_crawler
   role = aws_iam_role.lambda_exec_role.arn
-  handler = "crawler.Handler"
+  handler = "org.abondar.experimental.imagerec.crawler.Handler"
 
   source_code_hash = filebase64sha256("../Crawler/build/distributions/${var.lambda_crawler_zip}")
 
