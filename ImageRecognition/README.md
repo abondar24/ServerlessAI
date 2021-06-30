@@ -8,12 +8,18 @@ The app constists of serveral lambda-based services.
 
 1. Crawler - cralws incoming image from html
 
-## Build and deploy
+## Build
 
 ```
 cd <service-folder>
 
 ./gradlew clean build
+```
 
-serverless deploy
+## Deploy
+
+```
+cd ../cloud-resources
+
+terraform apply
 ```
