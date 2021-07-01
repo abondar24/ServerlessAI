@@ -14,7 +14,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -37,7 +37,6 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         if (recs != null) {
             recs.forEach(rec -> {
                 var body = rec.getBody();
-                logger.log(body);
 
                 try {
                     var event = mapper.readValue(body, Event.class);
@@ -48,7 +47,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                         sendToAnalysis(url, logger);
                     }
                 } catch (Exception ex) {
-                    logger.log( ex.getMessage());
+                    logger.log(ex.getMessage());
                 }
 
             });
@@ -65,22 +64,34 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         var elems = doc.getElementsByTag("img");
 
         for (org.jsoup.nodes.Element imgElem : elems) {
-            var imgUrl = new URL(url+"/" + imgElem.attr("src"));
-
+            var imgUrl = new URL(url + "/" + imgElem.attr("src"));
             logger.log(String.format("Downloading image from %s\n", imgUrl));
 
-            saveImage(new File(imgUrl.getFile()), logger);
+            var imgName = imgElem.attr("src");
+            saveImage(getImage(imgUrl));
         }
     }
 
+    private byte[] getImage(URL url) throws IOException {
+        var bos = new ByteArrayOutputStream();
+        byte[] chunk = new byte[4096];
+        int bytesRead;
 
-    private void saveImage(File file, LambdaLogger logger) {
+        var is = url.openStream();
+        while ((bytesRead = is.read(chunk)) > 0) {
+            bos.write(chunk, 0, bytesRead);
+        }
+
+        return bos.toByteArray();
+
+    }
+
+    private void saveImage(byte[] file) {
         var s3 = S3Client.builder()
                 .region(Region.EU_WEST_1)
                 .build();
 
-        logger.log(String.format("Putting file %s\n", file.getName()));
-        s3.putObject(buildPutRequest(), RequestBody.fromFile(file));
+        s3.putObject(buildPutRequest(), RequestBody.fromBytes(file));
     }
 
     private PutObjectRequest buildPutRequest() {
