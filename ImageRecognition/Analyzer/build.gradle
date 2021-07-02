@@ -21,7 +21,8 @@ dependencies {
     implementation 'software.amazon.awssdk:lambda'
     implementation 'software.amazon.awssdk:s3'
     implementation 'software.amazon.awssdk:sqs'
-
+    implementation 'software.amazon.awssdk:rekognition'
+    
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
     implementation 'com.amazonaws:aws-lambda-java-events:3.9.0'
 
