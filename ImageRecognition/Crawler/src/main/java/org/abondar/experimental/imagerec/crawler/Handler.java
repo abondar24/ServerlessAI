@@ -21,7 +21,6 @@ import java.net.URL;
 import static org.abondar.experimental.imagerec.crawler.Constants.ACC_ID;
 import static org.abondar.experimental.imagerec.crawler.Constants.ANALYZE_ACTION;
 import static org.abondar.experimental.imagerec.crawler.Constants.ANL_QUEUE;
-import static org.abondar.experimental.imagerec.crawler.Constants.BUCKET_KEY;
 import static org.abondar.experimental.imagerec.crawler.Constants.BUCKET_NAME;
 import static org.abondar.experimental.imagerec.crawler.Constants.DOWNLOAD_ACTION;
 
@@ -68,7 +67,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
             logger.log(String.format("Downloading image from %s\n", imgUrl));
 
             var imgName = imgElem.attr("src");
-            saveImage(getImage(imgUrl));
+            saveImage(getImage(imgUrl),imgName);
         }
     }
 
@@ -86,18 +85,19 @@ public class Handler implements RequestHandler<SQSEvent, String> {
 
     }
 
-    private void saveImage(byte[] file) {
+    private void saveImage(byte[] file,String fileName) {
         var s3 = S3Client.builder()
                 .region(Region.EU_WEST_1)
                 .build();
 
-        s3.putObject(buildPutRequest(), RequestBody.fromBytes(file));
+
+        s3.putObject(buildPutRequest(fileName), RequestBody.fromBytes(file));
     }
 
-    private PutObjectRequest buildPutRequest() {
+    private PutObjectRequest buildPutRequest(String fileName) {
         return PutObjectRequest.builder()
                 .bucket(BUCKET_NAME)
-                .key(BUCKET_KEY)
+                .key(fileName)
                 .build();
     }
 
