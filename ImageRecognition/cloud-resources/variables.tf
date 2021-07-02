@@ -6,12 +6,21 @@ variable "lambda_crawler"{
   default = "crawler"
 }
 
+variable "lambda_analyzer"{
+  default = "analyzer"
+}
+
 variable "lambda_exec_role" {
   default = "lambda_exec_role"
 }
 
 variable "lambda_crawler_zip" {
   default = "Crawler-1.0-SNAPSHOT.zip"
+}
+
+
+variable "lambda_analyzer_zip" {
+  default = "Analyzer-1.0-SNAPSHOT.zip"
 }
 
 variable "acc_id" {

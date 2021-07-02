@@ -31,3 +31,28 @@ resource "aws_lambda_function_event_invoke_config" "invoke_anls" {
     }
   }
 }
+
+
+resource "aws_lambda_function" "analyzer_func" {
+  filename = "../Crawler/build/distributions/${var.lambda_analyzer}"
+  function_name = var.lambda_analyzer
+  role = aws_iam_role.lambda_exec_role.arn
+  handler = "org.abondar.experimental.imagerec.analyzer.Handler"
+
+  source_code_hash = filebase64sha256("../Analyzer/build/distributions/${var.lambda_analyzer_zip}")
+
+  timeout = 200
+  memory_size = 1024
+  runtime = "java11"
+
+  depends_on = [
+    aws_iam_role_policy_attachment.lambda_logs,
+    aws_cloudwatch_log_group.analyzer,
+  ]
+}
+
+resource "aws_lambda_event_source_mapping" "analyzer_func" {
+  event_source_arn = aws_sqs_queue.img_rec_anl_queue.arn
+  function_name = aws_lambda_function.analyzer_func.arn
+
+}
