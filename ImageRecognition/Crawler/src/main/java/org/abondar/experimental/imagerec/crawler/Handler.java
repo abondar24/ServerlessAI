@@ -66,8 +66,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
             var imgUrl = new URL(url + "/" + imgElem.attr("src"));
             logger.log(String.format("Downloading image from %s\n", imgUrl));
 
-            var imgName = imgElem.attr("src");
-            saveImage(getImage(imgUrl),imgName);
+            saveImage(getImage(imgUrl),imgUrl.toString());
         }
     }
 
