@@ -110,4 +110,28 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_access" {
   policy_arn = aws_iam_policy.lambda_s3.arn
 }
 
+resource "aws_iam_policy" "lambda_rekog" {
+  name = "lambda_rekog"
+  path = "/"
+  description = "IAM policy for accessing rekognition from a lambda"
 
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "rekognition:*"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_rekog_access" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_rekog.arn
+}
