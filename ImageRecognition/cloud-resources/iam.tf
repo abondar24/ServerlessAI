@@ -1,5 +1,3 @@
-
-
 resource "aws_iam_role" "lambda_exec_role" {
   name = var.lambda_exec_role
 
@@ -80,3 +78,36 @@ resource "aws_iam_role_policy_attachment" "lambda_sqs_msg" {
   role = aws_iam_role.lambda_exec_role.name
   policy_arn = aws_iam_policy.lambda_sqs.arn
 }
+
+
+resource "aws_iam_policy" "lambda_s3" {
+  name = "lambda_s3"
+  path = "/"
+  description = "IAM policy for accessing S3 bucket from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionAcl",
+        "s3:PutObjectVersionTagging"
+      ],
+      "Resource": "arn:aws:s3:::${var.img_bucket}",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_s3_access" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_s3.arn
+}
+
+

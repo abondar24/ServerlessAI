@@ -17,3 +17,11 @@ variable "lambda_crawler_zip" {
 variable "acc_id" {
   default = "203212890819"
 }
+
+variable "img_bucket" {
+  default = "img-rec"
+}
+
+variable "bucket_role" {
+  default = "bucket_role"
+}
