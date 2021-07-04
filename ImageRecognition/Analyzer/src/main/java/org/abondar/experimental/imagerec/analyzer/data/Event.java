@@ -1,4 +1,4 @@
-package org.abondar.experimental.imagerec.analyzer;
+package org.abondar.experimental.imagerec.analyzer.data;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

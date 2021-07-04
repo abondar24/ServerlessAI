@@ -5,17 +5,28 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.abondar.experimental.imagerec.analyzer.data.AnalysisResults;
+import org.abondar.experimental.imagerec.analyzer.data.Event;
+import org.abondar.experimental.imagerec.analyzer.data.ImageLabel;
+import org.abondar.experimental.imagerec.analyzer.data.ImageResult;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
 import software.amazon.awssdk.services.rekognition.model.DetectLabelsRequest;
 import software.amazon.awssdk.services.rekognition.model.DetectLabelsResponse;
 import software.amazon.awssdk.services.rekognition.model.Image;
+import software.amazon.awssdk.services.rekognition.model.Label;
 import software.amazon.awssdk.services.rekognition.model.S3Object;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.abondar.experimental.imagerec.analyzer.Constants.ANALYSYS_FILE;
 import static org.abondar.experimental.imagerec.analyzer.Constants.ANALYZE_ACTION;
@@ -48,30 +59,89 @@ public class Handler implements RequestHandler<SQSEvent, String> {
 
             });
         }
-        return null;
+        return "Analysis complete";
     }
 
-    private void iterateBucket(String url, S3Client s3, LambdaLogger logger) {
+    private void iterateBucket(String url, S3Client s3, LambdaLogger logger) throws IOException {
         logger.log("Iterating bucket");
         var resp = s3.listObjectsV2(buildListObjectRequest(url));
         var contents = resp.contents();
-        if (contents.isEmpty()){
-           logger.log("Empty data");
-           return;
+        if (contents.isEmpty()) {
+            logger.log("Empty data");
+            return;
         }
 
-        List<DetectLabelsResponse> labels = new ArrayList<>();
+        Map<String, DetectLabelsResponse> labels = new HashMap<>();
+        var anlFile = url + "/" + ANALYSYS_FILE;
         contents
                 .stream()
-                .filter(img-> !img.key().equals(url+"/"+ANALYSYS_FILE))
-                .forEach(img -> labels.add(analyzeLabels(img.key())));
+                .filter(img -> !img.key().equals(anlFile))
+                .forEach(img -> {
+                    var imgFile = img.key();
+                    var labelsResponse = analyzeLabels(imgFile, logger);
+                    labels.put(imgFile, labelsResponse);
+                });
 
-        //TODO: write results to json and save to bucket
+
+        writeResults(labels, anlFile, logger);
     }
 
-    private DetectLabelsResponse analyzeLabels(String imgKey) {
-           var rekognitionClient = buildRekognitionClient();
-           return rekognitionClient.detectLabels(buildLabelRequest(imgKey));
+    private void writeResults(Map<String, DetectLabelsResponse> labels, String anlFile,LambdaLogger logger) throws IOException {
+        logger.log("Saving analysis results");
+        var s3 = buildS3Client();
+        var req = buildPutRequest(anlFile);
+
+        s3.putObject(req, RequestBody.fromBytes(getAnalysisContent(labels)));
+    }
+
+    private byte[] getAnalysisContent(Map<String, DetectLabelsResponse> imageLables) throws IOException {
+
+        var analysisResults = new AnalysisResults();
+
+        Map<String, Integer> wordCloud = new HashMap<>();
+        List<ImageResult> imageResults = new ArrayList<>();
+        imageLables.forEach((i, lr) -> {
+            var labels = lr.labels();
+            fillWordCount(wordCloud, labels);
+
+            imageResults.add(fillImageResult(i, labels));
+        });
+
+        analysisResults.setWordCloud(wordCloud);
+        analysisResults.setResults(imageResults);
+        var json = mapper.writeValueAsString(analysisResults);
+        return json.getBytes(StandardCharsets.UTF_8);
+    }
+
+    private void fillWordCount(Map<String, Integer> wordCloud, List<Label> labels) {
+        labels.forEach(l -> {
+            var labelName = l.name();
+            if (wordCloud.containsKey(labelName)) {
+                wordCloud.put(labelName, 1);
+            } else {
+                var lCount = wordCloud.get(labelName);
+                wordCloud.put(labelName, lCount + 1);
+            }
+        });
+    }
+
+    private ImageResult fillImageResult(String image, List<Label> labels) {
+        var imageResult = new ImageResult(image);
+
+        List<ImageLabel> imageLabels = new ArrayList<>();
+        labels.forEach(l -> {
+            var imageLabel = new ImageLabel(l.name(), l.confidence());
+            imageLabels.add(imageLabel);
+        });
+        imageResult.setLabels(imageLabels);
+
+        return imageResult;
+    }
+
+    private DetectLabelsResponse analyzeLabels(String imgKey, LambdaLogger logger) {
+        logger.log("Calling AWS Rekognition");
+        var rekognitionClient = buildRekognitionClient();
+        return rekognitionClient.detectLabels(buildLabelRequest(imgKey));
     }
 
     private S3Client buildS3Client() {
@@ -88,7 +158,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 .build();
     }
 
-    private RekognitionClient buildRekognitionClient(){
+    private RekognitionClient buildRekognitionClient() {
         return RekognitionClient.builder()
                 .region(Region.EU_WEST_1)
                 .build();
@@ -115,4 +185,10 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 .build();
     }
 
+    private PutObjectRequest buildPutRequest(String fileName) {
+        return PutObjectRequest.builder()
+                .bucket(BUCKET_NAME)
+                .key(fileName)
+                .build();
+    }
 }
