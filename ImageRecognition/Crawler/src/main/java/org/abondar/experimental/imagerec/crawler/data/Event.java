@@ -1,4 +1,4 @@
-package org.abondar.experimental.imagerec.crawler;
+package org.abondar.experimental.imagerec.crawler.data;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +7,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-public class EventMsg {
+@ToString
+public class Event {
+    private String action;
 
-    private String url;
+    private EventMsg msg;
 }

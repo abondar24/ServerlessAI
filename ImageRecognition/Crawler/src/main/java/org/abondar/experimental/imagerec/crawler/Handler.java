@@ -6,6 +6,8 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.abondar.experimental.imagerec.crawler.data.Event;
+import org.abondar.experimental.imagerec.crawler.data.EventMsg;
 import org.jsoup.Jsoup;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
