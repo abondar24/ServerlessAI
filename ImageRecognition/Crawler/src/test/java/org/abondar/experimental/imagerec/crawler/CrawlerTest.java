@@ -24,11 +24,7 @@ public class CrawlerTest {
     public void jsonParseTest() throws Exception {
         var mapper = new ObjectMapper();
 
-        var eventBody = "{\n" +
-                "\"action\": \"download\",\n" +
-                "\"msg\": {\n" +
-                "\"url\": \"http://s3-website-eu-west-1.amazonaws.com\"\n" +
-                "}" + "}";
+        var eventBody = "{\"action\": \"download\" ,\"msg\": {\"url\": \"http://s3-website-eu-west-1.amazonaws.com\" }}";
 
         var event = mapper.readValue(eventBody, Event.class);
 

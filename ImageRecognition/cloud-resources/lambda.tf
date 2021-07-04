@@ -34,7 +34,7 @@ resource "aws_lambda_function_event_invoke_config" "invoke_anls" {
 
 
 resource "aws_lambda_function" "analyzer_func" {
-  filename = "../Crawler/build/distributions/${var.lambda_analyzer}"
+  filename = "../Analyzer/build/distributions/${var.lambda_analyzer_zip}"
   function_name = var.lambda_analyzer
   role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.imagerec.analyzer.Handler"
