@@ -69,7 +69,8 @@ public class Handler implements RequestHandler<SQSEvent, String> {
             var imgUrl = new URL(url + "/" + imgElem.attr("src"));
             logger.log(String.format("Downloading image from %s\n", imgUrl));
 
-            saveImage(getImage(imgUrl),imgUrl.toString());
+            var fileKey = imgUrl.toString().replace("http://","");
+            saveImage(getImage(imgUrl),fileKey);
         }
     }
 
@@ -87,13 +88,13 @@ public class Handler implements RequestHandler<SQSEvent, String> {
 
     }
 
-    private void saveImage(byte[] file,String fileName) {
+    private void saveImage(byte[] file,String fileKey) {
         var s3 = S3Client.builder()
                 .region(Region.EU_WEST_1)
                 .build();
 
 
-        s3.putObject(buildPutRequest(fileName), RequestBody.fromBytes(file));
+        s3.putObject(buildPutRequest(fileKey), RequestBody.fromBytes(file));
     }
 
     private PutObjectRequest buildPutRequest(String fileName) {
