@@ -52,7 +52,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 }
 
             });
-            return "Crawling compleete";
+            return "Crawling complete";
         }
 
         return null;

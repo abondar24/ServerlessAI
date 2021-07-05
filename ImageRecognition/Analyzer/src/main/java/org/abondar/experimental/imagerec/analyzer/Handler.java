@@ -63,8 +63,8 @@ public class Handler implements RequestHandler<SQSEvent, String> {
     }
 
     private void iterateBucket(String url, S3Client s3, LambdaLogger logger) throws IOException {
-        logger.log("Iterating bucket");
-        var resp = s3.listObjectsV2(buildListObjectRequest(url));
+        logger.log(String.format("Iterating bucket with key %s",url));
+        var resp = s3.listObjectsV2(buildListObjectRequest(url+"/"));
         var contents = resp.contents();
         if (contents.isEmpty()) {
             logger.log("Empty data");
@@ -78,10 +78,9 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 .filter(img -> !img.key().equals(anlFile))
                 .forEach(img -> {
                     var imgFile = img.key();
-                    var labelsResponse = analyzeLabels(imgFile, logger);
+                    var labelsResponse = analyzeLabels(imgFile);
                     labels.put(imgFile, labelsResponse);
                 });
-
 
         writeResults(labels, anlFile, logger);
     }
@@ -94,13 +93,13 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         s3.putObject(req, RequestBody.fromBytes(getAnalysisContent(labels)));
     }
 
-    private byte[] getAnalysisContent(Map<String, DetectLabelsResponse> imageLables) throws IOException {
+    private byte[] getAnalysisContent(Map<String, DetectLabelsResponse> imageLabels) throws IOException {
 
         var analysisResults = new AnalysisResults();
 
         Map<String, Integer> wordCloud = new HashMap<>();
         List<ImageResult> imageResults = new ArrayList<>();
-        imageLables.forEach((i, lr) -> {
+        imageLabels.forEach((i, lr) -> {
             var labels = lr.labels();
             fillWordCount(wordCloud, labels);
 
@@ -117,10 +116,10 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         labels.forEach(l -> {
             var labelName = l.name();
             if (wordCloud.containsKey(labelName)) {
-                wordCloud.put(labelName, 1);
-            } else {
                 var lCount = wordCloud.get(labelName);
                 wordCloud.put(labelName, lCount + 1);
+            } else {
+                wordCloud.put(labelName, 1);
             }
         });
     }
@@ -138,8 +137,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         return imageResult;
     }
 
-    private DetectLabelsResponse analyzeLabels(String imgKey, LambdaLogger logger) {
-        logger.log("Calling AWS Rekognition");
+    private DetectLabelsResponse analyzeLabels(String imgKey) {
         var rekognitionClient = buildRekognitionClient();
         return rekognitionClient.detectLabels(buildLabelRequest(imgKey));
     }
@@ -185,10 +183,10 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 .build();
     }
 
-    private PutObjectRequest buildPutRequest(String fileName) {
+    private PutObjectRequest buildPutRequest(String fileKey) {
         return PutObjectRequest.builder()
                 .bucket(BUCKET_NAME)
-                .key(fileName)
+                .key(fileKey)
                 .build();
     }
 }
