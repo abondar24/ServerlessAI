@@ -10,6 +10,11 @@ variable "lambda_analyzer"{
   default = "analyzer"
 }
 
+variable "lambda_endpoints"{
+  default = "endpoints"
+}
+
+
 variable "lambda_exec_role" {
   default = "lambda_exec_role"
 }
@@ -21,6 +26,10 @@ variable "lambda_crawler_zip" {
 
 variable "lambda_analyzer_zip" {
   default = "Analyzer-1.0-SNAPSHOT.zip"
+}
+
+variable "lambda_endpoints_zip" {
+  default = "Endpoints-1.0-SNAPSHOT.zip"
 }
 
 variable "acc_id" {

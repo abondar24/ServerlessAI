@@ -56,3 +56,32 @@ resource "aws_lambda_event_source_mapping" "analyzer_func" {
   function_name = aws_lambda_function.analyzer_func.arn
 
 }
+
+
+resource "aws_lambda_function" "endpoints_func" {
+  filename = "../Analyzer/build/distributions/${var.lambda_endpoints_zip}"
+  function_name = var.lambda_endpoints
+  role = aws_iam_role.lambda_exec_role.arn
+  handler = "org.abondar.experimental.imagerec.endpoints.Handler"
+
+  source_code_hash = filebase64sha256("../Analyzer/build/distributions/${var.lambda_endpoints_zip}")
+
+  timeout = 200
+  memory_size = 1024
+  runtime = "java11"
+
+  depends_on = [
+    aws_iam_role_policy_attachment.lambda_logs,
+    aws_cloudwatch_log_group.analyzer,
+  ]
+}
+
+resource "aws_lambda_function_event_invoke_config" "invoke_crawler" {
+  function_name = var.lambda_endpoints
+
+  destination_config {
+    on_success {
+      destination = aws_sqs_queue.img_rec_queue.arn
+    }
+  }
+}
