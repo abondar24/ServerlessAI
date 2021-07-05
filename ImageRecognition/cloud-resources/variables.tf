@@ -10,8 +10,16 @@ variable "lambda_analyzer"{
   default = "analyzer"
 }
 
-variable "lambda_endpoints"{
-  default = "endpoints"
+variable "lambda_endpoints_analyzer"{
+  default = "analyze_endpoint"
+}
+
+variable "lambda_endpoints_urls"{
+  default = "urls_endpoint"
+}
+
+variable "lambda_endpoints_images"{
+  default = "images_endpoint"
 }
 
 
@@ -28,8 +36,16 @@ variable "lambda_analyzer_zip" {
   default = "Analyzer-1.0-SNAPSHOT.zip"
 }
 
-variable "lambda_endpoints_zip" {
-  default = "Endpoints-1.0-SNAPSHOT.zip"
+variable "lambda_endpoints_analyzer_zip" {
+  default = "AnalyzeEndpoint-1.0-SNAPSHOT.zip"
+}
+
+variable "lambda_endpoints_images_zip" {
+  default = "ImageListEndpoint-1.0-SNAPSHOT.zip"
+}
+
+variable "lambda_endpoints_urls_zip" {
+  default = "ListUrlEndpoint-1.0-SNAPSHOT.zip"
 }
 
 variable "acc_id" {
