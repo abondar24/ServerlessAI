@@ -90,13 +90,7 @@ resource "aws_iam_policy" "lambda_s3" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": [
-        "s3:PutObject",
-        "s3:PutObjectAcl",
-        "s3:PutObjectTagging",
-        "s3:PutObjectVersionAcl",
-        "s3:PutObjectVersionTagging"
-      ],
+      "Action":  "s3:*",
       "Resource": "arn:aws:s3:::${var.img_bucket}",
       "Effect": "Allow"
     }
@@ -121,7 +115,8 @@ resource "aws_iam_policy" "lambda_rekog" {
   "Statement": [
     {
       "Action": [
-        "rekognition:*"
+        "rekognition:*",
+        "s3:*"
       ],
       "Resource": "*",
       "Effect": "Allow"
