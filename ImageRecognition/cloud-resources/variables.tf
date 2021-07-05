@@ -44,9 +44,6 @@ variable "lambda_endpoints_images_zip" {
   default = "ImageListEndpoint-1.0-SNAPSHOT.zip"
 }
 
-variable "lambda_endpoints_urls_zip" {
-  default = "ListUrlEndpoint-1.0-SNAPSHOT.zip"
-}
 
 variable "acc_id" {
   default = "203212890819"
