@@ -65,4 +65,13 @@ subprojects{
 
 }
 
+project(":Common"){
+    tasks.buildZip {enabled = false}
+}
+
+project(":RecognitionApi"){
+    tasks.buildZip {enabled = false}
+}
+
+
 

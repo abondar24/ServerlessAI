@@ -5,10 +5,11 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.abondar.experimental.imagerec.data.AnalysisResults;
-import org.abondar.experimental.imagerec.data.Event;
+import org.abondar.experimental.imagerec.constants.Constants;
 import org.abondar.experimental.imagerec.data.ImageLabel;
 import org.abondar.experimental.imagerec.data.ImageResult;
+import org.abondar.experimental.imagerec.data.AnalysisResults;
+import org.abondar.experimental.imagerec.data.Event;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
@@ -27,10 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.abondar.experimental.imagerec.constants.Constants.ANALYSYS_FILE;
-import static org.abondar.experimental.imagerec.constants.Constants.ANALYZE_ACTION;
-import static org.abondar.experimental.imagerec.constants.Constants.BUCKET_NAME;
 
 
 public class Handler implements RequestHandler<SQSEvent, String> {
@@ -51,7 +48,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
                 try {
                     var event = mapper.readValue(body, Event.class);
 
-                    if (event.getAction().equals(ANALYZE_ACTION) && event.getMsg() != null) {
+                    if (event.getAction().equals(Constants.ANALYZE_ACTION) && event.getMsg() != null) {
                         iterateBucket(event.getMsg().getUrl(), s3, logger);
                     }
                 } catch (Exception ex) {
@@ -73,7 +70,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
         }
 
         Map<String, DetectLabelsResponse> labels = new HashMap<>();
-        var anlFile = url + "/" + ANALYSYS_FILE;
+        var anlFile = url + "/" + Constants.ANALYSIS_FILE;
         contents
                 .stream()
                 .filter(img -> !img.key().equals(anlFile))
@@ -151,7 +148,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
 
     private ListObjectsV2Request buildListObjectRequest(String prefix) {
         return ListObjectsV2Request.builder()
-                .bucket(BUCKET_NAME)
+                .bucket(Constants.BUCKET_NAME)
                 .maxKeys(1000)
                 .prefix(prefix)
                 .build();
@@ -179,14 +176,14 @@ public class Handler implements RequestHandler<SQSEvent, String> {
 
     private S3Object buildS3Object(String imgKey) {
         return S3Object.builder()
-                .bucket(BUCKET_NAME)
+                .bucket(Constants.BUCKET_NAME)
                 .name(imgKey)
                 .build();
     }
 
     private PutObjectRequest buildPutRequest(String fileKey) {
         return PutObjectRequest.builder()
-                .bucket(BUCKET_NAME)
+                .bucket(Constants.BUCKET_NAME)
                 .key(fileKey)
                 .build();
     }

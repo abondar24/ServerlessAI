@@ -12,7 +12,9 @@ public class Constants {
 
     public static final String ANL_QUEUE = "ImgRecAnlQueue";
 
-    public static final String ANALYSYS_FILE = "analysis.json";
+    public static final String REC_QUEUE = "ImgRecQueue";
+
+    public static final String ANALYSIS_FILE = "analysis.json";
 
     private Constants(){}
 }

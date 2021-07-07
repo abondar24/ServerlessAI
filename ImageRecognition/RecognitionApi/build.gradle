@@ -1,19 +1,24 @@
-plugins {
-    id 'java'
-}
-
-group 'org.abondar.experimental.imagerec'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
+plugins{
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation project (':Common')
 }
 
-test {
-    useJUnitPlatform()
+bootJar {
+    mainClass = 'org.abondar.experimental.imagerec.api.RecognitionApplication'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'org.abondar.experimental.imagerec.api.RecognitionApplication'
+        )
+    }
 }

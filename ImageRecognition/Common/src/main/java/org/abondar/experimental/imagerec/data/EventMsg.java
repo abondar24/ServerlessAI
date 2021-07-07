@@ -12,4 +12,8 @@ import lombok.ToString;
 public class EventMsg {
 
     private String url;
+
+    public EventMsg(String url) {
+        this.url = url;
+    }
 }
