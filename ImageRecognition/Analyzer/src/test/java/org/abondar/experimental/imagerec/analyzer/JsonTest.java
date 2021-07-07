@@ -49,4 +49,5 @@ public class JsonTest {
         assertEquals(res.getResults().size(),ar.getResults().size());
     }
 
+    //TODO: add handler test
 }

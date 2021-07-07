@@ -14,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.doNothing;
@@ -34,7 +32,6 @@ public class RecognitionControllerTest {
     private RecognitionService recognitionService;
 
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -48,10 +45,11 @@ public class RecognitionControllerTest {
 
         doNothing().when(recognitionService).triggerAnalysis(msg);
 
-
         mockMvc.perform(post("/recognition")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(body))
+                .accept(MediaType.APPLICATION_JSON)
+                .content(body)
+                .characterEncoding("utf-8"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -68,7 +66,8 @@ public class RecognitionControllerTest {
         mockMvc.perform(get("/recognition")
                 .queryParam("domain", msg.getUrl())
                 .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
                 .andDo(print())
                 .andExpect(status().isOk());
 

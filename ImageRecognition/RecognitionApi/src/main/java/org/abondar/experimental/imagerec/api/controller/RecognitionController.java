@@ -25,13 +25,13 @@ public class RecognitionController {
         this.recognitionService = recognitionService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = "application/json;charset=utf-8",produces = "application/json;charset=utf-8")
     public ResponseEntity<String> triggerAnalysis(@RequestBody EventMsg msg) throws IOException {
        recognitionService.triggerAnalysis(msg);
        return ResponseEntity.ok("Analysis triggered");
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(consumes ="application/json;charset=utf-8",produces = "application/json;charset=utf-8")
     public ResponseEntity<String> getResults(@RequestParam(name="domain") String domain) throws IOException{
         var analysisJson = recognitionService.getResults(domain);
         return ResponseEntity.ok(analysisJson);
