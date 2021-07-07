@@ -1,14 +1,16 @@
 package org.abondar.experimental.imagerec.analyzer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.abondar.experimental.imagerec.analyzer.data.AnalysisResults;
-import org.abondar.experimental.imagerec.analyzer.data.ImageLabel;
-import org.abondar.experimental.imagerec.analyzer.data.ImageResult;
+
+import org.abondar.experimental.imagerec.data.AnalysisResults;
+import org.abondar.experimental.imagerec.data.ImageLabel;
+import org.abondar.experimental.imagerec.data.ImageResult;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 

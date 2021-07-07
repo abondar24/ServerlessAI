@@ -6,8 +6,9 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.abondar.experimental.imagerec.crawler.data.Event;
-import org.abondar.experimental.imagerec.crawler.data.EventMsg;
+
+import org.abondar.experimental.imagerec.data.Event;
+import org.abondar.experimental.imagerec.data.EventMsg;
 import org.jsoup.Jsoup;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -20,11 +21,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import static org.abondar.experimental.imagerec.crawler.Constants.ACC_ID;
-import static org.abondar.experimental.imagerec.crawler.Constants.ANALYZE_ACTION;
-import static org.abondar.experimental.imagerec.crawler.Constants.ANL_QUEUE;
-import static org.abondar.experimental.imagerec.crawler.Constants.BUCKET_NAME;
-import static org.abondar.experimental.imagerec.crawler.Constants.DOWNLOAD_ACTION;
+import static org.abondar.experimental.imagerec.constants.Constants.ACC_ID;
+import static org.abondar.experimental.imagerec.constants.Constants.ANALYZE_ACTION;
+import static org.abondar.experimental.imagerec.constants.Constants.ANL_QUEUE;
+import static org.abondar.experimental.imagerec.constants.Constants.BUCKET_NAME;
+import static org.abondar.experimental.imagerec.constants.Constants.DOWNLOAD_ACTION;
+
 
 public class Handler implements RequestHandler<SQSEvent, String> {
 

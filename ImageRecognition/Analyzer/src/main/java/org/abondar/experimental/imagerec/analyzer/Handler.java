@@ -5,10 +5,10 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.abondar.experimental.imagerec.analyzer.data.AnalysisResults;
-import org.abondar.experimental.imagerec.analyzer.data.Event;
-import org.abondar.experimental.imagerec.analyzer.data.ImageLabel;
-import org.abondar.experimental.imagerec.analyzer.data.ImageResult;
+import org.abondar.experimental.imagerec.data.AnalysisResults;
+import org.abondar.experimental.imagerec.data.Event;
+import org.abondar.experimental.imagerec.data.ImageLabel;
+import org.abondar.experimental.imagerec.data.ImageResult;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
@@ -28,9 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.abondar.experimental.imagerec.analyzer.Constants.ANALYSYS_FILE;
-import static org.abondar.experimental.imagerec.analyzer.Constants.ANALYZE_ACTION;
-import static org.abondar.experimental.imagerec.analyzer.Constants.BUCKET_NAME;
+import static org.abondar.experimental.imagerec.constants.Constants.ANALYSYS_FILE;
+import static org.abondar.experimental.imagerec.constants.Constants.ANALYZE_ACTION;
+import static org.abondar.experimental.imagerec.constants.Constants.BUCKET_NAME;
+
 
 public class Handler implements RequestHandler<SQSEvent, String> {
 

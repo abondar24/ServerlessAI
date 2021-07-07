@@ -1,4 +1,4 @@
-package org.abondar.experimental.imagerec.analyzer.data;
+package org.abondar.experimental.imagerec.data;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;

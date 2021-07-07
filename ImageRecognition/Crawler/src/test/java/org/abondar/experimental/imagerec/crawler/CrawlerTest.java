@@ -1,7 +1,8 @@
 package org.abondar.experimental.imagerec.crawler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.abondar.experimental.imagerec.crawler.data.Event;
+
+import org.abondar.experimental.imagerec.data.Event;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
