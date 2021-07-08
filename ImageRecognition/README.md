@@ -41,7 +41,27 @@ cd RecognitionApi
 
 ```
 
-Access the server via locahost:8024/recogintion
+## API reference
+Access the API via locahost:8024/image/recogintion
+
+```
+POST locahost:8024/image/recogintion 
+
+Body:
+"msg": {
+    "url":"http://ai-as-a-service.s3-website-eu-west-1.amazonaws.com"
+  }
+  
+Response:   200 - Analysis triggered
+
+
+GET locahost:8024/image/recogintion?domain=ai-as-a-service.s3-website-eu-west-1.amazonaws.com 
+
+Response:   200 - JSON file with analysis results.
+
+```
+
+
 
 ## SQS Message Body to test
 ```json
