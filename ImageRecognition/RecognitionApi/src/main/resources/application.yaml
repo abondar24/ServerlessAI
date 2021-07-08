@@ -1,2 +1,4 @@
 server:
   port: 8024
+  servlet:
+    context-path: /image
