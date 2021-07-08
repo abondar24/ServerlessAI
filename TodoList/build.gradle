@@ -1,0 +1,66 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+allprojects{
+    apply plugin: 'idea'
+
+    group 'org.abondar.experimental.todo'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+}
+subprojects{
+    apply plugin: 'java'
+    apply plugin: "io.freefair.lombok"
+
+    dependencies {
+
+        implementation platform('software.amazon.awssdk:bom:2.16.91')
+
+        implementation 'software.amazon.awssdk:aws-core'
+        implementation 'software.amazon.awssdk:sdk-core'
+        implementation 'software.amazon.awssdk:lambda'
+        implementation 'software.amazon.awssdk:s3'
+        implementation 'software.amazon.awssdk:sqs'
+
+        implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+        implementation 'com.amazonaws:aws-lambda-java-events:3.9.0'
+
+        implementation 'com.fasterxml.jackson.core:jackson-core:2.12.3'
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
+
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+
+        testImplementation 'org.mockito:mockito-junit-jupiter:2.23.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    task buildZip(type: Zip) {
+        from compileJava
+        from processResources
+        into('lib') {
+            from configurations.runtimeClasspath
+        }
+    }
+
+    build.dependsOn buildZip
+
+}
+

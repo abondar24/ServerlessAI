@@ -2,13 +2,15 @@
 
 Serverless application based on Amazon Recognition for cats images recognition.
 
-The app constists of serveral lambda-based services.
+The app consists of several lambda-based services.
 
-## Services
+## Lambda Services
 
 1. Crawler - cralws incoming image from html.
 2. Analyzer - calls AWS rekognition and writes output.json with results.
-3. Recognition Service - calls aws to start analysis and to get results.
+   
+## Non-Lambda Service
+1. Recognition Service - calls aws to start analysis and to get results.
 
 ## Build and deploy lambda
 
