@@ -63,7 +63,8 @@ Response:   200 - JSON file with analysis results.
 
 
 
-## SQS Message Body to test
+## SQS Message Body to test via Crawler lambda
+
 ```json
 {"action": "download",
   "msg": {

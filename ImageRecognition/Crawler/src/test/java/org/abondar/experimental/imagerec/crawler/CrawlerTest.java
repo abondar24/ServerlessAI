@@ -77,5 +77,4 @@ public class CrawlerTest {
         return res;
     }
 
-    //TODO: add handler test
 }

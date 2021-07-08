@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JsonTest {
+public class AnalyzerTest {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -49,5 +49,4 @@ public class JsonTest {
         assertEquals(res.getResults().size(),ar.getResults().size());
     }
 
-    //TODO: add handler test
 }
