@@ -1,0 +1,5 @@
+dependencies {
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.2.22'
+    implementation project (':Common')
+}
+
