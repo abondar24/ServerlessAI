@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "create_func" {
   filename = "../TodoApi/build/distributions/${var.lambda_api_zip}"
   function_name = var.lambda_create
-  role = var.lambda_exec_role_arn
+  role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.todo.api.handler.CreateHandler"
 
   source_code_hash = filebase64sha256("../TodoApi/build/distributions/${var.lambda_api_zip}")
@@ -20,7 +20,7 @@ resource "aws_lambda_function" "create_func" {
 resource "aws_lambda_function" "update_func" {
   filename = "../TodoApi/build/distributions/${var.lambda_api_zip}"
   function_name = var.lambda_update
-  role = var.lambda_exec_role_arn
+  role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.todo.api.handler.UpdateHandler"
 
   source_code_hash = filebase64sha256("../TodoApi/build/distributions/${var.lambda_api_zip}")
@@ -39,7 +39,7 @@ resource "aws_lambda_function" "update_func" {
 resource "aws_lambda_function" "delete_func" {
   filename = "../TodoApi/build/distributions/${var.lambda_api_zip}"
   function_name = var.lambda_delete
-  role = var.lambda_exec_role_arn
+  role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.todo.api.handler.DeleteHandler"
 
   source_code_hash = filebase64sha256("../TodoApi/build/distributions/${var.lambda_api_zip}")
@@ -57,8 +57,8 @@ resource "aws_lambda_function" "delete_func" {
 
 resource "aws_lambda_function" "read_func" {
   filename = "../TodoApi/build/distributions/${var.lambda_api_zip}"
-  function_name = var.lambda_delete
-  role = var.lambda_exec_role_arn
+  function_name = var.lambda_read
+  role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.todo.api.handler.ReadHandler"
 
   source_code_hash = filebase64sha256("../TodoApi/build/distributions/${var.lambda_api_zip}")
@@ -76,8 +76,8 @@ resource "aws_lambda_function" "read_func" {
 
 resource "aws_lambda_function" "list_func" {
   filename = "../TodoApi/build/distributions/${var.lambda_api_zip}"
-  function_name = var.lambda_delete
-  role = var.lambda_exec_role_arn
+  function_name = var.lambda_list
+  role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.todo.api.handler.ListHandler"
 
   source_code_hash = filebase64sha256("../TodoApi/build/distributions/${var.lambda_api_zip}")

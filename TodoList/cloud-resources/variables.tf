@@ -2,8 +2,12 @@ variable region {
   default = "eu-west-1"
 }
 
-variable "lambda_exec_role_arn" {
-  default = "arn:aws:iam::203212890819:role/lambda_exec_role "
+variable "acc_id" {
+  default = "203212890819"
+}
+
+variable "lambda_exec_role" {
+  default = "lambda_todo_role"
 }
 
 variable "dt_bucket" {
@@ -27,7 +31,7 @@ variable "lambda_create" {
 }
 
 variable "lambda_update" {
-  default = "TodoIpdate"
+  default = "TodoUpdate"
 }
 
 variable "lambda_delete" {
