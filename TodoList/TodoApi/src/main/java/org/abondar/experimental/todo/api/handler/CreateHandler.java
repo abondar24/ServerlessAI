@@ -8,6 +8,7 @@ public class CreateHandler implements RequestHandler<APIGatewayV2HTTPEvent,Strin
     @Override
     public String handleRequest(APIGatewayV2HTTPEvent input, Context context) {
 
-        return input.getBody();
+        context.getLogger().log(input.getBody());
+        return null;
     }
 }
