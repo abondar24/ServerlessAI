@@ -20,6 +20,7 @@ cd <lambda-folder>
 ./gradlew clean build
 
 cd ../cloud-resources
+terraform init (only first time )
 
 terraform apply
 ```
