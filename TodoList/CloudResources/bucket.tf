@@ -33,7 +33,12 @@ resource "aws_s3_bucket" "frb" {
     index_document = "index.html"
     error_document = "index.html"
   }
+}
 
-
-
+resource "aws_s3_bucket_object" "frontend" {
+  bucket = aws_s3_bucket.frb.id
+  for_each = fileset("../Frontend","*")
+  key = each.value
+  source = "../Frontend/${each.value}"
+  etag = filemd5("../Frontend/${each.value}")
 }

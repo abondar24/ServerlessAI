@@ -1,0 +1,40 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "description": "frontend for todolist application",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack && cp ./src/index.html ./dist/index.html && cp -r ./assets ./dist",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abondar24/ServerlessAI.git"
+  },
+  "keywords": [
+    "todolist",
+    "aws",
+    "serverless"
+  ],
+  "author": "Alex Bondar (abondar1992@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abondar24/ServerlessAI/issues"
+  },
+  "homepage": "https://github.com/abondar24/ServerlessAI#readme",
+  "dependencies": {
+    "bootstrap": "^5.0.2",
+    "jquery": "^3.6.0",
+    "jquery-datepicker": "^1.12.3",
+    "style-loader": "^3.1.0"
+  },
+  "devDependencies": {
+    "css-loader": "^6.0.0",
+    "dotenv-webpack": "^7.0.3",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-jquery-ui": "^2.0.1"
+  }
+}
