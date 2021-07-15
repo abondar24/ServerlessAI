@@ -1,4 +1,3 @@
-//uncomment if not created
 resource "aws_iam_role" "lambda_exec_role" {
   name = var.lambda_exec_role
 
