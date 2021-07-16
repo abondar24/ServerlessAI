@@ -47,7 +47,7 @@ resource "aws_api_gateway_method" "getIdMethod" {
 
 resource "aws_api_gateway_method" "deleteMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
-  resource_id = aws_api_gateway_resource.todoList.id
+  resource_id = aws_api_gateway_resource.todoReadId.id
   authorization = "NONE"
   http_method = "DELETE"
 }
@@ -95,7 +95,7 @@ resource "aws_api_gateway_integration" "todoList" {
 
 resource "aws_api_gateway_integration" "todoDelete" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
-  resource_id = aws_api_gateway_resource.todoList.id
+  resource_id = aws_api_gateway_resource.todoReadId.id
   http_method = aws_api_gateway_method.deleteMethod.http_method
 
   integration_http_method = "DELETE"
