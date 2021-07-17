@@ -93,7 +93,7 @@ resource "aws_s3_bucket_policy" "frontend_bucket_policy" {
 
 
 resource "aws_iam_policy" "lambda_dynamo" {
-  name = "lambdaDynamo"
+  name = "lambda_dynamo"
   path = "/"
   description = "IAM policy for accessing from a lambda"
 

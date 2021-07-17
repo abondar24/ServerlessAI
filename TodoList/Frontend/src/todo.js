@@ -6,7 +6,7 @@ import {view} from './view'
 const todo = {activate}
 export {todo}
 
-const API_URL = `https://zvewivk0ze.execute-api.eu-west-1.amazonaws.com/test/todo/`
+const API_URL = `https://eee7kn9pel.execute-api.eu-west-1.amazonaws.com/test/todo/`
 
 function activate() {
     list(() => {

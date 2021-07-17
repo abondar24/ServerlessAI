@@ -106,6 +106,12 @@ resource "aws_api_gateway_integration" "todoDelete" {
 resource "aws_api_gateway_deployment" "todoList" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
 
+  depends_on = [aws_api_gateway_integration.todoCreate,
+    aws_api_gateway_integration.todoDelete,
+    aws_api_gateway_integration.todoList,
+    aws_api_gateway_integration.todoRead,
+    aws_api_gateway_integration.todoUpdate]
+
   lifecycle {
     create_before_destroy = true
   }
