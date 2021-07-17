@@ -45,5 +45,3 @@ variable "lambda_read" {
 variable "lambda_list" {
   default = "TodoList"
 }
-
-
