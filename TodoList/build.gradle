@@ -64,6 +64,3 @@ subprojects{
 
 }
 
-project(":Common"){
-    tasks.buildZip {enabled = false}
-}
