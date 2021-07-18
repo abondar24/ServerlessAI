@@ -3,6 +3,7 @@ package org.abondar.experimental.todo.api.service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
+import com.amazonaws.services.dynamodbv2.model.AttributeAction;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
 import com.amazonaws.services.dynamodbv2.model.BatchGetItemRequest;
@@ -79,7 +80,15 @@ public class DynamoServiceImpl implements DynamoService {
         var request  = new UpdateItemRequest();
         request.setTableName(TABLE_NAME);
 
-        request.addAttributeUpdatesEntry(ItemFields.id.toString(),new AttributeValueUpdate(item.getId()));
+        request.addAttributeUpdatesEntry(ItemFields.id.toString(),
+                new AttributeValueUpdate(new AttributeValue(item.getId()), AttributeAction.PUT));
+        request.addAttributeUpdatesEntry(ItemFields.checked.toString(),
+                new AttributeValueUpdate(new AttributeValue(String.valueOf(item.getChecked())), AttributeAction.PUT));
+        request.addAttributeUpdatesEntry(ItemFields.note.toString(),
+                new AttributeValueUpdate(new AttributeValue(item.getNote()), AttributeAction.PUT));
+        request.addAttributeUpdatesEntry(ItemFields.dueDate.toString(),
+                new AttributeValueUpdate(new AttributeValue(item.getDueDate()), AttributeAction.PUT));
+
 
         return request;
     }
