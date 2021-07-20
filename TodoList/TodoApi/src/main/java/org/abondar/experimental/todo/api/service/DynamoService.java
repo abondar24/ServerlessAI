@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface DynamoService {
 
-    void createItem(TodoItem item);
+    TodoItem createItem(TodoItem item);
 
     void updateItem(TodoItem item);
 

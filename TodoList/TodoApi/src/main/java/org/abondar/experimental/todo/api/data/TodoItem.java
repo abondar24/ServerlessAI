@@ -17,7 +17,7 @@ import static org.abondar.experimental.todo.api.constant.Constants.TABLE_NAME;
 @DynamoDBTable(tableName = TABLE_NAME)
 public class TodoItem {
 
-    @DynamoDBHashKey(attributeName="id")
+    @DynamoDBHashKey(attributeName = "id")
     private String id;
 
     private String dueDate;
@@ -27,7 +27,7 @@ public class TodoItem {
 
     private String note;
 
-    public TodoItem( Boolean checked, String note) {
+    public TodoItem(Boolean checked, String note) {
         this.checked = checked;
         this.note = note;
     }

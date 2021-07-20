@@ -1,4 +1,4 @@
-#Todo List
+# Todo List
 
 Serverless todo list application with chat bot
 
@@ -25,4 +25,14 @@ cd <lambda-folder>
 cd ../CloudResources
 terraform init (only first time )
 terraform apply
+```
+
+# Note
+
+For tests Local DynamoDB is required
+
+```
+docker pull amazon/dynamodb-local
+
+docker run -d -p 8000:8000 --name <container-name> amazon/dynamodb-local
 ```

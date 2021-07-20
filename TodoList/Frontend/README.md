@@ -1,9 +1,9 @@
-#Frontend
+# Frontend
 
 Frontend web application for TodoList application based on AWS infrastructure.
 
 
-##Build and run
+## Build and run
 
 1. Locally
 ```
@@ -23,7 +23,7 @@ npm run build
 aws s3 sync dist s3://<site-bucket-id>
 ```
 
-##Access URLs
+## Access URLs
 
 1. Local - http://localhost:9024
 2. AWS - http://<site-bucket-id>.s3-website-eu-west-1.amazonaws.com/

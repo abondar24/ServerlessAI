@@ -1,6 +1,7 @@
 package org.abondar.experimental.todo.api.service;
 
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
@@ -23,8 +24,13 @@ public class DynamoServiceImpl implements DynamoService {
         dynamoDBMapper = new DynamoDBMapper(db);
     }
 
+    public DynamoServiceImpl(AmazonDynamoDB db){
+        dynamoDBMapper = new DynamoDBMapper(db);
+    }
+
+
     @Override
-    public void createItem(TodoItem item) throws AmazonServiceException {
+    public TodoItem createItem(TodoItem item) throws AmazonServiceException {
         var id = UUID.randomUUID().toString();
         item.setId(id);
 
@@ -32,6 +38,7 @@ public class DynamoServiceImpl implements DynamoService {
         item.setDueDate(dueDate);
 
         dynamoDBMapper.save(item);
+        return item;
     }
 
     private String createDate() {
@@ -49,7 +56,7 @@ public class DynamoServiceImpl implements DynamoService {
 
     @Override
     public Optional<TodoItem> readItem(String id) {
-           var item = dynamoDBMapper.load(TodoItem.class,id,id);
+           var item = dynamoDBMapper.load(TodoItem.class,id);
            if (item==null){
                return Optional.empty();
            } else {
@@ -69,7 +76,7 @@ public class DynamoServiceImpl implements DynamoService {
 
     @Override
     public void deleteItem(String id) {
-        var item = dynamoDBMapper.load(TodoItem.class,id,id);
+        var item = dynamoDBMapper.load(TodoItem.class,id);
         dynamoDBMapper.delete(item);
     }
 
