@@ -2,7 +2,6 @@ package org.abondar.experimental.todo.api.handler;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.todo.api.constant.Constants;
 import org.abondar.experimental.todo.api.service.DynamoService;
@@ -18,7 +17,7 @@ public class BaseHandler {
 
     protected ObjectMapper mapper = new ObjectMapper();
 
-    public BaseHandler(){
+    public BaseHandler() {
         this.service = new DynamoServiceImpl();
     }
 
@@ -26,7 +25,7 @@ public class BaseHandler {
         this.service = service;
     }
 
-    protected APIGatewayProxyResponseEvent buildResponse(int code, String body){
+    protected APIGatewayProxyResponseEvent buildResponse(int code, String body) {
         var resp = new APIGatewayProxyResponseEvent();
         resp.setBody(body);
         resp.setStatusCode(code);
@@ -35,7 +34,7 @@ public class BaseHandler {
         return resp;
     }
 
-    protected <T>APIGatewayProxyResponseEvent buildResponse(int code,T body) throws IOException {
+    protected <T> APIGatewayProxyResponseEvent buildResponse(int code, T body) throws IOException {
         var resp = new APIGatewayProxyResponseEvent();
         var respBody = mapper.writeValueAsString(body);
 
@@ -46,7 +45,7 @@ public class BaseHandler {
         return resp;
     }
 
-    protected String getId(APIGatewayProxyRequestEvent input){
+    protected String getId(APIGatewayProxyRequestEvent input) {
         var params = input.getPathParameters();
         return params.get(ID_PARAM);
     }

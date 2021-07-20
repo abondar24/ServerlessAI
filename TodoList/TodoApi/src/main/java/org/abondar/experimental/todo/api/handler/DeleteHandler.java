@@ -6,7 +6,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import org.abondar.experimental.todo.api.service.DynamoService;
 
 import static org.abondar.experimental.todo.api.constant.Errors.AWS_NOT_AVAILABLE;
