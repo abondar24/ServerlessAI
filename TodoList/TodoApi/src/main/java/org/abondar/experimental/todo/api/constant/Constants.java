@@ -14,11 +14,8 @@ public class Constants {
 
     public static final String TABLE_NAME = "TodoList";
 
-    public static final String MALFORMED_BODY_ERROR = "Malformed request body";
+    public static final String ID_PARAM = "id";
 
-    public static final String TABLE_NOT_FOUND = "Requested table not found";
-
-    public static final String AWS_NOT_AVAILABLE = "AWS infrastructure not available";
 
     private Constants() {
     }

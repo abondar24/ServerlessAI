@@ -1,24 +1,48 @@
 package org.abondar.experimental.todo.api.handler;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import org.abondar.experimental.todo.api.data.TodoItem;
 
-public class CreateHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>{
+import java.io.IOException;
+
+
+import static org.abondar.experimental.todo.api.constant.Errors.AWS_NOT_AVAILABLE;
+import static org.abondar.experimental.todo.api.constant.Errors.MALFORMED_BODY_ERROR;
+import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
+
+public class CreateHandler extends BaseHandler
+        implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var logger = context.getLogger();
-        logger.log(input.getBody());
 
+        var body = input.getBody();
+        logger.log(body);
 
-        var resp = new APIGatewayProxyResponseEvent();
-        resp.setBody("Resp body");
-        resp.setStatusCode(200);
-        logger.log(resp.toString());
+        try {
+            var item = mapper.readValue(body, TodoItem.class);
+            item = service.createItem(item);
 
+            var resp = buildResponse(200, item);
+            logger.log(resp.toString());
 
-        return resp;
+            return resp;
+        } catch (IOException ex) {
+            logger.log(ex.getMessage());
+            return buildResponse(500, MALFORMED_BODY_ERROR);
+        } catch (ResourceNotFoundException ex) {
+            logger.log(ex.getMessage());
+            return buildResponse(404, TABLE_NOT_FOUND);
+        } catch (AmazonServiceException ex) {
+            logger.log(ex.getMessage());
+            return buildResponse(502, AWS_NOT_AVAILABLE);
+        }
     }
 }
