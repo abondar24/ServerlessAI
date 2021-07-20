@@ -22,6 +22,10 @@ import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 public class ReadHandler extends BaseHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
+    public ReadHandler() {
+        super();
+    }
+
     public ReadHandler(DynamoService service) {
         super(service);
     }

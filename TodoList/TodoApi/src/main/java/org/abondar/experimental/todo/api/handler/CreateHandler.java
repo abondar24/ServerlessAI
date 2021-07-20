@@ -19,6 +19,10 @@ import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 public class CreateHandler extends BaseHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
+    public CreateHandler() {
+        super();
+    }
+
     public CreateHandler(DynamoService service) {
         super(service);
     }
