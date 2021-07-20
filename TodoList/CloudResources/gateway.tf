@@ -121,3 +121,14 @@ resource "aws_api_gateway_stage" "todoList" {
   rest_api_id   = aws_api_gateway_rest_api.todolist.id
   stage_name    = "test"
 }
+
+resource "aws_api_gateway_method_settings" "getSettings" {
+  rest_api_id = aws_api_gateway_rest_api.todolist.id
+  stage_name  = aws_api_gateway_stage.todoList.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+  }
+}
