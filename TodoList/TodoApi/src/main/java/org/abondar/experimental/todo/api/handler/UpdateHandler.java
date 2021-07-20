@@ -4,9 +4,11 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import org.abondar.experimental.todo.api.data.TodoItem;
+import org.abondar.experimental.todo.api.service.DynamoService;
 
 import java.io.IOException;
 
@@ -16,10 +18,14 @@ import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 
 
 public class UpdateHandler extends BaseHandler
-        implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayProxyResponseEvent> {
+        implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+
+    public UpdateHandler(DynamoService service) {
+        super(service);
+    }
 
     @Override
-    public APIGatewayProxyResponseEvent handleRequest(APIGatewayV2HTTPEvent input, Context context) {
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var logger = context.getLogger();
 
         var body = input.getBody();

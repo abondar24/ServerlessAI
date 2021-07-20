@@ -3,7 +3,7 @@ package org.abondar.experimental.todo.api.constant;
 import java.util.Map;
 
 public class Constants {
-    private static final String FRONTEND_URL = "http://td-frontend.s3-website-eu-west-1.amazonaws.com/";
+    public static final String FRONTEND_URL = "http://td-frontend.s3-website-eu-west-1.amazonaws.com/";
 
     public static final Map<String,String> HEADERS = Map.of("Access-Control-Allow-Headers" , "Content-Type",
             "Access-Control-Allow-Origin", FRONTEND_URL,

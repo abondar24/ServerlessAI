@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import org.abondar.experimental.todo.api.data.TodoItem;
+import org.abondar.experimental.todo.api.service.DynamoService;
 
 import java.io.IOException;
 
@@ -18,6 +19,9 @@ import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 public class CreateHandler extends BaseHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
+    public CreateHandler(DynamoService service) {
+        super(service);
+    }
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
