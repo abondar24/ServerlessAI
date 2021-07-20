@@ -18,7 +18,9 @@ import org.junit.jupiter.api.TestInstance;
 
 import static org.abondar.experimental.todo.api.constant.Constants.TABLE_NAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -81,6 +83,13 @@ public class DynamoServiceTest {
     }
 
     @Test
+    public void readTestNoItem() {
+        var res = service.readItem("id");
+        assertFalse(res.isPresent());
+
+    }
+
+    @Test
     public void updateTest() {
         var item = new TodoItem(false, "note");
         item = service.createItem(item);
@@ -103,6 +112,11 @@ public class DynamoServiceTest {
         service.deleteItem(item.getId());
         var found = service.readItem(item.getId());
         assertTrue(found.isEmpty());
+    }
+
+    @Test
+    public void deleteTestNoItem() {
+        assertThrows(NullPointerException.class,()->service.deleteItem("id"));
     }
 
     @Test
