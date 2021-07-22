@@ -14,6 +14,7 @@ import java.io.IOException;
 import static org.abondar.experimental.todo.api.constant.Errors.AWS_NOT_AVAILABLE;
 import static org.abondar.experimental.todo.api.constant.Errors.ITEM_NOT_FOUND;
 import static org.abondar.experimental.todo.api.constant.Errors.MALFORMED_BODY_ERROR;
+import static org.abondar.experimental.todo.api.constant.Errors.MSG_FORMAT;
 import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 
 
@@ -45,15 +46,15 @@ public class UpdateHandler extends BaseHandler
             logger.log(resp.toString());
 
             return resp;
-        } catch (IOException ex) {
+        }  catch (IOException ex) {
             logger.log(ex.getMessage());
-            return buildResponse(500, MALFORMED_BODY_ERROR);
+            return buildResponse(500,  String.format(MSG_FORMAT,MALFORMED_BODY_ERROR));
         } catch (ResourceNotFoundException ex) {
             logger.log(ex.getMessage());
-            return buildResponse(404, TABLE_NOT_FOUND);
+            return buildResponse(404, String.format(MSG_FORMAT,TABLE_NOT_FOUND));
         } catch (AmazonServiceException ex) {
             logger.log(ex.getMessage());
-            return buildResponse(502, AWS_NOT_AVAILABLE);
+            return buildResponse(502, String.format(MSG_FORMAT,AWS_NOT_AVAILABLE) );
         }
     }
 }

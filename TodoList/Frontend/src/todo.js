@@ -45,7 +45,7 @@ function del(id) {
     $.ajax(API_URL + id, {
         type: 'DELETE',
         success: function (body) {
-            if (body.stat === 'ok') {
+            if (body.Action === 'Item Deleted') {
                 list()
             } else {
                 $('#error').html(body.err)
@@ -88,7 +88,7 @@ function create(cb){
         contentType: 'application/json',
         type: 'POST',
         success: function (body){
-            if (body.stat === 'ok'){
+            if (body.id){
                 list(cb)
             } else {
                 $('#error').html(body.err)
@@ -104,7 +104,7 @@ function update(cb){
         contentType: 'application/json',
         type: 'PUT',
         success: function (body){
-            if (body.stat === 'ok'){
+            if (body.id){
                 list(cb)
             } else {
                 $('#error').html(body.err)
