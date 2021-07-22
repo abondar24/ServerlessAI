@@ -8,7 +8,13 @@ module.exports = {
     devtool: 'eval-source-map',
     devServer: {
         contentBase: './dist',
-        port: 9024
+        port: 9024,
+
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        }
     },
     output: {
         filename: '[name].js',

@@ -22,7 +22,9 @@ public class TodoItem {
 
     private String dueDate;
 
-    @JsonProperty("action")
+    private String action;
+
+    @JsonProperty("stat")
     private Boolean checked;
 
     private String note;

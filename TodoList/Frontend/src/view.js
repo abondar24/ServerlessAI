@@ -8,7 +8,7 @@ const view = {renderList, renderAddButton, renderEditArea, renderError}
 export {view}
 
 function renderList(body) {
-    $('#content').html(todoListTpl(body.Items))
+    $('#content').html(todoListTpl(body))
 }
 
 function renderAddButton() {

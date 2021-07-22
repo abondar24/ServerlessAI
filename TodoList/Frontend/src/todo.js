@@ -21,7 +21,7 @@ function activate() {
 
 function list(cb) {
     $.get(API_URL, function (body) {
-        if (body.stat === 'ok') {
+        if (body.length >0 ) {
             view.renderList(body)
         } else {
             view.renderError(body)
@@ -117,8 +117,9 @@ function update(cb){
 function gather(){
     return {
         id: $('#todo-id').val(),
-        dueDate: $('todo-duedate').val(),
-        action: $('#todo-stat').is(':checked') ? 'done':'open',
+        dueDate: $('#todo-duedate').val(),
+        action: $('#todo-action').val(),
+        stat: $('#todo-stat').is(':checked') ,
         note: $('#todo-note').val()
     }
 }

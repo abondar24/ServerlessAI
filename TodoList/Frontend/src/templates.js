@@ -24,7 +24,7 @@ function todoListTpl(items) {
     </div>
     <div id="edit-area" class="list-group">
        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span id="input-todo" class="badge badge-success badge-pill">new</span>
+          <span id="input-todo" class="badge bg-success rounded-pill">New</span>
        </li>
     </div> `
 }
@@ -36,9 +36,9 @@ function todoItemTpl(item) {
         <div id="due-date" class="col-sm-2">${item.dueDate}</div>
         <div id="action" class="col-sm-3">${item.action}</div>
         <div id="note" class="col-sm-3">${item.note === null ? '' : item.note}</div>
-        <div id="stat" class="col-sm-1 badge badge-secondary badge-pill">${item.stat}</div>
-        <div id="${item.id}" class="col-sm-1 badge badge-danger badge-pill todo-item-delete">Delete</div>
-        <div id="${item.id}" class="col-sm-1 badge badge-danger badge-pill todo-item-edit">Edit</div>
+        <div id="stat" class="col-sm-1 badge bg-secondary rounded-pill">Done: ${item.stat}</div>
+        <div id="${item.id}" class="col-sm-1 btn btn-danger rounded-pill todo-item-delete">Delete</div>
+        <div id="${item.id}" class="col-sm-1 btn btn-warning rounded-pill todo-item-edit">Edit</div>
     </div>
     `
 }
@@ -62,8 +62,8 @@ function editTpl() {
         <div class="row">&nbsp;</div>
         <div class="row">
           <div class="col-sm-1"></div>
-          <div class="col-sm-1"><button id="todo-save">save</button></div>
-          <div class="col-sm-1"><button id="todo-cancel">cancel</button></div>
+          <div class="col-sm-1"><button id="todo-save" type="button" class="btn-primary">Save</button></div>
+          <div class="col-sm-1"><button id="todo-cancel" type="button" class="btn-secondary">Cancel</button></div>
           <input type="hidden" id="todo-id">
         </div>
       </div>
@@ -80,7 +80,7 @@ function editTpl() {
 
 function addTpl(){
     return `<li class="list-group-item d-flex justify-content-between align-items-center">
-          <span id="input-todo" class="badge badge-success badge-pill">new</span>
+          <span id="input-todo" class="badge bg-success rounded-pill">New</span>
        </li>`
 }
 

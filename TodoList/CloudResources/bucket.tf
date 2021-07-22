@@ -23,6 +23,10 @@ resource "aws_s3_bucket" "frb" {
     Environment = "dev"
   }
 
+  versioning {
+    enabled = true
+  }
+
   cors_rule {
     allowed_methods = ["GET","PUT","POST","DELETE","HEAD"]
     allowed_origins = ["*"]
