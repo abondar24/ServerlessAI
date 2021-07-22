@@ -12,6 +12,7 @@ import org.abondar.experimental.todo.api.service.DynamoService;
 import java.io.IOException;
 
 import static org.abondar.experimental.todo.api.constant.Errors.AWS_NOT_AVAILABLE;
+import static org.abondar.experimental.todo.api.constant.Errors.ITEM_NOT_FOUND;
 import static org.abondar.experimental.todo.api.constant.Errors.MALFORMED_BODY_ERROR;
 import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 
@@ -36,8 +37,10 @@ public class UpdateHandler extends BaseHandler
 
         try {
             var item = mapper.readValue(body, TodoItem.class);
-            service.updateItem(item);
-
+            var upd = service.updateItem(item);
+            if (!upd){
+                return buildResponse(404,ITEM_NOT_FOUND);
+            }
             var resp = buildResponse(200, body);
             logger.log(resp.toString());
 

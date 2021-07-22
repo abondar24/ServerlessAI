@@ -9,9 +9,9 @@ Check frontend documentation [here](Frontend/README.MD)
 
 1. TodoApi - set of lambda functions for basic CRUD operations working with data in dynamo db.
    - POST /todo
+   - PUT /todo
    - GET /todo  
    - GET /todo/id
-   - PUT /todo/id
    - DELETE /todo/id 
 
 

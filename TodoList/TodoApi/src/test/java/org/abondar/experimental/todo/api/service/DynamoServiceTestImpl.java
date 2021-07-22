@@ -12,8 +12,8 @@ public class DynamoServiceTestImpl implements DynamoService{
     }
 
     @Override
-    public void updateItem(TodoItem item) {
-
+    public boolean updateItem(TodoItem item) {
+      return true;
     }
 
     @Override

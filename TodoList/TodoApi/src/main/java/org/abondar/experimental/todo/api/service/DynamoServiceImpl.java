@@ -49,8 +49,13 @@ public class DynamoServiceImpl implements DynamoService {
 
 
     @Override
-    public void updateItem(TodoItem item) {
+    public boolean updateItem(TodoItem item) {
+        var found = readItem(item.getId());
+        if (found.isEmpty()){
+            return false;
+        }
         dynamoDBMapper.save(item);
+        return true;
     }
 
 

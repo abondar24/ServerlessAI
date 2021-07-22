@@ -95,7 +95,8 @@ public class DynamoServiceTest {
         item = service.createItem(item);
 
         item.setNote("newNote");
-        service.updateItem(item);
+        var updateItem =service.updateItem(item);
+        assertTrue(updateItem);
 
         var res = service.readItem(item.getId());
         assertTrue(res.isPresent());

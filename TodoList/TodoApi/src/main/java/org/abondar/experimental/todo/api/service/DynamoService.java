@@ -9,7 +9,7 @@ public interface DynamoService {
 
     TodoItem createItem(TodoItem item);
 
-    void updateItem(TodoItem item);
+    boolean updateItem(TodoItem item);
 
     Optional<TodoItem> readItem(String id);
 
