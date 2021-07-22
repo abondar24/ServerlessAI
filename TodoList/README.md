@@ -29,10 +29,12 @@ terraform apply
 
 # Note
 
-For tests Local DynamoDB is required
+- For tests Local DynamoDB is required
 
 ```
 docker pull amazon/dynamodb-local
 
 docker run -d -p 8000:8000 --name <container-name> amazon/dynamodb-local
 ```
+
+- Verify via API Gateway console that the API is actually deployed and deploy manually if not.
