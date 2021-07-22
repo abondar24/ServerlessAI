@@ -67,7 +67,7 @@ resource "aws_api_gateway_integration" "todoUpdate" {
   resource_id = aws_api_gateway_resource.todoList.id
   http_method = aws_api_gateway_method.putMethod.http_method
 
-  integration_http_method = "PUT"
+  integration_http_method = "POST"
   type = "AWS_PROXY"
   uri = aws_lambda_function.update_func.invoke_arn
 }
@@ -77,7 +77,7 @@ resource "aws_api_gateway_integration" "todoRead" {
   resource_id = aws_api_gateway_resource.todoReadId.id
   http_method = aws_api_gateway_method.getIdMethod.http_method
 
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   type = "AWS_PROXY"
 
   uri = aws_lambda_function.read_func.invoke_arn
@@ -88,7 +88,7 @@ resource "aws_api_gateway_integration" "todoList" {
   resource_id = aws_api_gateway_resource.todoList.id
   http_method = aws_api_gateway_method.getMethod.http_method
 
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   type = "AWS_PROXY"
   uri = aws_lambda_function.list_func.invoke_arn
 }
@@ -98,7 +98,7 @@ resource "aws_api_gateway_integration" "todoDelete" {
   resource_id = aws_api_gateway_resource.todoReadId.id
   http_method = aws_api_gateway_method.deleteMethod.http_method
 
-  integration_http_method = "DELETE"
+  integration_http_method = "POST"
   type = "AWS_PROXY"
   uri = aws_lambda_function.delete_func.invoke_arn
 }
@@ -114,6 +114,11 @@ resource "aws_api_gateway_deployment" "todoList" {
 
   lifecycle {
     create_before_destroy = true
+
+  }
+
+  variables = {
+    deployed_at = timestamp()
   }
 }
 resource "aws_api_gateway_stage" "todoList" {

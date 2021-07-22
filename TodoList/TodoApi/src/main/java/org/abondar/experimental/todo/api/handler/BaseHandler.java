@@ -30,6 +30,7 @@ public class BaseHandler {
         resp.setBody(body);
         resp.setStatusCode(code);
         resp.setHeaders(Constants.HEADERS);
+        resp.setIsBase64Encoded(true);
 
         return resp;
     }
@@ -41,6 +42,7 @@ public class BaseHandler {
         resp.setBody(respBody);
         resp.setStatusCode(code);
         resp.setHeaders(Constants.HEADERS);
+        resp.setIsBase64Encoded(true);
 
         return resp;
     }
