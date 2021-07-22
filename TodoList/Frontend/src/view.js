@@ -25,11 +25,8 @@ function renderEditArea(id) {
             $('#todo-id').val(id)
             $('#todo-duedate').val($('#' + id + ' #due-date').text())
             $('#todo-action').val($('#' + id + ' #action').text())
-            if ($('#' + id + '#stat').text() === 'done') {
-                $('#todo-stat').prop('checked', true)
-            }
-
-            $('#todo-note').val($('#'+id+'#note').text())
+            $('#todo-stat').val($('#' + id + '#stat').val())
+            $('#todo-note').val($('#'+id+' #note').text())
         }
     },100)
 }
