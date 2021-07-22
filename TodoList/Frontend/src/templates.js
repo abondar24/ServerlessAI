@@ -13,10 +13,10 @@ function todoListTpl(items) {
     <div id="todo-list">
       <div class="row list-group-item d-flex justify-content-between align-items-center">
           <div class="col-sm-1"></div>
-          <div class="col-sm-2"></div>
-          <div class="col-sm-3"></div
-          <div class="col-sm-3"></div>
-          <div class="col-sm-1"></div>
+          <div class="col-sm-2">Due</div>
+          <div class="col-sm-3">Action</div
+          <div class="col-sm-3">Notes</div>
+          <div class="col-sm-1">Done</div>
           <div class="col-sm-1"></div>
           <div class="col-sm-1"></div>
       </div>
@@ -36,7 +36,7 @@ function todoItemTpl(item) {
         <div id="due-date" class="col-sm-2">${item.dueDate}</div>
         <div id="action" class="col-sm-3">${item.action}</div>
         <div id="note" class="col-sm-3">${item.note === null ? '' : item.note}</div>
-        <div id="stat" class="col-sm-1 badge bg-secondary rounded-pill">Done: ${item.stat}</div>
+        <div id="stat" class="col-sm-1 badge bg-secondary rounded-pill">${item.stat}</div>
         <div id="${item.id}" class="col-sm-1 btn btn-danger rounded-pill todo-item-delete">Delete</div>
         <div id="${item.id}" class="col-sm-1 btn btn-warning rounded-pill todo-item-edit">Edit</div>
     </div>
