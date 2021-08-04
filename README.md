@@ -14,9 +14,10 @@ Examples of using AWS Lambda for Machine learning based on 'AI as a service' Boo
 - Gradle
 
 # AWS Services
-- AWS S3
-- AWS Lambda
-- AWS SQS  
-- AWS API GATEWAY
-- AWS DYNAMODB
-- AWS Rekognition
+- S3
+- Lambda
+- SQS  
+- API Gateway
+- DynamoDb
+- Rekognition
+- Cognito

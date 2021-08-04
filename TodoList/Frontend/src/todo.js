@@ -7,8 +7,11 @@ const todo = {activate}
 export {todo}
 
 const API_URL = `https://eee7kn9pel.execute-api.eu-west-1.amazonaws.com/test/todo/`
+let auth
 
-function activate() {
+
+function activate(authObj) {
+    auth = authObj
     list(() => {
         bindList()
         bindEdit()
@@ -20,14 +23,27 @@ function activate() {
 }
 
 function list(cb) {
-    $.get(API_URL, function (body) {
-        if (body.length >0 ) {
-            view.renderList(body)
-        } else {
-            view.renderError(body)
-        }
-        cb && cb()
-    })
+    auth.session().then(session => {
+        $.ajax(API_URL, {
+            type: 'GET',
+            headers: {
+                Authorization: session.idToken.jwtToken
+            },
+            success: function (body) {
+                if (body.length >0) {
+                    view.renderList(body)
+                } else {
+                    view.renderError(body)
+                }
+                cb && cb()
+            },
+            fail: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus)
+                alert(errorThrown)
+            }
+        })
+    }).catch(err => view.renderError(err))
+
 }
 
 function bindList() {
@@ -42,16 +58,22 @@ function bindList() {
 }
 
 function del(id) {
-    $.ajax(API_URL + id, {
-        type: 'DELETE',
-        success: function (body) {
-            if (body.Action === 'Item Deleted') {
-                list()
-            } else {
-                $('#error').html(body.err)
+    auth.session().then(session => {
+        $.ajax(API_URL + id, {
+            type: 'DELETE',
+            headers: {
+                Authorization: session.idToken.jwtToken
+            },
+            success: function (body) {
+                if (body.Action === 'Item Deleted') {
+                    list()
+                } else {
+                    $('#error').html(body.err)
+                }
             }
-        }
-    })
+        })
+    }).catch(err => view.renderError(err))
+
 }
 
 function bindEdit() {
@@ -83,35 +105,47 @@ function bindEdit() {
 }
 
 function create(cb){
-    $.ajax(API_URL,{
-        data: JSON.stringify(gather()),
-        contentType: 'application/json',
-        type: 'POST',
-        success: function (body){
-            if (body.id){
-                list(cb)
-            } else {
-                $('#error').html(body.err)
-                cb && cb()
+    auth.session().then(session => {
+        $.ajax(API_URL,{
+            data: JSON.stringify(gather()),
+            contentType: 'application/json',
+            type: 'POST',
+            headers: {
+                Authorization: session.idToken.jwtToken
+            },
+            success: function (body){
+                if (body.id){
+                    list(cb)
+                } else {
+                    $('#error').html(body.err)
+                    cb && cb()
+                }
             }
-        }
-    })
+        })
+    }).catch(err => view.renderError(err))
+
 }
 
 function update(cb){
-    $.ajax(API_URL,{
-        data: JSON.stringify(gather()),
-        contentType: 'application/json',
-        type: 'PUT',
-        success: function (body){
-            if (body.id){
-                list(cb)
-            } else {
-                $('#error').html(body.err)
-                cb && cb()
+    auth.session().then(session => {
+        $.ajax(API_URL,{
+            data: JSON.stringify(gather()),
+            contentType: 'application/json',
+            type: 'PUT',
+            headers: {
+                Authorization: session.idToken.jwtToken
+            },
+            success: function (body){
+                if (body.id){
+                    list(cb)
+                } else {
+                    $('#error').html(body.err)
+                    cb && cb()
+                }
             }
-        }
-    })
+        })
+    }).catch(err => view.renderError(err))
+
 }
 
 function gather(){

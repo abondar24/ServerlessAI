@@ -2,9 +2,9 @@
 
 import $ from 'jquery'
 import 'webpack-jquery-ui/datepicker'
-import {addTpl, editTpl, errTpl, todoListTpl} from './templates'
+import {addTpl, editTpl, errTpl, navBarTpl, todoListTpl} from './templates'
 
-const view = {renderList, renderAddButton, renderEditArea, renderError}
+const view = {renderList, renderAddButton, renderEditArea, renderError, renderLink}
 export {view}
 
 function renderList(body) {
@@ -34,4 +34,8 @@ function renderEditArea(id) {
 
 function renderError(body) {
     $('#error').html(errTpl(body.err))
+}
+
+function renderLink(isAuth){
+    $('#navbarNav').html(navBarTpl(isAuth))
 }
