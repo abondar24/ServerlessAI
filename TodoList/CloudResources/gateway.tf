@@ -137,3 +137,38 @@ resource "aws_api_gateway_method_settings" "getSettings" {
     logging_level   = "INFO"
   }
 }
+
+resource "aws_api_gateway_authorizer" "createAuth" {
+  name                   = "createAuth"
+  rest_api_id            = aws_api_gateway_rest_api.todolist.id
+  authorizer_uri         = aws_lambda_function.create_func.invoke_arn
+  authorizer_credentials = aws_iam_role.lambda_exec_role.arn
+}
+
+resource "aws_api_gateway_authorizer" "updateAuth" {
+  name                   = "updateAuth"
+  rest_api_id            = aws_api_gateway_rest_api.todolist.id
+  authorizer_uri         = aws_lambda_function.update_func.invoke_arn
+  authorizer_credentials = aws_iam_role.lambda_exec_role.arn
+}
+
+resource "aws_api_gateway_authorizer" "readAuth" {
+  name                   = "readAuth"
+  rest_api_id            = aws_api_gateway_rest_api.todolist.id
+  authorizer_uri         = aws_lambda_function.read_func.invoke_arn
+  authorizer_credentials = aws_iam_role.lambda_exec_role.arn
+}
+
+resource "aws_api_gateway_authorizer" "listAuth" {
+  name                   = "listAuth"
+  rest_api_id            = aws_api_gateway_rest_api.todolist.id
+  authorizer_uri         = aws_lambda_function.list_func.invoke_arn
+  authorizer_credentials = aws_iam_role.lambda_exec_role.arn
+}
+
+resource "aws_api_gateway_authorizer" "delAuth" {
+  name                   = "delAuth"
+  rest_api_id            = aws_api_gateway_rest_api.todolist.id
+  authorizer_uri         = aws_lambda_function.delete_func.invoke_arn
+  authorizer_credentials = aws_iam_role.lambda_exec_role.arn
+}

@@ -173,3 +173,57 @@ resource "aws_iam_role_policy" "cloudwatch" {
 }
 EOF
 }
+
+resource "aws_iam_role" "cognito" {
+  name = "cognito_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "cognito-identity.amazonaws.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+         "StringEquals": {"cognito-identity.amazonaws.com:aud":"${aws_cognito_identity_pool.identityPool.arn}"},
+         "ForAnyValue:StringLike":{"cognito-identity.amazonaws.com:amr":"authenticated"}
+       }
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "cognito" {
+  name = "default"
+  role = aws_iam_role.cognito.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                  "cognito-sync:*",
+                  "cognito-identity:*",
+                  "S3:*",
+                  "transcribe:*",
+                  "polly:*",
+                  "lex:*"
+],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "execute-api:Invoke",
+            "Resource": "${aws_api_gateway_rest_api.todolist.arn}:${var.region}:${var.acc_id}:*/*"
+        }
+    ]
+}
+EOF
+}
