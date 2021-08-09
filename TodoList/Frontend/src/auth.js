@@ -10,7 +10,7 @@ export {auth,user}
 function activate(){
     return new Promise((resolve,reject)=>{
         Auth.currentAuthenticatedUser()
-            .then(user=>{
+            .then(user =>{
                 view.renderLink(true)
                 bindLinks()
                 resolve(user)

@@ -8,25 +8,26 @@ import {auth} from './auth'
 import {Amplify} from "aws-amplify"
 
 const oauth = {
-    domain: "//TODO add cognito domain",
+    domain: 'td-frontend.auth.eu-west-1.amazoncognito.com',
     scope: ['email'],
     redirectSignIn: `https://td-frontend.s3-website-eu-west-1.amazonaws.com/index.html`,
     redirectSignOut: `https://td-frontend.s3-website-eu-west-1.amazonaws.com/index.html`,
+    responseType: 'token'
 }
 
 Amplify.configure({
     Auth:{
         region: 'eu-west-1',
-        userPoolId:'TODO add ID',
-        userPoolWebClientId: 'TODO add webclient id',
-        identityPoolId: 'TODO add id pool id',
+        userPoolId:'userPoolId',
+        userPoolWebClientId: 'webClientId',
+        identityPoolId: 'identityPoolId',
         mandatorySignIn: false,
         oauth: oauth
     }
 })
 
 $(function (){
-    auth.activate.then((user) =>{
+    auth.activate().then((user) =>{
         if (user){
             todo.activate(auth)
         }

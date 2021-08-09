@@ -5,9 +5,6 @@ resource "aws_cognito_user_pool" "userPool" {
   auto_verified_attributes = ["email"]
   email_verification_subject = "Your verification code"
   email_verification_message = "Your verification code is {####}."
-
-
-
   schema {
     attribute_data_type = "String"
     name = "email"
@@ -32,6 +29,7 @@ resource "aws_cognito_user_pool_client" "userPoolClient" {
   name = "userPoolClient"
   user_pool_id = aws_cognito_user_pool.userPool.id
   generate_secret = false
+  callback_urls = ["https://td-frontend.s3-website-eu-west-1.amazonaws.com/index.html"]
 }
 
 resource "aws_cognito_user_pool_domain" "userPoolDomain" {

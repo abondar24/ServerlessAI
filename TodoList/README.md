@@ -38,3 +38,11 @@ docker run -d -p 8000:8000 --name <container-name> amazon/dynamodb-local
 ```
 
 - Verify via API Gateway console that the API is actually deployed and deploy manually if not.
+
+- User pool requires manual setup. Check Screenshot below
+
+![Cognito](cognito.png)
+
+- Users added via cognito pool
+
+- Ids are taken from cognito console
