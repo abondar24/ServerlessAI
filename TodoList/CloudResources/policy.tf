@@ -227,3 +227,32 @@ resource "aws_iam_role_policy" "cognito" {
 }
 EOF
 }
+
+
+
+resource "aws_iam_policy" "lambda_note" {
+  name = "lambda_note"
+  path = "/"
+  description = "IAM policy for accessing from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::${var.dt_bucket}/*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_note" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_note.arn
+}

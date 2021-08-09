@@ -20,7 +20,7 @@ resource "aws_api_gateway_resource" "todoReadId" {
 resource "aws_api_gateway_method" "postMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoList.id
-  authorization = "NONE"
+  authorization = aws_api_gateway_authorizer.createAuth
   http_method = "POST"
 }
 
@@ -34,21 +34,21 @@ resource "aws_api_gateway_method" "putMethod" {
 resource "aws_api_gateway_method" "getMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoList.id
-  authorization = "NONE"
+  authorization = aws_api_gateway_authorizer.readAuth
   http_method = "GET"
 }
 
 resource "aws_api_gateway_method" "getIdMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoReadId.id
-  authorization = "NONE"
+  authorization = aws_api_gateway_authorizer.listAuth
   http_method = "GET"
 }
 
 resource "aws_api_gateway_method" "deleteMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoReadId.id
-  authorization = "NONE"
+  authorization = aws_api_gateway_authorizer.delAuth
   http_method = "DELETE"
 }
 

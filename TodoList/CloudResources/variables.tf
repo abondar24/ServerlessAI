@@ -22,8 +22,12 @@ variable "dn_table" {
   default = "TodoList"
 }
 
-variable "lambda_api_zip" {
+variable "lambda_todo_api_zip" {
   default = "TodoApi-1.0-SNAPSHOT.zip"
+}
+
+variable "lambda_note_api_zip" {
+  default = "NoteApi-1.0-SNAPSHOT.zip"
 }
 
 variable "lambda_create" {
@@ -42,6 +46,10 @@ variable "lambda_read" {
   default = "TodoRead"
 }
 
-variable "lambda_list" {
-  default = "TodoList"
+variable "lambda_transcribe" {
+  default = "NoteTranscribe"
+}
+
+variable "lambda_poll" {
+  default = "NotePoll"
 }
