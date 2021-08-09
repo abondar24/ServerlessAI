@@ -34,6 +34,11 @@ resource "aws_cognito_user_pool_client" "userPoolClient" {
   generate_secret = false
 }
 
+resource "aws_cognito_user_pool_domain" "userPoolDomain" {
+  domain = "td-frontend"
+  user_pool_id = aws_cognito_user_pool.userPool.id
+}
+
 
 resource "aws_cognito_identity_pool" "identityPool" {
   identity_pool_name = "identityPool"
