@@ -26,5 +26,5 @@ aws s3 sync dist s3://<site-bucket-id>
 ## Access URLs
 
 1. Local - http://localhost:9024
-2. AWS - http://<site-bucket-id>.s3-website-eu-west-1.amazonaws.com/
+2. AWS - https://s3-eu-west-1.amazonaws.com/td-frontend/index.html
 

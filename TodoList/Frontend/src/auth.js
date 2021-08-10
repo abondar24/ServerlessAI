@@ -35,8 +35,8 @@ function bindLinks(){
         const config = Auth.configure()
         const {domain,redirectSignIn,responseType} = config.oauth
         const clientId = config.userPoolWebClientId
-        const url = 'https://' + domain + '/login?redirect_uri=' +
-            redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId
+        const url = 'https://' + domain + '/login?response_type=' + responseType + '&client_id=' + clientId
+        + '&redirect_uri=' + redirectSignIn
 
         window.location.assign(url)
     })

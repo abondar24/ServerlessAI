@@ -10,8 +10,8 @@ import {Amplify} from "aws-amplify"
 const oauth = {
     domain: 'td-frontend.auth.eu-west-1.amazoncognito.com',
     scope: ['email'],
-    redirectSignIn: `https://td-frontend.s3-website-eu-west-1.amazonaws.com/index.html`,
-    redirectSignOut: `https://td-frontend.s3-website-eu-west-1.amazonaws.com/index.html`,
+    redirectSignIn: 'https://s3-eu-west-1.amazonaws.com/td-frontend/index.html',
+    redirectSignOut: 'https://s3-eu-west-1.amazonaws.com/td-frontend/index.html',
     responseType: 'token'
 }
 

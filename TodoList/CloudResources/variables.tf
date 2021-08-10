@@ -46,10 +46,19 @@ variable "lambda_read" {
   default = "TodoRead"
 }
 
+variable "lambda_list" {
+  default = "TodoList"
+}
+
+
 variable "lambda_transcribe" {
   default = "NoteTranscribe"
 }
 
 variable "lambda_poll" {
   default = "NotePoll"
+}
+
+variable "origin_id" {
+  default = "s3-td-frontend-bucket"
 }

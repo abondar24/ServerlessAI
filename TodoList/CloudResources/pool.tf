@@ -10,6 +10,12 @@ resource "aws_cognito_user_pool" "userPool" {
     name = "email"
     mutable = true
     required = true
+    developer_only_attribute = false
+
+    number_attribute_constraints {
+      min_value = 1
+      max_value = 256
+    }
   }
 
   admin_create_user_config {
@@ -29,7 +35,7 @@ resource "aws_cognito_user_pool_client" "userPoolClient" {
   name = "userPoolClient"
   user_pool_id = aws_cognito_user_pool.userPool.id
   generate_secret = false
-  callback_urls = ["https://td-frontend.s3-website-eu-west-1.amazonaws.com/index.html"]
+  callback_urls = ["https://s3-eu-west-1.amazonaws.com/td-frontend/index.html"]
 }
 
 resource "aws_cognito_user_pool_domain" "userPoolDomain" {
@@ -43,7 +49,7 @@ resource "aws_cognito_identity_pool" "identityPool" {
   allow_unauthenticated_identities = false
   cognito_identity_providers {
     client_id = aws_cognito_user_pool_client.userPoolClient.id
-    provider_name = "cognito-idp.us-east-1.amazonaws.com/eu-west-1_Zr231apJu"
+    provider_name = "cognito-idp.us-east-1.amazonaws.com/${aws_cognito_user_pool.userPool.id}"
   }
 }
 
