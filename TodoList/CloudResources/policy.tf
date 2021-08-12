@@ -189,7 +189,7 @@ resource "aws_iam_role" "cognito" {
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
-         "StringEquals": {"cognito-identity.amazonaws.com:aud":"${aws_cognito_identity_pool.identityPool.arn}"},
+         "StringEquals": {"cognito-identity.amazonaws.com:aud":"${aws_cognito_identity_pool.identityPool.id}"},
          "ForAnyValue:StringLike":{"cognito-identity.amazonaws.com:amr":"authenticated"}
        }
     }
@@ -198,9 +198,8 @@ resource "aws_iam_role" "cognito" {
 EOF
 }
 
-resource "aws_iam_role_policy" "cognito" {
-  name = "default"
-  role = aws_iam_role.cognito.id
+resource "aws_iam_policy" "cognito" {
+  name = "cognito"
 
   policy = <<EOF
 {
@@ -226,6 +225,11 @@ resource "aws_iam_role_policy" "cognito" {
     ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "cognito_att" {
+  role = aws_iam_role.cognito.name
+  policy_arn = aws_iam_policy.cognito.arn
 }
 
 

@@ -1,4 +1,8 @@
 resource "aws_cognito_user_pool" "userPool" {
+
+  lifecycle {
+    ignore_changes = [schema]
+  }
   name = "todoPool"
 
   username_attributes = ["email"]
@@ -12,9 +16,8 @@ resource "aws_cognito_user_pool" "userPool" {
     required = true
     developer_only_attribute = false
 
-    number_attribute_constraints {
-      min_value = 1
-      max_value = 256
+    string_attribute_constraints {
+      max_length = 256
     }
   }
 
@@ -32,6 +35,10 @@ resource "aws_cognito_user_pool" "userPool" {
 }
 
 resource "aws_cognito_user_pool_client" "userPoolClient" {
+  lifecycle {
+    ignore_changes = [name]
+  }
+
   name = "userPoolClient"
   user_pool_id = aws_cognito_user_pool.userPool.id
   generate_secret = false
