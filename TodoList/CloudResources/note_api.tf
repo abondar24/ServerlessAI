@@ -16,17 +16,17 @@ resource "aws_api_gateway_resource" "notePoll" {
   path_part = "{id}"
 }
 
-resource "aws_api_gateway_method" "postMethod" {
+resource "aws_api_gateway_method" "notePostMethod" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   resource_id = aws_api_gateway_resource.note.id
-  authorization = aws_api_gateway_authorizer.transAuth
+  authorization = "NONE"
   http_method = "POST"
 }
 
-resource "aws_api_gateway_method" "getMethod" {
+resource "aws_api_gateway_method" "noteGetMethod" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   resource_id = aws_api_gateway_resource.notePoll.id
-  authorization = aws_api_gateway_authorizer.pollAuth
+  authorization = "NONE"
   http_method = "GET"
 }
 

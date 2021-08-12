@@ -93,27 +93,9 @@ resource "aws_lambda_function" "list_func" {
 
 }
 
-resource "aws_lambda_function" "transcribe_func" {
-  filename = "../NoteApi/build/distributions/${var.lambda_todo_api_zip}"
-  function_name = var.lambda_transcribe
-  role = aws_iam_role.lambda_exec_role.arn
-  handler = "org.abondar.experimental.note.api.handler.TranscribeHandler"
-
-  source_code_hash = filebase64sha256("../NoteApi/build/distributions/${var.lambda_note_api_zip}")
-
-  timeout = 200
-  memory_size = 1024
-  runtime = "java11"
-
-  depends_on = [
-    aws_iam_role_policy_attachment.lambda_note,
-    aws_cloudwatch_log_group.list,
-  ]
-
-}
 
 resource "aws_lambda_function" "transcribe_func" {
-  filename = "../NoteApi/build/distributions/${var.lambda_todo_api_zip}"
+  filename = "../NoteApi/build/distributions/${var.lambda_note_api_zip}"
   function_name = var.lambda_transcribe
   role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.note.api.handler.TranscribeHandler"
@@ -133,7 +115,7 @@ resource "aws_lambda_function" "transcribe_func" {
 
 
 resource "aws_lambda_function" "poll_func" {
-  filename = "../NoteApi/build/distributions/${var.lambda_todo_api_zip}"
+  filename = "../NoteApi/build/distributions/${var.lambda_note_api_zip}"
   function_name = var.lambda_poll
   role = aws_iam_role.lambda_exec_role.arn
   handler = "org.abondar.experimental.note.api.handler.PollHandler"
