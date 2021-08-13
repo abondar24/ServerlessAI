@@ -2,6 +2,7 @@
 
 import $ from 'jquery'
 import {view} from './view'
+import {note} from './note'
 
 const todo = {activate}
 export {todo}
@@ -12,6 +13,8 @@ let auth
 
 function activate(authObj) {
     auth = authObj
+    note.bindRecord(authObj)
+
     list(() => {
         bindList()
         bindEdit()
@@ -103,6 +106,7 @@ function bindEdit() {
         e.preventDefault()
         view.renderAddButton()
     })
+    note.bindRecord()
 }
 
 function create(cb){

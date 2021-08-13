@@ -29,7 +29,8 @@
     "bootstrap": "^5.0.2",
     "jquery": "^3.6.0",
     "jquery-datepicker": "^1.12.3",
-    "style-loader": "^3.1.0"
+    "style-loader": "^3.1.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "css-loader": "^6.0.0",

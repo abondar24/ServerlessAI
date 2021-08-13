@@ -33,6 +33,8 @@ public class PollHandler  extends NoteHandler
                 if (job!=null){
                     if (job.getTranscriptionJobStatus().equals("COMPLETED")){
                         logger.log(String.format("Job Status %s",job.getTranscriptionJobStatus()));
+                        //TODO make response body with json format below
+                        //TODO {transcribeStatus: 'status', transcript: [transcripts]  }
                         return buildResponse(200,job.getTranscriptionJobStatus());
                     }
                 } else {

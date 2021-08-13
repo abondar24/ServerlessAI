@@ -4,7 +4,7 @@ import $ from 'jquery'
 import 'webpack-jquery-ui/datepicker'
 import {addTpl, editTpl, errTpl, navBarTpl, todoListTpl} from './templates'
 
-const view = {renderList, renderAddButton, renderEditArea, renderError, renderLink}
+const view = {renderList, renderAddButton, renderEditArea, renderError, renderLink, renderNote}
 export {view}
 
 function renderList(body) {
@@ -26,9 +26,9 @@ function renderEditArea(id) {
             $('#todo-duedate').val($('#' + id + ' #due-date').text())
             $('#todo-action').val($('#' + id + ' #action').text())
             $('#todo-stat').val($('#' + id + '#stat').val())
-            $('#todo-note').val($('#'+id+' #note').text())
+            $('#todo-note').val($('#' + id + ' #note').text())
         }
-    },100)
+    }, 100)
 }
 
 
@@ -36,6 +36,10 @@ function renderError(body) {
     $('#error').html(errTpl(body.err))
 }
 
-function renderLink(isAuth){
+function renderLink(isAuth) {
     $('#navbarNav').html(navBarTpl(isAuth))
+}
+
+function renderNote(text) {
+    $('#todo-note').text(text)
 }

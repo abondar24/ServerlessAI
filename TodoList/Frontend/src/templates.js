@@ -73,6 +73,13 @@ function editTpl() {
             <textarea id="todo-note" rows="5" cols="50" maxlength="5000" wrap="hard"></textarea>
           </div>
         </div>
+        <div class="row"&nbsp;</div>
+        <div class="row">
+           <div class="col-sm-1"></div>
+           <div class="col-sm-2"><button id="todo-note-start">record</button></button></div>
+           <div class="col-sm-1"></div>
+           <div class="col-sm-2"><button id="todo-note-stop">stop</button></div>
+        </div>
       </div>
     </div>`
 }

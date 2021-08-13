@@ -16,19 +16,25 @@ const oauth = {
 }
 
 Amplify.configure({
-    Auth:{
+    Auth: {
         region: 'eu-west-1',
         userPoolId:'userPoolId',
         userPoolWebClientId: 'webClientId',
         identityPoolId: 'identityPoolId',
         mandatorySignIn: false,
         oauth: oauth
+    },
+    Storage: {
+        bucket: 'td-str',
+        region: 'eu-west-1',
+        identityPoolId: 'identityPoolId',
+        level: 'public'
     }
 })
 
-$(function (){
-    auth.activate().then((user) =>{
-        if (user){
+$(function () {
+    auth.activate().then((user) => {
+        if (user) {
             todo.activate(auth)
         }
     })
