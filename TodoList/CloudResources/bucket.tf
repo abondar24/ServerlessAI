@@ -9,6 +9,7 @@ resource "aws_s3_bucket" "dtb" {
   cors_rule {
     allowed_methods = ["GET","PUT","POST","DELETE","HEAD"]
     allowed_origins = ["*"]
+    allowed_headers = ["*"]
     max_age_seconds = 3000
   }
 
@@ -30,6 +31,7 @@ resource "aws_s3_bucket" "frb" {
   cors_rule {
     allowed_methods = ["GET","PUT","POST","DELETE","HEAD"]
     allowed_origins = ["*"]
+    allowed_headers = ["*"]
     max_age_seconds = 3000
   }
 

@@ -4,7 +4,7 @@ locals {
 }
 
 resource "aws_cloudfront_distribution" "fr_distribution" {
-  enabled = false
+  enabled = true
   default_cache_behavior {
     allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods = ["GET", "HEAD", "OPTIONS"]
