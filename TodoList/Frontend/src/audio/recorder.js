@@ -3,7 +3,7 @@
 export {AudioRecorder}
 
 function Recorder(source, silenceDetectionConfig) {
-    let worker = new Worker('./worker')
+    let worker = new Worker('./worker.js')
 
     silenceDetectionConfig = silenceDetectionConfig || {}
     silenceDetectionConfig.time = silenceDetectionConfig
@@ -17,11 +17,11 @@ function Recorder(source, silenceDetectionConfig) {
     let start
     let silenceCallback
     let visualisationCallback
-    let node = source.content.createScriptProcessor(4096, 1, 1)
+    let node = source.context.createScriptProcessor(4096, 1, 1)
 
     worker.onmessage = function (message) {
         let blob = message.data
-        currCallback(blob, source.content.sampleRate)
+        currCallback(blob, source.context.sampleRate)
     }
 
     worker.postMessage({
@@ -56,7 +56,7 @@ function Recorder(source, silenceDetectionConfig) {
     }
 
 
-    let analyser = source.content.createAnalyser()
+    let analyser = source.context.createAnalyser()
     analyser.minDecibels = -90
     analyser.maxDecibels = -10
     analyser.smoothingTimeConstant = 0.85
@@ -69,7 +69,7 @@ function Recorder(source, silenceDetectionConfig) {
         let amplitude = silenceDetectionConfig.amplitude
         let time = silenceDetectionConfig.time
 
-        analyser.getFloatTimeDomainData(dataArray)
+        analyser.getByteTimeDomainData(dataArray)
 
         if (typeof visualisationCallback === 'function') {
             visualisationCallback(dataArray, bufferLength)

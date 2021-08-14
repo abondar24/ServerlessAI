@@ -3,7 +3,8 @@ const path = require('path')
 
 module.exports = {
     entry: {
-        main: './src/index.js'
+        main: './src/index.js',
+        worker: './src/audio/worker.js'
     },
     devtool: 'eval-source-map',
     devServer: {

@@ -27,7 +27,6 @@ function activate(authObj) {
 
 function list(cb) {
     auth.session().then(session => {
-        console.log(session)
         $.ajax(API_URL, {
             type: 'GET',
             headers: {

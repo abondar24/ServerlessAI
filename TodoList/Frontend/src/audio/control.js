@@ -16,14 +16,12 @@ function AudioControl(options) {
     checkAudioSupport = options.checkAudioSupport !== false
 
     function startRecording(onSilence, visualizer, silenceDetectionConfig) {
-        onSilence = onSilence || function () {
-        }
-        visualizer = visualizer || function () {
-        }
+        onSilence = onSilence || function () {}
+        visualizer = visualizer || function () {}
 
         isAudioSupported()
 
-        recorder = audioRecorder.createRecoder(silenceDetectionConfig)
+        recorder = audioRecorder.createRecorder(silenceDetectionConfig)
         recorder.record(onSilence, visualizer)
     }
 
@@ -98,12 +96,11 @@ function AudioControl(options) {
     }
 
     function supportsAudio(callback) {
-        callback = callback || function () {
-        }
+        callback = callback || function () {}
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             audioRecorder = AudioRecorder()
             audioRecorder.requestDevice()
-                .then((stream) => {
+                .then(() => {
                     audioSupported = true
                     callback(audioSupported)
                 })

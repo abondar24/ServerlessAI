@@ -3,7 +3,7 @@
 import $ from 'jquery'
 import {Storage} from "aws-amplify"
 import {AudioControl} from './audio/control'
-import {v5 as uuid}  from 'uuid'
+import {v4 as uuidv4}  from 'uuid'
 import {view} from "./view"
 
 const note = {activate, bindRecord}
@@ -45,11 +45,11 @@ function startRecord() {
 }
 
 function stopRecord() {
-    const noteId = uuid()
+    const noteId = uuidv4()
 
     view.renderNote('Thinking')
     ac.stopRecording()
-    ac.exportWAV((blob, recordSampleRate) => {
+    ac.exportWav((blob, recordSampleRate) => {
         Storage.put(noteId + '.wav', blob)
             .then(result => {
                 submitNote(noteId, recordSampleRate)
@@ -102,7 +102,7 @@ function pollNote(noteId) {
                 success: function (body) {
                     if (body.transcribeStatus === 'COMPLETED') {
                         clearInterval(itv)
-                        view.renderNote(body.results.transcripts[0].transcript)
+                        view.renderNote(body.transcripts[0].transcript)
                     } else if (body.transcribeStatus === 'FAILED') {
                         clearInterval(itv)
                         view.renderNote('FAILED')
