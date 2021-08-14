@@ -4,6 +4,7 @@ import $ from 'jquery'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'webpack-jquery-ui/css'
 import {todo} from './todo'
+import {note} from "./note"
 import {auth} from './auth'
 import {Amplify} from "aws-amplify"
 
@@ -36,6 +37,7 @@ $(function () {
     auth.activate().then((user) => {
         if (user) {
             todo.activate(auth)
+            note.activate(auth)
         }
     })
 
