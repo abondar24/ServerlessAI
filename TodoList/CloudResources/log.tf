@@ -24,7 +24,7 @@ resource "aws_cloudwatch_log_group" "list" {
   retention_in_days = 14
 }
 
-resource "aws_cloudwatch_log_group" "nodeTranscribe" {
+resource "aws_cloudwatch_log_group" "noteTranscribe" {
   name = "/aws/lambda/${var.lambda_transcribe}"
   retention_in_days = 14
 }

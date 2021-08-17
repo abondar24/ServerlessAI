@@ -66,3 +66,7 @@ variable "origin_id" {
 variable "auth_type" {
   default = "COGNITO_USER_POOLS"
 }
+
+variable "java" {
+  default = "java11"
+}

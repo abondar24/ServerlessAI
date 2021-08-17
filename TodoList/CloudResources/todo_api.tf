@@ -20,7 +20,7 @@ resource "aws_api_gateway_resource" "todoReadId" {
 resource "aws_api_gateway_method" "postMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoList.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.createAuth.id
   http_method = "POST"
 }
@@ -28,7 +28,7 @@ resource "aws_api_gateway_method" "postMethod" {
 resource "aws_api_gateway_method" "putMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoList.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.updateAuth.id
   http_method = "PUT"
 }
@@ -36,7 +36,7 @@ resource "aws_api_gateway_method" "putMethod" {
 resource "aws_api_gateway_method" "getMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoList.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.listAuth.id
   http_method = "GET"
 }
@@ -44,7 +44,7 @@ resource "aws_api_gateway_method" "getMethod" {
 resource "aws_api_gateway_method" "getIdMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoReadId.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.readAuth.id
   http_method = "GET"
 }
@@ -52,7 +52,7 @@ resource "aws_api_gateway_method" "getIdMethod" {
 resource "aws_api_gateway_method" "deleteMethod" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   resource_id = aws_api_gateway_resource.todoReadId.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.delAuth.id
   http_method = "DELETE"
 }

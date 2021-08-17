@@ -19,7 +19,7 @@ resource "aws_api_gateway_resource" "notePoll" {
 resource "aws_api_gateway_method" "notePostMethod" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   resource_id = aws_api_gateway_resource.note.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.transAuth.id
   http_method = "POST"
 }
@@ -27,7 +27,7 @@ resource "aws_api_gateway_method" "notePostMethod" {
 resource "aws_api_gateway_method" "noteGetMethod" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   resource_id = aws_api_gateway_resource.notePoll.id
-  authorization = "COGNITO_USER_POOLS"
+  authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.pollAuth.id
   http_method = "GET"
 }

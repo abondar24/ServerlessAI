@@ -8,7 +8,7 @@ resource "aws_lambda_function" "create_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_dynamo,
@@ -27,7 +27,7 @@ resource "aws_lambda_function" "update_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_dynamo,
@@ -46,7 +46,7 @@ resource "aws_lambda_function" "delete_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_dynamo,
@@ -65,7 +65,7 @@ resource "aws_lambda_function" "read_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_dynamo,
@@ -84,7 +84,7 @@ resource "aws_lambda_function" "list_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_dynamo,
@@ -104,12 +104,12 @@ resource "aws_lambda_function" "transcribe_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_transcribe,
     aws_iam_role_policy_attachment.lambda_s3_note,
-    aws_cloudwatch_log_group.list,
+    aws_cloudwatch_log_group.noteTranscribe,
   ]
 
 }
@@ -125,12 +125,12 @@ resource "aws_lambda_function" "poll_func" {
 
   timeout = 200
   memory_size = 1024
-  runtime = "java11"
+  runtime = var.java
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_transcribe,
     aws_iam_role_policy_attachment.lambda_s3_note,
-    aws_cloudwatch_log_group.list,
+    aws_cloudwatch_log_group.notePoll,
   ]
 
 }
