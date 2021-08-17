@@ -8,7 +8,7 @@ import {view} from "./view"
 
 const note = {activate, bindRecord}
 export {note}
-const NOTE_API = 'https://62yafk0kng.execute-api.eu-west-1.amazonaws.com/test/'
+const NOTE_API = 'https://62yafk0kng.execute-api.eu-west-1.amazonaws.com/test/note/'
 const STORAGE_BUCKET = 'https://s3-eu-west-1.amazonaws.com/td-str/public/'
 
 let auth
@@ -51,7 +51,7 @@ function stopRecord() {
     ac.stopRecording()
     ac.exportWav((blob, recordSampleRate) => {
         Storage.put(noteId + '.wav', blob)
-            .then(result => {
+            .then(() => {
                 submitNote(noteId, recordSampleRate)
             })
             .catch(err => {
