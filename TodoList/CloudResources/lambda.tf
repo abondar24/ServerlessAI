@@ -107,7 +107,8 @@ resource "aws_lambda_function" "transcribe_func" {
   runtime = "java11"
 
   depends_on = [
-    aws_iam_role_policy_attachment.lambda_note,
+    aws_iam_role_policy_attachment.lambda_transcribe,
+    aws_iam_role_policy_attachment.lambda_s3_note,
     aws_cloudwatch_log_group.list,
   ]
 
@@ -127,7 +128,8 @@ resource "aws_lambda_function" "poll_func" {
   runtime = "java11"
 
   depends_on = [
-    aws_iam_role_policy_attachment.lambda_note,
+    aws_iam_role_policy_attachment.lambda_transcribe,
+    aws_iam_role_policy_attachment.lambda_s3_note,
     aws_cloudwatch_log_group.list,
   ]
 

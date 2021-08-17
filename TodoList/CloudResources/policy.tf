@@ -227,17 +227,11 @@ resource "aws_iam_policy" "cognito" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "cognito_att" {
-  role = aws_iam_role.cognito.name
-  policy_arn = aws_iam_policy.cognito.arn
-}
 
-
-
-resource "aws_iam_policy" "lambda_note" {
-  name = "lambda_note"
+resource "aws_iam_policy" "lambda_transcribe" {
+  name = "lambda_transcribe"
   path = "/"
-  description = "IAM policy for accessing from a lambda"
+  description = "IAM policy for accessing transcribe from a lambda"
 
   policy = <<EOF
 {
@@ -245,10 +239,9 @@ resource "aws_iam_policy" "lambda_note" {
   "Statement": [
     {
       "Action": [
-        "s3:PutObject",
-        "s3:GetObject"
+           "transcribe:*"
       ],
-      "Resource": "arn:aws:s3:::${var.dt_bucket}/*",
+      "Resource": "*",
       "Effect": "Allow"
     }
   ]
@@ -256,7 +249,42 @@ resource "aws_iam_policy" "lambda_note" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_note" {
-  role = aws_iam_role.lambda_exec_role.name
-  policy_arn = aws_iam_policy.lambda_note.arn
+resource "aws_iam_policy" "lambda_s3_note" {
+  name = "lambda_s3_note"
+  path = "/"
+  description = "IAM policy for accessing s3 for note related-lambdas"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+           "s3:PutObject",
+           "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::${var.dt_bucket}/",
+      "Effect": "Allow"
+    }
+  ]
 }
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "cognito_att" {
+  role = aws_iam_role.cognito.name
+  policy_arn = aws_iam_policy.cognito.arn
+}
+
+
+resource "aws_iam_role_policy_attachment" "lambda_transcribe" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_transcribe.arn
+}
+
+
+resource "aws_iam_role_policy_attachment" "lambda_s3_note" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_s3_note.arn
+}
+

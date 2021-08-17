@@ -24,8 +24,26 @@ resource "aws_cloudwatch_log_group" "list" {
   retention_in_days = 14
 }
 
+resource "aws_cloudwatch_log_group" "nodeTranscribe" {
+  name = "/aws/lambda/${var.lambda_transcribe}"
+  retention_in_days = 14
+}
+
+
+resource "aws_cloudwatch_log_group" "notePoll" {
+  name = "/aws/lambda/${var.lambda_poll}"
+  retention_in_days = 14
+}
+
+
 resource "aws_cloudwatch_log_group" "api_gateway" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.todolist.id}/test"
+  retention_in_days = 14
+
+}
+
+resource "aws_cloudwatch_log_group" "api_gateway_note" {
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.note.id}/test"
   retention_in_days = 14
 
 }

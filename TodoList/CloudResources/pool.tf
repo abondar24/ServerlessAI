@@ -66,3 +66,7 @@ resource "aws_cognito_identity_pool_roles_attachment" "poolAtt" {
         authenticated: aws_iam_role.cognito.arn
   }
 }
+
+data "aws_cognito_user_pools" "userPools" {
+  name = aws_cognito_user_pool.userPool.name
+}
