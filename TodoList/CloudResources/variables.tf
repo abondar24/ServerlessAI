@@ -62,3 +62,7 @@ variable "lambda_poll" {
 variable "origin_id" {
   default = "s3-td-frontend-bucket"
 }
+
+variable "auth_type" {
+  default = "COGNITO_USER_POOLS"
+}
