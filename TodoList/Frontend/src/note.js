@@ -100,10 +100,10 @@ function pollNote(noteId) {
                     Authorization: session.idToken.jwtToken
                 },
                 success: function (body) {
-                    if (body.transcribeStatus === 'COMPLETED') {
+                    if (body.status === 'COMPLETED') {
                         clearInterval(itv)
                         view.renderNote(body.transcripts[0].transcript)
-                    } else if (body.transcribeStatus === 'FAILED') {
+                    } else if (body.status === 'FAILED') {
                         clearInterval(itv)
                         view.renderNote('FAILED')
                     } else {
