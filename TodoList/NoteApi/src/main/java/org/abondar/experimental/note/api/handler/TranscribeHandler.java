@@ -32,7 +32,7 @@ public class TranscribeHandler extends NoteHandler
             var noteParams = mapper.readValue(body, NoteParams.class);
             client.startTranscriptionJob(getJobRequest(noteParams));
 
-            return buildResponse(200, "Transcribe Job Started");
+            return buildResponse(200, mapper.writeValueAsString("Transcribe Job Started"));
         } catch (IOException ex) {
             logger.log(ex.getMessage());
             return buildResponse(500, String.format(MSG_FORMAT, MALFORMED_BODY_ERROR));
