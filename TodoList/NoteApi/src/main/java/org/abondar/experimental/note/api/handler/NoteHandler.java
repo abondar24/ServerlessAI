@@ -1,13 +1,10 @@
 package org.abondar.experimental.note.api.handler;
 
-import com.amazonaws.endpointdiscovery.Constants;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.amazonaws.services.transcribe.AmazonTranscribe;
-import com.amazonaws.services.transcribe.AmazonTranscribeClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import software.amazon.awssdk.services.transcribe.TranscribeClient;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class NoteHandler {
@@ -18,12 +15,16 @@ public class NoteHandler {
             "Content-Type", "application/json"
     );
     private static final String ID_PARAM = "id";
+
+    protected static final String BUCKET = "td-str";
+
     protected ObjectMapper mapper;
-    protected AmazonTranscribe client;
+    protected TranscribeClient client;
+
 
     public NoteHandler() {
         this.mapper = new ObjectMapper();
-        this.client = AmazonTranscribeClientBuilder.defaultClient();
+        this.client = TranscribeClient.create();
     }
 
 
