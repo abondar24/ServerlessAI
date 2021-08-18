@@ -1,9 +1,7 @@
 package org.abondar.experimental.note.api;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.note.api.handler.TranscribeHandler;
-import org.mockito.Mock;
 import software.amazon.awssdk.services.transcribe.TranscribeClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,23 +13,17 @@ import software.amazon.awssdk.services.transcribe.model.StartTranscriptionJobRes
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
 public class HandlerTest {
 
+    private static TranscribeClient client;
     private TestContext context;
 
-    private static ObjectMapper mapper;
-
-    private static TranscribeClient client;
-
     @BeforeAll
-    public static void init(){
-        mapper = new ObjectMapper();
+    public static void init() {
         client = mock(TranscribeClient.class);
     }
 
@@ -42,7 +34,7 @@ public class HandlerTest {
     }
 
     @Test
-    public void transcribeHandlerTest() throws Exception{
+    public void transcribeHandlerTest() throws Exception {
         var testNote = "{\n" +
                 "    \"noteLang\": \"en-US\",\n" +
                 "    \"noteUri\": \"https://s3-eu-west-1.amazonaws.com/td-str/public/b499d1a4-a170-472e-a8f0-4e955856bb18.wav\",\n" +
@@ -55,8 +47,8 @@ public class HandlerTest {
         requestEvent.setBody(testNote);
         var handler = new TranscribeHandler();
 
-        FieldSetter.setField(handler,handler.getClass()
-                .getSuperclass().getDeclaredField("client"),client);
+        FieldSetter.setField(handler, handler.getClass()
+                .getSuperclass().getDeclaredField("client"), client);
         when(client.startTranscriptionJob(any(StartTranscriptionJobRequest.class)))
                 .thenReturn(any(StartTranscriptionJobResponse.class));
 

@@ -21,13 +21,6 @@ import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 public class UpdateHandler extends BaseHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    public UpdateHandler() {
-        super();
-    }
-
-    public UpdateHandler(DynamoService service) {
-        super(service);
-    }
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {

@@ -4,10 +4,11 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.todo.api.data.TodoItem;
 import org.abondar.experimental.todo.api.service.DynamoService;
-import org.abondar.experimental.todo.api.service.DynamoServiceImpl;
 import org.abondar.experimental.todo.api.service.DynamoServiceTestImpl;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.util.reflection.FieldSetter;
 
 import java.util.Map;
 
@@ -21,7 +22,12 @@ public class HandlerTest {
     private final ObjectMapper mapper = new ObjectMapper();
     private TestContext context;
 
-    private final DynamoService service = new DynamoServiceTestImpl();
+    private static DynamoService service;
+
+    @BeforeAll
+    public static void init(){
+        service = new DynamoServiceTestImpl();
+    }
 
     @BeforeEach
     public void initContext() {
@@ -34,7 +40,9 @@ public class HandlerTest {
         var requestEvent = new APIGatewayProxyRequestEvent();
         requestEvent.setBody(mapper.writeValueAsString(item));
 
-        var handler = new CreateHandler(service);
+        var handler = new CreateHandler();
+        FieldSetter.setField(handler, handler.getClass()
+                .getSuperclass().getDeclaredField("service"), service);
 
         var result = handler.handleRequest(requestEvent, context);
         var resp = mapper.readValue(result.getBody(), TodoItem.class);
@@ -52,7 +60,9 @@ public class HandlerTest {
         var requestEvent = new APIGatewayProxyRequestEvent();
         requestEvent.setBody(mapper.writeValueAsString(item));
 
-        var handler = new UpdateHandler(service);
+        var handler = new UpdateHandler();
+        FieldSetter.setField(handler, handler.getClass()
+                .getSuperclass().getDeclaredField("service"), service);
 
         var result = handler.handleRequest(requestEvent, context);
         var resp = mapper.readValue(result.getBody(), TodoItem.class);
@@ -67,7 +77,10 @@ public class HandlerTest {
         var requestEvent = new APIGatewayProxyRequestEvent();
         requestEvent.setPathParameters(Map.of("id","someId"));
 
-        var handler = new ReadHandler(service);
+        var handler = new ReadHandler();
+        FieldSetter.setField(handler, handler.getClass()
+                .getSuperclass().getDeclaredField("service"), service);
+
 
         var result = handler.handleRequest(requestEvent, context);
         var resp = mapper.readValue(result.getBody(), TodoItem.class);
@@ -80,7 +93,10 @@ public class HandlerTest {
     @Test
     public void listHandlerTest() throws Exception {
         var requestEvent = new APIGatewayProxyRequestEvent();
-        var handler = new ListHandler(service);
+        var handler = new ListHandler();
+        FieldSetter.setField(handler, handler.getClass()
+                .getSuperclass().getDeclaredField("service"), service);
+
         var result = handler.handleRequest(requestEvent, context);
 
         assertEquals(200, result.getStatusCode());
@@ -92,7 +108,10 @@ public class HandlerTest {
         var requestEvent = new APIGatewayProxyRequestEvent();
         requestEvent.setPathParameters(Map.of("id","someId"));
 
-        var handler = new DeleteHandler(service);
+        var handler = new DeleteHandler();
+        FieldSetter.setField(handler, handler.getClass()
+                .getSuperclass().getDeclaredField("service"), service);
+
         var result = handler.handleRequest(requestEvent, context);
 
         assertEquals(200, result.getStatusCode());

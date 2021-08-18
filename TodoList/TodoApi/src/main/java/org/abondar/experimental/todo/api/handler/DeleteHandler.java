@@ -16,14 +16,6 @@ import static org.abondar.experimental.todo.api.constant.Errors.TABLE_NOT_FOUND;
 public class DeleteHandler extends BaseHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    public DeleteHandler() {
-        super();
-    }
-
-    public DeleteHandler(DynamoService service) {
-        super(service);
-    }
-
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var logger = context.getLogger();
