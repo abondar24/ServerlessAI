@@ -40,19 +40,18 @@ public class TranscribeHandler extends NoteHandler
     }
 
     private StartTranscriptionJobRequest getJobRequest(NoteParams params) {
-        var req = StartTranscriptionJobRequest.builder()
+        var settings = params.getSettings()!=null ?  getSettings(params.getSettings()) :getDefaultSettings();
+
+        return StartTranscriptionJobRequest.builder()
                 .languageCode(params.getLanguageCode())
                 .outputBucketName(BUCKET)
                 .media(getMedia(params.getMediaFileUri()))
                 .mediaFormat(params.getMediaFormat())
+                .settings(settings)
                 .transcriptionJobName(params.getTranscriptionJobName())
-                .mediaSampleRateHertz(params.getMediaSampleRateHertz());
+                .mediaSampleRateHertz(params.getMediaSampleRateHertz())
+                .build();
 
-        if (params.getSettings()!=null){
-            req .settings(getSettings(params.getSettings()));
-        }
-
-        return req.build();
     }
 
     private Media getMedia(String mediaFileUri) {
@@ -66,6 +65,14 @@ public class TranscribeHandler extends NoteHandler
                 .channelIdentification(noteSettings.isChannelIdentification())
                 .maxSpeakerLabels(noteSettings.getMaxSpeakerLabels())
                 .showSpeakerLabels(noteSettings.isShowSpeakerLabels())
+                .build();
+    }
+
+    private Settings getDefaultSettings() {
+        return Settings.builder()
+                .channelIdentification(false)
+                .maxSpeakerLabels(4)
+                .showSpeakerLabels(true)
                 .build();
     }
 }

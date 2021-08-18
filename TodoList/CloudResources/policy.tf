@@ -260,10 +260,9 @@ resource "aws_iam_policy" "lambda_s3_note" {
   "Statement": [
     {
       "Action": [
-           "s3:PutObject",
-           "s3:GetObject"
+           "s3:*"
       ],
-      "Resource": "arn:aws:s3:::${var.dt_bucket}/",
+      "Resource": "arn:aws:s3:::${var.dt_bucket}/*",
       "Effect": "Allow"
     }
   ]
