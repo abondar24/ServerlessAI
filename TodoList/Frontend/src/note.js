@@ -102,7 +102,7 @@ function pollNote(noteId) {
                 success: function (body) {
                     if (body.status === 'COMPLETED') {
                         clearInterval(itv)
-                        view.renderNote(body.transcripts[0].transcript)
+                        view.renderNote(body.results.transcripts[0].transcript)
                     } else if (body.status === 'FAILED') {
                         clearInterval(itv)
                         view.renderNote('FAILED')
@@ -117,5 +117,5 @@ function pollNote(noteId) {
                 }
             })
         }).catch(err => view.renderError(err))
-    }, 3000)
+    }, 10000)
 }
