@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.26'
+    implementation 'software.amazon.awssdk:polly'
+}

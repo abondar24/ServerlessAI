@@ -1,4 +1,5 @@
 rootProject.name = 'TodoList'
 include 'TodoApi'
 include 'NoteApi'
+include 'ScheduleApi'
 
