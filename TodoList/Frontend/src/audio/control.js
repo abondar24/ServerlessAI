@@ -50,8 +50,7 @@ function AudioControl(options) {
 
         let myBlob = new Blob([buffer]);
         let audio = document.createElement('audio');
-        let objectUrl = window.URL.createObjectURL(myBlob);
-        audio.src = objectUrl
+        audio.src = window.URL.createObjectURL(myBlob)
         audio.addEventListener('ended', function () {
             audio.currentTime = 0
             if (typeof callback === 'function') {
@@ -69,11 +68,11 @@ function AudioControl(options) {
         let myBlob = new Blob([buffer]);
         let fileReader = new FileReader()
         fileReader.onload = function () {
-            playbackSource = audioRecorder.audioCoontext().createBufferSource()
-            audioRecorder.audioCoontext().decodeAudioData(this.result, function (buf) {
+            playbackSource = audioRecorder.audioContext().createBufferSource()
+            audioRecorder.audioContext().decodeAudioData(this.result, function (buf) {
                 playbackSource.buffer = buf
                 playbackSource.connect(audioRecorder.audioContext().destination)
-                playbackSource.onended = function (event) {
+                playbackSource.onended = function () {
                     if (typeof callback === 'function') {
                         callback()
                     }
