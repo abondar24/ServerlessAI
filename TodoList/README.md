@@ -1,6 +1,6 @@
 # Todo List
 
-Serverless todo list application with chat bot
+Serverless todo list application with chat bot and text to speech support
 
 The app constists of serveral lambda-based services and frontend web application.
 
@@ -13,6 +13,10 @@ Check frontend documentation [here](Frontend/README.MD)
    - GET /todo  
    - GET /todo/id
    - DELETE /todo/id 
+   
+2. NoteApi - set of lambda function working with trascribe service
+  - POST /note
+  - GET /note/id
 
 
 ## Build and deploy lambda
@@ -46,3 +50,5 @@ docker run -d -p 8000:8000 --name <container-name> amazon/dynamodb-local
 - Users added via cognito pool
 
 - Ids are taken from cognito console
+
+- CORS must be enabled manually on API gateway

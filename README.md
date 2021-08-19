@@ -21,3 +21,4 @@ Examples of using AWS Lambda for Machine learning based on 'AI as a service' Boo
 - DynamoDb
 - Rekognition
 - Cognito
+- Transcribe
