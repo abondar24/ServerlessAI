@@ -79,7 +79,8 @@ public class HandlerTest {
     @Test
     public void pollHandlerTest() throws Exception {
         var requestEvent = new APIGatewayProxyRequestEvent();
-        requestEvent.setPathParameters(Map.of("id","someId"));;
+        var fakeId = "someId";
+        requestEvent.setPathParameters(Map.of("id",fakeId));;
 
         var handler = new PollHandler();
         FieldSetter.setField(handler, handler.getClass()
@@ -87,7 +88,7 @@ public class HandlerTest {
                 .getDeclaredField("client"), client);
 
         var req = GetTranscriptionJobRequest.builder()
-                .transcriptionJobName("someId")
+                .transcriptionJobName(fakeId)
                 .build();
         var jobResp = GetTranscriptionJobResponse.builder()
                 .transcriptionJob(TranscriptionJob.builder().build())
@@ -98,7 +99,7 @@ public class HandlerTest {
         var jobStatus = "{\"jobName\":\"b499d1a4-a170-472e-a8f0-4e955856bb18\",\"accountId\":\"203212890819\",\"results\":{\"transcripts\":[{\"transcript\":\"\"}],\"items\":[]},\"status\":\"COMPLETED\"}";
 
         when(client.getTranscriptionJob(req)).thenReturn(jobResp);
-        doReturn(jobStatus).when(spy).getTranscriptResult("someId");
+        doReturn(jobStatus).when(spy).getTranscriptResult(fakeId);
 
         var result = spy.handleRequest(requestEvent, context);
 

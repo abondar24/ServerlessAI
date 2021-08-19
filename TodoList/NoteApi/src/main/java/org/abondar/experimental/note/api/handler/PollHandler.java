@@ -1,6 +1,7 @@
 package org.abondar.experimental.note.api.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
@@ -17,10 +18,11 @@ import static org.abondar.experimental.note.api.util.Errors.MSG_FORMAT;
 public class PollHandler extends NoteHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
+    private static  LambdaLogger logger;
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
-        var logger = context.getLogger();
+        logger = context.getLogger();
 
         var id = getId(input);
         logger.log(String.format("Polling job with id %s", id));
@@ -38,7 +40,7 @@ public class PollHandler extends NoteHandler
                     return buildResponse(501, ex.getMessage());
                 }
             } else {
-                logger.log(String.format("Job with id %s not found", id+".json"));
+                logger.log(String.format("Job with id %s not found", id));
                 return buildResponse(404, String.format(MSG_FORMAT, JOB_NOT_FOUND));
             }
         }
@@ -53,9 +55,10 @@ public class PollHandler extends NoteHandler
                 .build();
     }
 
-    public String getTranscriptResult(String transcriptUri) throws IOException {
+    public String getTranscriptResult(String id) throws IOException {
         var s3 = buildS3Client();
-        var objectRequest = buildObjectRequest(transcriptUri);
+        logger.log(id+".json");
+        var objectRequest = buildObjectRequest(id+".json");
         var resp = s3.getObject(objectRequest).readAllBytes();
         return new String(resp);
     }
@@ -66,9 +69,9 @@ public class PollHandler extends NoteHandler
                 .build();
     }
 
-    private GetObjectRequest buildObjectRequest(String transcriptUri) {
+    private GetObjectRequest buildObjectRequest(String id) {
         return GetObjectRequest.builder()
-                .key(transcriptUri)
+                .key(id)
                 .bucket(BUCKET)
                 .build();
     }
