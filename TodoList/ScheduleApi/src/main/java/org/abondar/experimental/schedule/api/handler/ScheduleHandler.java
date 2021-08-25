@@ -5,15 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
-public class ScheduleHandler {
-    private static final Map<String, String> HEADERS = Map.of("Access-Control-Allow-Headers", "Content-Type",
-            "Access-Control-Allow-Origin", "*",
-            "Access-Control-Allow-Methods", "OPTIONS,POST,PUT,GET,DELETE",
-            "Access-Control-Allow-Credentials", "true",
-            "Content-Type", "application/json"
-    );
+import static org.abondar.experimental.schedule.util.Constants.HEADERS;
 
-    protected static final String BUCKET = "td-str";
+public class ScheduleHandler {
 
     protected ObjectMapper mapper;
 
