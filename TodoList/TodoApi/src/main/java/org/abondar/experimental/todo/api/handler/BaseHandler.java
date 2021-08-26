@@ -21,9 +21,6 @@ public class BaseHandler {
         this.service = new DynamoServiceImpl();
     }
 
-    public BaseHandler(DynamoService service) {
-        this.service = service;
-    }
 
     protected APIGatewayProxyResponseEvent buildResponse(int code, String body) {
         var resp = new APIGatewayProxyResponseEvent();

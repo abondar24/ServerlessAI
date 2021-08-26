@@ -12,16 +12,6 @@ import java.io.IOException;
 public class PollHandler extends ScheduleHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private final PollyService pollyService;
-
-    public PollHandler(){
-        this.pollyService = new PollyServiceImpl();
-    }
-
-    public PollHandler(PollyService pollyService) {
-        this.pollyService = pollyService;
-    }
-
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var id = getId(input);

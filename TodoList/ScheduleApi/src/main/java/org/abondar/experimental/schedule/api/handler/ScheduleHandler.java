@@ -3,6 +3,8 @@ package org.abondar.experimental.schedule.api.handler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.schedule.api.data.TaskResult;
+import org.abondar.experimental.schedule.service.PollyService;
+import org.abondar.experimental.schedule.service.impl.PollyServiceImpl;
 
 import java.io.IOException;
 import java.util.Map;
@@ -11,6 +13,11 @@ import static org.abondar.experimental.schedule.util.Constants.HEADERS;
 
 public class ScheduleHandler {
 
+    protected  PollyService pollyService;
+
+    public ScheduleHandler() {
+        this.pollyService = new PollyServiceImpl();
+    }
 
     protected APIGatewayProxyResponseEvent buildResponse(TaskResult body) throws IOException {
         var resp = new APIGatewayProxyResponseEvent();

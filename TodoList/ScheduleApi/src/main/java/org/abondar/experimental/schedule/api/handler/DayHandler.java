@@ -19,16 +19,9 @@ public class DayHandler extends ScheduleHandler
 
     private final DynamoService dynamoService;
 
-    private final PollyService pollyService;
-
     public DayHandler(){
+        super();
         this.dynamoService = new DynamoServiceImpl();
-        this.pollyService = new PollyServiceImpl();
-    }
-
-    public DayHandler(DynamoService dynamoService, PollyService pollyService) {
-        this.dynamoService = dynamoService;
-        this.pollyService = pollyService;
     }
 
     @Override
