@@ -16,13 +16,10 @@ import software.amazon.awssdk.services.transcribe.model.StartTranscriptionJobRes
 import software.amazon.awssdk.services.transcribe.model.TranscriptionJob;
 
 import java.util.Map;
-import java.util.logging.Handler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
