@@ -12,5 +12,5 @@ public class TaskResult {
     private String taskId;
     private String taskStatus;
     private String taskUri;
-    private String signedUri;
+    private String signedUrl;
 }
