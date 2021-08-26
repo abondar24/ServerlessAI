@@ -64,10 +64,7 @@ public class PollyServiceImpl implements PollyService {
     }
 
     private TaskResult buildTaskResult(SynthesisTask task, boolean urlRequired) {
-        var res = new TaskResult();
-        res.setTaskId(task.taskId());
-        res.setTaskStatus(task.taskStatusAsString());
-        res.setTaskUri(task.outputUri());
+        var res = new TaskResult(task.taskId(),task.taskStatusAsString(),task.outputUri());
 
         if (urlRequired){
             res.setSignedUrl(getSignetUrl(task.taskId()));

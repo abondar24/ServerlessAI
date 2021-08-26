@@ -18,6 +18,10 @@ public class PollHandler extends ScheduleHandler
         this.pollyService = new PollyServiceImpl();
     }
 
+    public PollHandler(PollyService pollyService) {
+        this.pollyService = pollyService;
+    }
+
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var id = getId(input);

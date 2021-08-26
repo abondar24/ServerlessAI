@@ -26,7 +26,10 @@ public class DayHandler extends ScheduleHandler
         this.pollyService = new PollyServiceImpl();
     }
 
-
+    public DayHandler(DynamoService dynamoService, PollyService pollyService) {
+        this.dynamoService = dynamoService;
+        this.pollyService = pollyService;
+    }
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
