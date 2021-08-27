@@ -2,9 +2,9 @@
 
 import $ from 'jquery'
 import 'webpack-jquery-ui/datepicker'
-import {addTpl, editTpl, errTpl, navBarTpl, todoListTpl} from './templates'
+import {addTpl, editTpl, errTpl, navBarTpl, todoListTpl,navbarScheduleTpl} from './templates'
 
-const view = {renderList, renderAddButton, renderEditArea, renderError, renderLink, renderNote}
+const view = {renderList, renderAddButton, renderEditArea, renderError, renderLink, renderNote, renderScheduleButton}
 export {view}
 
 function renderList(body) {
@@ -42,4 +42,8 @@ function renderLink(isAuth) {
 
 function renderNote(text) {
     $('#todo-note').text(text)
+}
+
+function renderScheduleButton(){
+    $('#navbar-list').append(navbarScheduleTpl())
 }
