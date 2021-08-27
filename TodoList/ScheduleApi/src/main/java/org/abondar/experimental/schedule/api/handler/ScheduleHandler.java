@@ -7,7 +7,7 @@ import org.abondar.experimental.schedule.service.PollyService;
 import org.abondar.experimental.schedule.service.impl.PollyServiceImpl;
 
 import java.io.IOException;
-import java.util.Map;
+
 
 import static org.abondar.experimental.schedule.util.Constants.HEADERS;
 

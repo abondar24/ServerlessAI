@@ -4,12 +4,17 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedList;
 import org.abondar.experimental.schedule.api.data.TodoItem;
 import org.abondar.experimental.schedule.service.DynamoService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DynamoServiceTestImpl implements DynamoService {
 
     private final List<TodoItem> scan;
+
+    public DynamoServiceTestImpl(){
+        scan = new ArrayList<>();
+    }
 
     public DynamoServiceTestImpl(List<TodoItem> scan) {
         this.scan = scan;

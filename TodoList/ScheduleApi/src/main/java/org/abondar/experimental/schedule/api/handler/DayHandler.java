@@ -27,7 +27,7 @@ public class DayHandler extends ScheduleHandler
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var date = getDate("yyyy-mm-dd hh:mm:ss");
-        var speakDate = getDate("dddd, MMMM Do YYYY");
+        var speakDate = getDate("dddd, MMMM D YYYY");
 
         var scheduleSpeech = dynamoService.buildSchedule(date,speakDate);
         var taskResult = pollyService.startTask(scheduleSpeech);
