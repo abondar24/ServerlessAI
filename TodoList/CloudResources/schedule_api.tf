@@ -61,7 +61,7 @@ resource "aws_api_gateway_integration" "scheduleDay" {
   rest_api_id = aws_api_gateway_rest_api.schedule.id
   resource_id = aws_api_gateway_resource.day.id
   http_method = aws_api_gateway_method.schedulePutMethod.http_method
-  integration_http_method = var.put_method
+  integration_http_method = var.post_method
   type = var.integration_type
   uri = aws_lambda_function.schedule_day_func.invoke_arn
 }
@@ -70,7 +70,7 @@ resource "aws_api_gateway_integration" "schedulePoll" {
   rest_api_id = aws_api_gateway_rest_api.schedule.id
   resource_id = aws_api_gateway_resource.schedulePoll.id
   http_method = aws_api_gateway_method.scheduleGetMethod.http_method
-  integration_http_method = var.get_method
+  integration_http_method = var.post_method
   type = var.integration_type
   uri = aws_lambda_function.schedule_poll_func.invoke_arn
 }
