@@ -13,7 +13,7 @@ resource "aws_api_gateway_resource" "note" {
 resource "aws_api_gateway_resource" "notePoll" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   parent_id = aws_api_gateway_resource.note.id
-  path_part = "{id}"
+  path_part = var.id_path
 }
 
 resource "aws_api_gateway_method" "notePostMethod" {
@@ -21,7 +21,7 @@ resource "aws_api_gateway_method" "notePostMethod" {
   resource_id = aws_api_gateway_resource.note.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.transAuth.id
-  http_method = "POST"
+  http_method = var.post_method
 }
 
 resource "aws_api_gateway_method" "noteGetMethod" {
@@ -29,15 +29,15 @@ resource "aws_api_gateway_method" "noteGetMethod" {
   resource_id = aws_api_gateway_resource.notePoll.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.pollAuth.id
-  http_method = "GET"
+  http_method = var.get_method
 }
 
 resource "aws_api_gateway_integration" "noteTranscribe" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   resource_id = aws_api_gateway_resource.note.id
   http_method = aws_api_gateway_method.notePostMethod.http_method
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
   uri = aws_lambda_function.transcribe_func.invoke_arn
 }
 
@@ -46,8 +46,8 @@ resource "aws_api_gateway_integration" "notePoll" {
   resource_id = aws_api_gateway_resource.notePoll.id
   http_method = aws_api_gateway_method.noteGetMethod.http_method
 
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
 
   uri = aws_lambda_function.poll_func.invoke_arn
 }
@@ -71,17 +71,17 @@ resource "aws_api_gateway_deployment" "note" {
 resource "aws_api_gateway_stage" "note" {
   deployment_id = aws_api_gateway_deployment.note.id
   rest_api_id = aws_api_gateway_rest_api.note.id
-  stage_name = "test"
+  stage_name = var.stage_test
 }
 
 resource "aws_api_gateway_method_settings" "noteSettings" {
   rest_api_id = aws_api_gateway_rest_api.note.id
   stage_name = aws_api_gateway_stage.note.stage_name
-  method_path = "*/*"
+  method_path = var.method_path
 
   settings {
     metrics_enabled = true
-    logging_level = "INFO"
+    logging_level = var.log_info
   }
 }
 

@@ -31,7 +31,17 @@ resource "aws_cloudwatch_log_group" "noteTranscribe" {
 
 
 resource "aws_cloudwatch_log_group" "notePoll" {
-  name = "/aws/lambda/${var.lambda_poll}"
+  name = "/aws/lambda/${var.lambda_note_poll}"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "scheduleDay" {
+  name = "/aws/lambda/${var.lambda_schedule_day}"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "schedulePoll" {
+  name = "/aws/lambda/${var.lambda_schedule_poll}"
   retention_in_days = 14
 }
 
@@ -39,11 +49,14 @@ resource "aws_cloudwatch_log_group" "notePoll" {
 resource "aws_cloudwatch_log_group" "api_gateway" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.todolist.id}/test"
   retention_in_days = 14
-
 }
 
 resource "aws_cloudwatch_log_group" "api_gateway_note" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.note.id}/test"
   retention_in_days = 14
+}
 
+resource "aws_cloudwatch_log_group" "api_gateway_schedule" {
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.schedule.id}/test"
+  retention_in_days = 14
 }

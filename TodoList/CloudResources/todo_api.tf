@@ -13,7 +13,7 @@ resource "aws_api_gateway_resource" "todoList" {
 resource "aws_api_gateway_resource" "todoReadId" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   parent_id = aws_api_gateway_resource.todoList.id
-  path_part = "{id}"
+  path_part = var.id_path
 }
 
 
@@ -22,7 +22,7 @@ resource "aws_api_gateway_method" "postMethod" {
   resource_id = aws_api_gateway_resource.todoList.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.createAuth.id
-  http_method = "POST"
+  http_method = var.post_method
 }
 
 resource "aws_api_gateway_method" "putMethod" {
@@ -30,7 +30,7 @@ resource "aws_api_gateway_method" "putMethod" {
   resource_id = aws_api_gateway_resource.todoList.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.updateAuth.id
-  http_method = "PUT"
+  http_method = var.put_method
 }
 
 resource "aws_api_gateway_method" "getMethod" {
@@ -38,7 +38,7 @@ resource "aws_api_gateway_method" "getMethod" {
   resource_id = aws_api_gateway_resource.todoList.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.listAuth.id
-  http_method = "GET"
+  http_method = var.get_method
 }
 
 resource "aws_api_gateway_method" "getIdMethod" {
@@ -46,7 +46,7 @@ resource "aws_api_gateway_method" "getIdMethod" {
   resource_id = aws_api_gateway_resource.todoReadId.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.readAuth.id
-  http_method = "GET"
+  http_method = var.get_method
 }
 
 resource "aws_api_gateway_method" "deleteMethod" {
@@ -54,7 +54,7 @@ resource "aws_api_gateway_method" "deleteMethod" {
   resource_id = aws_api_gateway_resource.todoReadId.id
   authorization = var.auth_type
   authorizer_id = aws_api_gateway_authorizer.delAuth.id
-  http_method = "DELETE"
+  http_method = var.delete_method
 }
 
 resource "aws_api_gateway_integration" "todoCreate" {
@@ -62,8 +62,8 @@ resource "aws_api_gateway_integration" "todoCreate" {
   resource_id = aws_api_gateway_resource.todoList.id
   http_method = aws_api_gateway_method.postMethod.http_method
 
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
   uri = aws_lambda_function.create_func.invoke_arn
 }
 
@@ -72,8 +72,8 @@ resource "aws_api_gateway_integration" "todoUpdate" {
   resource_id = aws_api_gateway_resource.todoList.id
   http_method = aws_api_gateway_method.putMethod.http_method
 
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
   uri = aws_lambda_function.update_func.invoke_arn
 }
 
@@ -82,8 +82,8 @@ resource "aws_api_gateway_integration" "todoRead" {
   resource_id = aws_api_gateway_resource.todoReadId.id
   http_method = aws_api_gateway_method.getIdMethod.http_method
 
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
 
   uri = aws_lambda_function.read_func.invoke_arn
 }
@@ -93,8 +93,8 @@ resource "aws_api_gateway_integration" "todoList" {
   resource_id = aws_api_gateway_resource.todoList.id
   http_method = aws_api_gateway_method.getMethod.http_method
 
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
   uri = aws_lambda_function.list_func.invoke_arn
 }
 
@@ -103,8 +103,8 @@ resource "aws_api_gateway_integration" "todoDelete" {
   resource_id = aws_api_gateway_resource.todoReadId.id
   http_method = aws_api_gateway_method.deleteMethod.http_method
 
-  integration_http_method = "POST"
-  type = "AWS_PROXY"
+  integration_http_method = var.post_method
+  type = var.integration_type
   uri = aws_lambda_function.delete_func.invoke_arn
 }
 
@@ -130,17 +130,17 @@ resource "aws_api_gateway_deployment" "todoList" {
 resource "aws_api_gateway_stage" "todoList" {
   deployment_id = aws_api_gateway_deployment.todoList.id
   rest_api_id = aws_api_gateway_rest_api.todolist.id
-  stage_name = "test"
+  stage_name = var.stage_test
 }
 
 resource "aws_api_gateway_method_settings" "todoSettings" {
   rest_api_id = aws_api_gateway_rest_api.todolist.id
   stage_name = aws_api_gateway_stage.todoList.stage_name
-  method_path = "*/*"
+  method_path = var.method_path
 
   settings {
     metrics_enabled = true
-    logging_level = "INFO"
+    logging_level = var.log_info
   }
 }
 

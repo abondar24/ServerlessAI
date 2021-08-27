@@ -53,3 +53,19 @@ resource "aws_lambda_permission" "notePollPermission" {
   source_arn = "arn:aws:execute-api:${var.region}:${var.acc_id}:${aws_api_gateway_rest_api.note.id}/*/${aws_api_gateway_method.noteGetMethod.http_method}${aws_api_gateway_resource.notePoll.path}"
 }
 
+resource "aws_lambda_permission" "scheduleDayPermission" {
+  action = "lambda:InvokeFunction"
+  statement_id = "AllowExecutionFromAPIGateway"
+  principal = "apigateway.amazonaws.com"
+  function_name = aws_lambda_function.schedule_day_func.function_name
+  source_arn = "arn:aws:execute-api:${var.region}:${var.acc_id}:${aws_api_gateway_rest_api.schedule.id}/*/${aws_api_gateway_method.schedulePutMethod.http_method}${aws_api_gateway_resource.day.path}"
+}
+
+resource "aws_lambda_permission" "schedulePollPermission" {
+  action = "lambda:InvokeFunction"
+  statement_id = "AllowExecutionFromAPIGateway"
+  principal = "apigateway.amazonaws.com"
+  function_name = aws_lambda_function.schedule_poll_func.function_name
+  source_arn = "arn:aws:execute-api:${var.region}:${var.acc_id}:${aws_api_gateway_rest_api.schedule.id}/*/${aws_api_gateway_method.scheduleGetMethod.http_method}${aws_api_gateway_resource.schedulePoll.path}"
+}
+

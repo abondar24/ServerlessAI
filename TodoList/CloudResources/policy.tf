@@ -287,3 +287,29 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_note" {
   policy_arn = aws_iam_policy.lambda_s3_note.arn
 }
 
+resource "aws_iam_policy" "lambda_polly" {
+  name = "lambda_polly"
+  path = "/"
+  description = "IAM policy for accessing polly from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "polly:*"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+
+resource "aws_iam_role_policy_attachment" "lambda_polly" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_polly.arn
+}

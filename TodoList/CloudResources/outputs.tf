@@ -7,6 +7,10 @@ output "note_deployment_invoke_url" {
   value = aws_api_gateway_stage.note.invoke_url
 }
 
+output "schedule_deployment_invoke_url" {
+  value = aws_api_gateway_stage.schedule.invoke_url
+}
+
 
 output "frontend_bucket_id" {
   description = "Frontend Bucket Id"
