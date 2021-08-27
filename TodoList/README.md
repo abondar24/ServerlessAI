@@ -1,6 +1,6 @@
 # Todo List
 
-Serverless todo list application with chat bot,text to speech, speech to text support
+Serverless todo list application with text to speech and speech to text support
 
 The app constists of serveral lambda-based services and frontend web application.
 
