@@ -6,6 +6,7 @@ import 'webpack-jquery-ui/css'
 import {todo} from './todo'
 import {note} from "./note"
 import {auth} from './auth'
+import {schedule} from './schedule'
 import {Amplify} from "aws-amplify"
 
 const oauth = {
@@ -38,6 +39,7 @@ $(function () {
         if (user) {
             todo.activate(auth)
             note.activate(auth)
+            schedule.activate(auth)
         }
     })
 
