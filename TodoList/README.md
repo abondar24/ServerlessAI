@@ -1,23 +1,26 @@
 # Todo List
 
-Serverless todo list application with chat bot and text to speech support
+Serverless todo list application with chat bot,text to speech, speech to text support
 
 The app constists of serveral lambda-based services and frontend web application.
 
-Check frontend documentation [here](Frontend/README.MD) 
+Check frontend documentation [here](Frontend/README.md) 
 ## Lambda Services
 
 1. TodoApi - set of lambda functions for basic CRUD operations working with data in dynamo db.
-   - POST /todo
-   - PUT /todo
-   - GET /todo  
-   - GET /todo/id
-   - DELETE /todo/id 
+   - POST /todo - create a new item
+   - PUT /todo - update item
+   - GET /todo  - list all items
+   - GET /todo/id - get item
+   - DELETE /todo/id - delete item
    
-2. NoteApi - set of lambda function working with trascribe service
-  - POST /note
-  - GET /note/id
+2. NoteApi - set of lambda functions working with trascribe service
+  - POST /note - init transcribe job
+  - GET /note/id - get transcribe result
 
+3. Schedule API - ser of lambda functions working with polly service
+  - PUT /schedule/day - init polly job
+  - GET /schedule/day/id - get polly job result
 
 ## Build and deploy lambda
 
