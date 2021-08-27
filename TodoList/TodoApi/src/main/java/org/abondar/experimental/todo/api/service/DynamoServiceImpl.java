@@ -34,18 +34,12 @@ public class DynamoServiceImpl implements DynamoService {
         var id = UUID.randomUUID().toString();
         item.setId(id);
 
-        var dueDate = createDate();
-        item.setDueDate(dueDate);
+        item.setDueDate(item.getDueDate());
 
         dynamoDBMapper.save(item);
         return item;
     }
 
-    private String createDate() {
-        var date = Calendar.getInstance().getTime();
-        var format = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        return format.format(date);
-    }
 
 
     @Override

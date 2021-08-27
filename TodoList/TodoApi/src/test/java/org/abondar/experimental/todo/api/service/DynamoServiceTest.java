@@ -63,6 +63,7 @@ public class DynamoServiceTest {
     @Test
     public void createTest() {
         var item = new TodoItem(false, "note");
+        item.setDueDate("08/27/2021");
 
         var res = service.createItem(item);
         assertNotNull(res.getId());
