@@ -1,0 +1,43 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+group 'org.abondar.experimental.identity'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+allprojects{
+    apply plugin: 'idea'
+
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+subprojects{
+    apply plugin: 'java'
+    apply plugin: "io.freefair.lombok"
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+
+        testImplementation 'org.mockito:mockito-junit-jupiter:2.23.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+}

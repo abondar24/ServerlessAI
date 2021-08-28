@@ -1,0 +1,26 @@
+
+group 'org.abondar.experimental.identity.analysys'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation platform('software.amazon.awssdk:bom:2.16.91')
+
+    implementation 'software.amazon.awssdk:aws-core'
+    implementation 'software.amazon.awssdk:sdk-core'
+    implementation 'software.amazon.awssdk:lambda'
+    implementation 'software.amazon.awssdk:s3'
+
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+build.dependsOn buildZip
