@@ -1,4 +1,4 @@
-package org.abondar.experimental.analysis.handler;
+package org.abondar.experimental.identity.analysis.handler;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;

@@ -1,4 +1,4 @@
-package org.abondar.experimental.analysis.handler;
+package org.abondar.experimental.identity.analysis.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -10,8 +10,8 @@ import com.amazonaws.services.textract.model.AnalyzeDocumentRequest;
 import com.amazonaws.services.textract.model.Block;
 import com.amazonaws.services.textract.model.Document;
 import com.amazonaws.services.textract.model.S3Object;
-import org.abondar.experimental.analysis.data.AnalyseResponse;
-import org.abondar.experimental.analysis.data.BlockFields;
+import org.abondar.experimental.identity.analysis.data.AnalyseResponse;
+import org.abondar.experimental.identity.analysis.data.BlockFields;
 
 import java.util.List;
 

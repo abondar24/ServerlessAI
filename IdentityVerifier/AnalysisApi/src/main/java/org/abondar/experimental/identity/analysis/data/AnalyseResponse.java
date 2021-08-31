@@ -1,4 +1,4 @@
-package org.abondar.experimental.analysis.data;
+package org.abondar.experimental.identity.analysis.data;
 
 import lombok.Builder;
 import lombok.Getter;

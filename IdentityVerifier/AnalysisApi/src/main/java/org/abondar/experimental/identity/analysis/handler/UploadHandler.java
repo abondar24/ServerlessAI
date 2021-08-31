@@ -1,10 +1,10 @@
-package org.abondar.experimental.analysis.handler;
+package org.abondar.experimental.identity.analysis.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import org.abondar.experimental.analysis.data.UploadResponse;
+import org.abondar.experimental.identity.analysis.data.UploadResponse;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
