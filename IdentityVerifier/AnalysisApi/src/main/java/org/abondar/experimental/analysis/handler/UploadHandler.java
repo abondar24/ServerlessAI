@@ -33,7 +33,7 @@ public class UploadHandler extends IdentityAnalysisHandler
         var body = RequestBody.fromBytes(file);
         s3.putObject(buildObjectRequest(key), body);
 
-        var uploadResponse = new UploadResponse(key);
+        var uploadResponse = new UploadResponse(uuid);
 
         return buildResponse(uploadResponse);
     }

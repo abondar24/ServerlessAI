@@ -31,8 +31,14 @@ public class AnalyseHandler extends IdentityAnalysisHandler
         var req = buildAnalyzeRequest(key);
         var res = txt.analyzeDocument(req);
 
-        var ar = buildAnalyseResponse(res.getBlocks());
-        return buildResponse(ar);
+        if (res!=null){
+            var ar = buildAnalyseResponse(res.getBlocks());
+            return buildResponse(ar);
+        } else {
+            return buildResponse("analysis failed");
+        }
+
+
     }
 
     private AnalyseResponse buildAnalyseResponse(List<Block> blocks) {
