@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "anl" {
 resource "aws_api_gateway_resource" "anl" {
   rest_api_id = aws_api_gateway_rest_api.anl.id
   parent_id = aws_api_gateway_rest_api.anl.root_resource_id
-  path_part = "note"
+  path_part = "analysis"
 
 }
 
