@@ -1,2 +1,6 @@
 group 'org.abondar.experimental.identity.client'
 version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':Data')
+}

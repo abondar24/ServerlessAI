@@ -10,8 +10,7 @@ import com.amazonaws.services.textract.model.AnalyzeDocumentRequest;
 import com.amazonaws.services.textract.model.Block;
 import com.amazonaws.services.textract.model.Document;
 import com.amazonaws.services.textract.model.S3Object;
-import org.abondar.experimental.identity.analysis.data.AnalyseResponse;
-import org.abondar.experimental.identity.analysis.data.BlockFields;
+import org.abondar.experimental.identity.data.AnalyseResponse;
 
 import java.util.List;
 

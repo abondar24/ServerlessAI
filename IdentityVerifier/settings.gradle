@@ -1,4 +1,5 @@
 rootProject.name = 'IdentityVerifier'
 include 'AnalysisApi'
 include 'Client'
+include 'Data'
 

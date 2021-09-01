@@ -1,4 +1,4 @@
-package org.abondar.experimental.identity.analysis.data;
+package org.abondar.experimental.identity.analysis.handler;
 
 public enum BlockFields {
     Nationality("Nationality"),
