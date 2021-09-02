@@ -33,9 +33,16 @@ public class IdentityClient {
 
         var resp = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-        var res = mapper.readValue(resp.body(), UploadResponse.class);
-        return res.getKey();
+        var body = resp.body();
+        try {
+            var res = mapper.readValue(body, UploadResponse.class);
+            return res.getKey();
+        } catch (IOException ex){
+            System.err.println(body);
+            System.exit(2);
+        }
 
+        return null;
     }
 
     public String analyseResults(String id) throws IOException, InterruptedException {

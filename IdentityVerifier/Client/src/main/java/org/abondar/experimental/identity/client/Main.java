@@ -18,12 +18,14 @@ public class Main {
         var client = new IdentityClient(url);
         try {
             var id = client.uploadImage(args[0]);
-            var result = client.analyseResults(id);
+            if (id!=null){
+                var result = client.analyseResults(id);
+                System.out.println(result);
+                saveResult(result);
+            }
 
-            System.out.println(result);
-            saveResult(result);
 
-        } catch (IOException| InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             System.err.println(ex.getMessage());
             System.exit(2);
         }
