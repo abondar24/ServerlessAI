@@ -10,7 +10,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.time.Instant;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class UploadHandler extends IdentityAnalysisHandler
@@ -25,24 +25,30 @@ public class UploadHandler extends IdentityAnalysisHandler
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         var logger = context.getLogger();
 
-        var file = input.getBody().getBytes();
         var uuid = UUID.randomUUID().toString();
         var key = getObjectKey(uuid);
 
         logger.log(String.format("Generating image url for %s", key));
-        var body = RequestBody.fromBytes(file);
-        s3.putObject(buildObjectRequest(key), body);
+        var body = RequestBody.fromBytes(input.getBody().getBytes(StandardCharsets.UTF_8));
+        var resp =s3.putObject(buildObjectRequest(key), body);
 
-        var uploadResponse = new UploadResponse(uuid);
+        if (resp!=null){
+            if (resp.sdkHttpResponse().isSuccessful()){
+                var uploadResponse = new UploadResponse(uuid);
+                return buildResponse(uploadResponse);
+            } else {
+                return buildResponse(resp.sdkHttpResponse());
+            }
+        }
 
-        return buildResponse(uploadResponse);
+        return buildResponse("Error running lambda");
+
     }
 
 
     private PutObjectRequest buildObjectRequest(String key) {
         return PutObjectRequest.builder()
                 .key(key)
-                .expires(Instant.MAX)
                 .bucket(BUCKET)
                 .build();
     }

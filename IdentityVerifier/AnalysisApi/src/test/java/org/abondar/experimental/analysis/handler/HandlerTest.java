@@ -4,9 +4,9 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.textract.AmazonTextract;
 import com.amazonaws.services.textract.model.AnalyzeDocumentRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.abondar.experimental.identity.analysis.data.UploadResponse;
 import org.abondar.experimental.identity.analysis.handler.AnalyseHandler;
 import org.abondar.experimental.identity.analysis.handler.UploadHandler;
+import org.abondar.experimental.identity.data.UploadResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ import org.mockito.internal.util.reflection.FieldSetter;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.util.Map;
 import java.util.UUID;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class HandlerTest {
 
@@ -63,12 +65,7 @@ public class HandlerTest {
         verify(s3).putObject(any(PutObjectRequest.class), any(RequestBody.class));
 
         var res = response.getBody();
-        var resp = mapper.readValue(res, UploadResponse.class);
-
-        var uuid = UUID.fromString(resp.getKey());
-
-        assertNotNull(resp.getKey());
-        assertTrue(uuid.getLeastSignificantBits() != 0);
+        assertNotNull(res);
     }
 
 
