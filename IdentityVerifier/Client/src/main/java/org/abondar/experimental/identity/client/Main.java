@@ -23,7 +23,7 @@ public class Main {
             System.out.println(result);
             saveResult(result);
 
-        } catch (IOException ex) {
+        } catch (IOException| InterruptedException ex) {
             System.err.println(ex.getMessage());
             System.exit(2);
         }
