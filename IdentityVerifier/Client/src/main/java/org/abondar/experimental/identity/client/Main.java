@@ -4,6 +4,7 @@ package org.abondar.experimental.identity.client;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Date;
 
 public class Main {
 
@@ -33,7 +34,9 @@ public class Main {
     }
 
     private static void saveResult(String result) throws IOException {
-        var file = new File("result.json");
+        var timeStamp = new Date().getTime();
+        var filename = String.format("result_%d.json",timeStamp);
+        var file = new File(filename);
 
         Files.writeString(file.toPath(), result);
     }
