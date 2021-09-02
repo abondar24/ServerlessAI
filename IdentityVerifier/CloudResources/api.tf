@@ -1,6 +1,7 @@
 resource "aws_api_gateway_rest_api" "anl" {
   name = "anl"
   description = "Id Analyser"
+  binary_media_types = ["application/octet", "image/jpeg"]
 }
 
 resource "aws_api_gateway_resource" "anl" {

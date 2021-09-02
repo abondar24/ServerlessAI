@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.identity.analysis.handler.AnalyseHandler;
 import org.abondar.experimental.identity.analysis.handler.UploadHandler;
 import org.abondar.experimental.identity.data.UploadResponse;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.UUID;
 
@@ -54,7 +56,7 @@ public class HandlerTest {
 
         var is = HandlerTest.class.getResourceAsStream("/passport.jpg");
         var body = is.readAllBytes();
-        requestEvent.setBody(new String(body));
+        requestEvent.setBody(new String(Base64.encodeBase64(body), StandardCharsets.UTF_8));
 
         var handler = new UploadHandler();
         FieldSetter.setField(handler, handler.getClass()
