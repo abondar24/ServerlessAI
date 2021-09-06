@@ -16,5 +16,11 @@ public class Constants {
 
     public static final String BUCKET = "td-str";
 
+    public static final String AWS_NOT_AVAILABLE = "AWS infrastructure not available";
+
+    public static final String TABLE_NOT_FOUND = "Requested table not found";
+
+    public static final String MSG_FORMAT = "{\"Error\": \"%s\"}";
+
     private Constants(){}
 }

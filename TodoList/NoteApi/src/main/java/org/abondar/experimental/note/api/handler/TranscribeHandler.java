@@ -8,6 +8,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 
 import org.abondar.experimental.note.api.data.NoteParams;
 import org.abondar.experimental.note.api.data.NoteSettings;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.services.transcribe.model.Media;
 import software.amazon.awssdk.services.transcribe.model.Settings;
 import software.amazon.awssdk.services.transcribe.model.StartTranscriptionJobRequest;
@@ -15,6 +16,7 @@ import software.amazon.awssdk.services.transcribe.model.StartTranscriptionJobReq
 
 import java.io.IOException;
 
+import static org.abondar.experimental.note.api.util.Errors.AWS_NOT_AVAILABLE;
 import static org.abondar.experimental.note.api.util.Errors.MALFORMED_BODY_ERROR;
 import static org.abondar.experimental.note.api.util.Errors.MSG_FORMAT;
 
@@ -36,6 +38,9 @@ public class TranscribeHandler extends NoteHandler
         } catch (IOException ex) {
             logger.log(ex.getMessage());
             return buildResponse(500, String.format(MSG_FORMAT, MALFORMED_BODY_ERROR));
+        } catch (AwsServiceException ex) {
+            logger.log(ex.getMessage());
+            return buildResponse(502, String.format(MSG_FORMAT,AWS_NOT_AVAILABLE));
         }
     }
 
