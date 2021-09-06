@@ -12,7 +12,7 @@ The app consists of several lambda-based services.
 ## Non-Lambda Service
 1. Recognition Service - calls aws to start analysis and to get results.
 
-## Build and deploy lambda
+## Build and deploy cloud resources
 
 ```
 cd <lambda-folder>
@@ -23,6 +23,14 @@ cd ../cloud-resources
 terraform init (only first time )
 
 terraform apply
+```
+
+## Destroy cloud resources
+```
+
+cd ../cloud-resources
+
+terraform destroy
 ```
 
 ## Build and run api
