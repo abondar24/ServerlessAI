@@ -4,20 +4,39 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.amazonaws.services.textract.AmazonTextract;
-import com.amazonaws.services.textract.AmazonTextractClient;
-import com.amazonaws.services.textract.model.AnalyzeDocumentRequest;
-import com.amazonaws.services.textract.model.Block;
-import com.amazonaws.services.textract.model.Document;
-import com.amazonaws.services.textract.model.S3Object;
-import org.abondar.experimental.identity.data.AnalyseResponse;
 
+import lombok.val;
+import org.abondar.experimental.identity.data.AnalyseResponse;
+import software.amazon.awssdk.regions.Region;
+
+import software.amazon.awssdk.services.textract.TextractClient;
+import software.amazon.awssdk.services.textract.model.AnalyzeDocumentRequest;
+import software.amazon.awssdk.services.textract.model.Block;
+import software.amazon.awssdk.services.textract.model.BlockType;
+import software.amazon.awssdk.services.textract.model.Document;
+import software.amazon.awssdk.services.textract.model.FeatureType;
+import software.amazon.awssdk.services.textract.model.S3Object;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.DateOfBirth;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.DateOfExpiration;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.DateOfIssue;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.GivenNames;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.Nationality;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.PassportNum;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.PlaceOfBirth;
+import static org.abondar.experimental.identity.analysis.handler.BlockFields.Surname;
 
 public class AnalyseHandler extends IdentityAnalysisHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private final AmazonTextract txt = AmazonTextractClient.builder()
+    private final TextractClient txt = TextractClient.builder()
+            .region(Region.EU_WEST_1)
             .build();
 
     @Override
@@ -29,9 +48,8 @@ public class AnalyseHandler extends IdentityAnalysisHandler
 
         var req = buildAnalyzeRequest(key);
         var res = txt.analyzeDocument(req);
-
         if (res!=null){
-            var ar = buildAnalyseResponse(res.getBlocks());
+            var ar = buildAnalyseResponse(res.blocks());
             return buildResponse(ar);
         } else {
             return buildResponse("analysis failed");
@@ -39,65 +57,98 @@ public class AnalyseHandler extends IdentityAnalysisHandler
 
 
     }
-
     private AnalyseResponse buildAnalyseResponse(List<Block> blocks) {
         var resp = AnalyseResponse.builder();
 
-        blocks
+        var filtered = blocks
                 .stream()
-                .filter(b -> b.getBlockType().equals("LINE") && b.getConfidence() > 75.0)
-                .forEach(b -> {
-                    var text = b.getText();
+                .filter(b -> b.blockType()== BlockType.LINE)
+                .collect(Collectors.toList());
 
-                    if (text.matches("^d+$") && text.length()>5){
-                        resp.documentNumber(text);
-                    }
 
-                    if (text.contains(BlockFields.Nationality.getVal())){
-                        resp.nationality(b.getText());
-                    }
+        for (var i=0;i<filtered.size();i++){
+            var block = filtered.get(i);
+            var text = block.text();
+            if (!checkField(text,PassportNum).isEmpty() ){
+                resp.documentNumber(filtered.get(i+1).text());
+            }
 
-                    if (text.contains(BlockFields.DateOfBirth.getVal())){
-                        resp.dateOfBirth(b.getText());
-                    }
+            if (!checkField(text,Nationality).isEmpty()){
+                resp.nationality(filtered.get(i+1).text());
+            }
 
-                    if (text.contains(BlockFields.PlaceOfBirth.getVal())){
-                        resp.placeOfBirth(b.getText());
-                    }
+            if (!checkField(text,DateOfBirth).isEmpty()){
+                resp.dateOfBirth(filtered.get(i+1).text());
+            }
 
-                    if (text.contains(BlockFields.DateOfExpiration.getVal())){
-                        resp.expirationDate(b.getText());
-                    }
+            if (!checkField(text,PlaceOfBirth).isEmpty()){
+                if (filtered.get(i+1).text()==null){
+                    resp.placeOfBirth(filtered.get(i+2).text());
+                } else {
+                    resp.placeOfBirth(filtered.get(i+1).text());
+                }
 
-                    if (text.contains(BlockFields.DateOfIssue.getVal())){
-                        resp.issueDate(b.getText());
-                    }
+            }
 
-                    if (text.contains(BlockFields.GivenNames.getVal())){
-                        resp.givenNames(b.getText());
-                    }
+            if (!checkField(text,DateOfExpiration).isEmpty()){
+                resp.expirationDate(filtered.get(i+1).text());
+            }
 
-                    if (text.contains(BlockFields.Surname.getVal())){
-                        resp.surname(b.getText());
-                    }
-                });
+            if (!checkField(text,DateOfIssue).isEmpty()){
+                if (filtered.get(i+1).text()==null){
+                    resp.placeOfBirth(filtered.get(i+2).text());
+                } else {
+                    resp.placeOfBirth(filtered.get(i+1).text());
+                }
+            }
+
+            if (!checkField(text,GivenNames).isEmpty()){
+                if (filtered.get(i+1).text()==null){
+                    resp.placeOfBirth(filtered.get(i+2).text());
+                } else {
+                    resp.placeOfBirth(filtered.get(i+1).text());
+                }
+            }
+
+            if (!checkField(text,Surname).isEmpty()){
+                if (filtered.get(i+1).text()==null){
+                    resp.placeOfBirth(filtered.get(i+2).text());
+                } else {
+                    resp.placeOfBirth(filtered.get(i+1).text());
+                }
+            }
+        }
 
         return resp.build();
     }
 
+    private String checkField(String text,BlockFields blockField){
+        var pt= Pattern.compile(blockField.getVal(),Pattern.CASE_INSENSITIVE);
+
+        var matcher = pt.matcher(text);
+
+        var match  = "";
+
+        while (matcher.find()){
+          match = matcher.group();
+        }
+
+        return match;
+    }
+
     private AnalyzeDocumentRequest buildAnalyzeRequest(String key) {
-        var req = new AnalyzeDocumentRequest();
+        var s3Object = S3Object.builder()
+                .bucket(BUCKET)
+                .name(key)
+                .build();
 
-        var s3Object = new S3Object();
-        s3Object = s3Object
-                .withName(key)
-                .withBucket(BUCKET);
+        var doc = Document.builder()
+                .s3Object(s3Object)
+                .build();
 
-        var doc = new Document();
-        doc.setS3Object(s3Object);
-
-        req.setDocument(doc);
-        req.setFeatureTypes(List.of("TABLES", "FORMS"));
-        return req;
+       return AnalyzeDocumentRequest.builder()
+                .document(doc)
+                .featureTypes(FeatureType.TABLES,FeatureType.FORMS)
+                .build();
     }
 }

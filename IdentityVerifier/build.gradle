@@ -27,6 +27,7 @@ subprojects{
     dependencies {
         implementation 'com.fasterxml.jackson.core:jackson-core:2.12.3'
         implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+        implementation("commons-codec:commons-codec:1.15")
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 

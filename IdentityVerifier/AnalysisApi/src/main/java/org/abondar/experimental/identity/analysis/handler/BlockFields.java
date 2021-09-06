@@ -1,6 +1,7 @@
 package org.abondar.experimental.identity.analysis.handler;
 
 public enum BlockFields {
+    PassportNum("Passport No."),
     Nationality("Nationality"),
     DateOfBirth("Date.+birth"),
     PlaceOfBirth("Place.+birth"),

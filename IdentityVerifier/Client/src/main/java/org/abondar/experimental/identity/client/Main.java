@@ -18,6 +18,7 @@ public class Main {
         var url = "https://9tn5d8t36g.execute-api.eu-west-1.amazonaws.com/test/analysis";
         var client = new IdentityClient(url);
         try {
+            System.out.println("Uploading image");
             var id = client.uploadImage(args[0]);
             if (id!=null){
                 var result = client.analyseResults(id);
