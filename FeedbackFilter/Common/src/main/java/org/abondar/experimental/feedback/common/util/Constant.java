@@ -11,8 +11,9 @@ public class Constant {
             "Content-Type", "application/json"
     );
 
-    protected static final String BUCKET = "";
+    public static final String BUCKET = "";
 
+    public static final String TRANSLATE_STREAM = "feedback-tr";
 
 
     private Constant(){}

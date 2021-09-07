@@ -8,5 +8,7 @@ public class Error {
 
     public static final String AWS_NOT_AVAILABLE = "AWS infrastructure not available";
 
+    public static final String KINESIS_RESP_FAILED = "Kinesis record put failed";
+
     private Error(){}
 }
