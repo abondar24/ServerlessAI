@@ -13,7 +13,7 @@ public class Constant {
 
     public static final String BUCKET = "";
 
-    public static final String TRANSLATE_STREAM = "feedback-tr";
+    public static final String TRANSLATE_STREAM = "feedback-str";
 
 
     private Constant(){}
