@@ -78,6 +78,7 @@ public class TranslateHandler implements RequestHandler<KinesisEvent, Void> {
                             .get(0)
                             .languageCode();
 
+                    msg.setOriginalLanguage(langCode);
                     if (langCode.equals(LanguageCode.EN.toString())){
                         msg.setText(msg.getOriginalText());
                         pushToSentimentStream(msg);
