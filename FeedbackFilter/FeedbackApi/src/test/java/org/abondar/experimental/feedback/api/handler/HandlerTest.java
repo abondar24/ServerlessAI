@@ -4,7 +4,6 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import org.abondar.experimental.feedback.common.test.TestContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.util.reflection.FieldSetter;
-import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
 import software.amazon.awssdk.services.kinesis.KinesisAsyncClient;
 import software.amazon.awssdk.services.kinesis.model.PutRecordRequest;
 import software.amazon.awssdk.services.kinesis.model.PutRecordResponse;
@@ -38,7 +37,6 @@ public class HandlerTest {
 
         var ct = CompletableFuture
                 .completedFuture(PutRecordResponse.builder().build());
-        //when(ct.get()).thenReturn(any(PutRecordResponse.class));
 
         when(kinesisAsyncClient.putRecord(any(PutRecordRequest.class)))
                 .thenReturn(ct);

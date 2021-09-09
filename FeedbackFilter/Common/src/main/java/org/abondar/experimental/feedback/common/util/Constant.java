@@ -15,6 +15,7 @@ public class Constant {
 
     public static final String TRANSLATE_STREAM = "feedback-str";
 
+    public static final String SENTIMENT_STREAM = "feedback-sent";
 
     private Constant(){}
 }

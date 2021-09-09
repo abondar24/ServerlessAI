@@ -1,4 +1,5 @@
 rootProject.name = 'FeedbackFilter'
 include 'Common'
 include 'FeedbackApi'
+include 'Translate'
 
