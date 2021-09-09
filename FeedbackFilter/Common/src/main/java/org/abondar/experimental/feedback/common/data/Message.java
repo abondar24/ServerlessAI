@@ -10,9 +10,10 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class Message {
     String originalText;
     String source;
     String originator;
+    String originalLanguage;
+    String text;
 }

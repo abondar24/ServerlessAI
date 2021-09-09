@@ -41,7 +41,8 @@ public class HandlerTest {
 
     @BeforeEach
     public void init() throws Exception{
-        var msg = new Message("text","twitter","@myTwitter");
+        var msg = new Message();
+        msg.setText("text");
         var mapper = new ObjectMapper();
         var recordData = mapper.writeValueAsString(msg).getBytes();
 

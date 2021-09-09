@@ -79,11 +79,12 @@ public class TranslateHandler implements RequestHandler<KinesisEvent, Void> {
                             .languageCode();
 
                     if (langCode.equals(LanguageCode.EN.toString())){
+                        msg.setText(msg.getOriginalText());
                         pushToSentimentStream(msg);
                     }  else {
                         var translatedText = translateMessage(msg.getOriginalText(),langCode);
                         if (!translatedText.isEmpty()){
-                            msg.setOriginalText(translatedText);
+                            msg.setText(translatedText);
                             pushToSentimentStream(msg);
                         }
                     }
