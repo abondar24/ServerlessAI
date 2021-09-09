@@ -42,6 +42,22 @@ variable "lambda_translate_handler" {
   default = "org.abondar.experimental.feedback.translate.handler.TranslateHandler"
 }
 
+variable "lambda_sentiment" {
+  default = "Sentiment"
+}
+
+variable "lambda_sentiment_zip" {
+  default = "Sentiment-1.0-SNAPSHOT.zip"
+}
+
+variable "lambda_sentiment_zip_dir" {
+  default = "../Sentiment/build/distributions"
+}
+
+variable "lambda_sentiment_handler" {
+  default = "org.abondar.experimental.feedback.sentiment.handler.SentimentHandler"
+}
+
 variable "integration_type" {
   default = "AWS_PROXY"
 }
@@ -60,6 +76,10 @@ variable "kinesis_stream" {
 
 variable "sentiment_stream" {
   default = "feedback-sent"
+}
+
+variable "classifier_stream" {
+  default = "feedback-cls"
 }
 
 variable "method_path" {

@@ -13,7 +13,7 @@ resource "aws_lambda_function" "feedback_api" {
 
   depends_on = [
     aws_s3_bucket_object.feedback_api_upload,
-    aws_iam_role_policy_attachment.lambda_translate,
+    aws_iam_role_policy_attachment.lambda_kinesis,
     aws_iam_policy.lambda_logging,
     aws_cloudwatch_log_group.feedback_api,
   ]
@@ -35,12 +35,11 @@ resource "aws_lambda_function" "translate" {
 
   depends_on = [
     aws_s3_bucket_object.translate_upload,
+    aws_iam_role_policy_attachment.lambda_kinesis,
     aws_iam_role_policy_attachment.lambda_translate,
     aws_iam_policy.lambda_logging,
-    aws_cloudwatch_log_group.feedback_api,
+    aws_cloudwatch_log_group.translate,
   ]
-
-
 }
 
 resource "aws_lambda_event_source_mapping" "translate_source" {
@@ -53,3 +52,24 @@ resource "aws_lambda_event_source_mapping" "translate_source" {
 
 }
 
+resource "aws_lambda_function" "sentiment" {
+  s3_bucket = var.lambda_bucket
+  s3_key = var.lambda_sentiment_zip
+  function_name = var.lambda_sentiment
+  role = aws_iam_role.lambda_exec_role.arn
+  handler = var.lambda_sentiment_handler
+
+  source_code_hash = filebase64sha256("${var.lambda_sentiment_zip_dir}/${var.lambda_sentiment_zip}")
+
+  timeout = 200
+  memory_size = 2048
+  runtime = var.java
+
+  depends_on = [
+    aws_s3_bucket_object.sentiment_upload,
+    aws_iam_role_policy_attachment.lambda_kinesis,
+    aws_iam_role_policy_attachment.lambda_sentiment,
+    aws_iam_policy.lambda_logging,
+    aws_cloudwatch_log_group.sentiment,
+  ]
+}

@@ -25,7 +25,7 @@ Response:
 ``` 
 
 2. Translate - reads posted messages from stream, makes translation and pushes messages to stream for sentiment analysis
-
+3. Sentient -  detects type of translated feedback. If it is negative,mixed neutral or positive with score less than 85%, it is pushed to classifier stream
 ## Build and deploy lambda
 
 ```

@@ -13,3 +13,10 @@ resource "aws_s3_bucket_object" "translate_upload" {
   source = "${var.lambda_translate_zip_dir}/${var.lambda_translate_zip}"
   etag = filemd5("${var.lambda_translate_zip_dir}/${var.lambda_translate_zip}")
 }
+
+resource "aws_s3_bucket_object" "sentiment_upload" {
+  bucket = aws_s3_bucket.lmb.id
+  key =  var.lambda_sentiment_zip
+  source = "${var.lambda_sentiment_zip_dir}/${var.lambda_sentiment_zip}"
+  etag = filemd5("${var.lambda_sentiment_zip_dir}/${var.lambda_sentiment_zip}")
+}

@@ -114,7 +114,8 @@ resource "aws_iam_policy" "lambda_kinesis" {
   "Statement": [
     {
       "Action": [
-        "kinesis:PutRecord"
+        "kinesis:PutRecord",
+        "kinesis:PutRecords"
       ],
       "Resource": "*",
       "Effect": "Allow"
@@ -141,8 +142,6 @@ resource "aws_iam_policy" "lambda_translate" {
   "Statement": [
     {
       "Action": [
-        "kinesis:PutRecord",
-        "kinesis:PutRecords",
         "comprehend:DetectDominantLanguage",
         "translate:TranslateText"
       ],
@@ -157,4 +156,29 @@ EOF
 resource "aws_iam_role_policy_attachment" "lambda_translate" {
   role = aws_iam_role.lambda_exec_role.name
   policy_arn = aws_iam_policy.lambda_translate.arn
+}
+
+resource "aws_iam_policy" "lambda_sentiment" {
+  name = "lambda_feed_sentiment"
+  path = "/"
+  description = "IAM policy for detecting sentiments from lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "comprehend:DetectSentiment"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+resource "aws_iam_role_policy_attachment" "lambda_sentiment" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_sentiment.arn
 }
