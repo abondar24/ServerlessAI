@@ -17,5 +17,7 @@ public class Constant {
 
     public static final String SENTIMENT_STREAM = "feedback-sent";
 
+    public static final String CLASSIFY_STREAM = "feedback-cls";
+
     private Constant(){}
 }

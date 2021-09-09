@@ -16,4 +16,6 @@ public class Message {
     String originator;
     String originalLanguage;
     String text;
+    String sentiment;
+    String sentimentScore;
 }

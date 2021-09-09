@@ -1,0 +1,8 @@
+group 'org.abondar.experimental.feedback.sentiment'
+version '1.0-SNAPSHOT'
+
+
+dependencies {
+    implementation project(":Common")
+    implementation("software.amazon.awssdk:comprehend:2.15.82")
+}
