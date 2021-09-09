@@ -12,7 +12,9 @@ Customer feedback filtering application.
 POST feedback-api-url/
 Body: Customer feedback 
     {
-      "feedback":"some-feedback",
+      "originalText":"some-feedback",
+      "source":"twitter",
+      "originator":"@someTweet" 
     }
 
 Response: 
@@ -21,6 +23,9 @@ Response:
  500 - Data posting to Kinesis stream failed
  502 - AWS infrastructure not available 
 ``` 
+
+2. Translate - reads posted messages from stream, makes translation and pushes messages to stream for sentiment analysis
+
 ## Build and deploy lambda
 
 ```

@@ -40,6 +40,41 @@ resource "aws_iam_role" "cloudwatch" {
 EOF
 }
 
+resource "aws_iam_policy" "lambda_bucket" {
+  name = "lambda_bucket"
+  description = "lambda to s3 bucket"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+ {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": "*"
+        },
+ {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::*"
+            ]
+        }
+]
+
+
+}
+  EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_bucket" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_bucket.arn
+}
+
+
 resource "aws_iam_policy" "lambda_logging" {
   name = "lambda_feedback_log"
   path = "/"
@@ -92,4 +127,34 @@ EOF
 resource "aws_iam_role_policy_attachment" "lambda_kinesis" {
   role = aws_iam_role.lambda_exec_role.name
   policy_arn = aws_iam_policy.lambda_kinesis.arn
+}
+
+
+resource "aws_iam_policy" "lambda_translate" {
+  name = "lambda_feed_translate"
+  path = "/"
+  description = "IAM policy for accessing kinesis ,translate and comprehend from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "kinesis:PutRecord",
+        "kinesis:PutRecords",
+        "comprehend:DetectDominantLanguage",
+        "translate:TranslateText"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_translate" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_translate.arn
 }
