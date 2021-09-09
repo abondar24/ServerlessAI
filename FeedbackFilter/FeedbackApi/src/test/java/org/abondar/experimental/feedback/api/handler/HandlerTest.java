@@ -1,9 +1,7 @@
 package org.abondar.experimental.feedback.api.handler;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import org.abondar.experimental.feedback.common.test.TestContext;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.util.reflection.FieldSetter;
 import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
@@ -24,9 +22,9 @@ public class HandlerTest {
 
 
     @Test
-    public void feedbackApiHandlerTest() throws Exception{
+    public void feedbackApiHandlerTest() throws Exception {
         var kinesisAsyncClient = mock(KinesisAsyncClient.class);
-        var httpClient = mock(SdkAsyncHttpClient.class);
+
         var context = new TestContext();
 
         var request = new APIGatewayProxyRequestEvent();
@@ -34,11 +32,9 @@ public class HandlerTest {
 
         var handler = new FeedbackApiHandler();
 
-        FieldSetter.setField(handler, handler.getClass()
-                .getDeclaredField("httpClient"),httpClient);
 
         FieldSetter.setField(handler, handler.getClass()
-                .getDeclaredField("kinesisClient"),kinesisAsyncClient);
+                .getDeclaredField("kinesisClient"), kinesisAsyncClient);
 
         var ct = CompletableFuture
                 .completedFuture(PutRecordResponse.builder().build());
@@ -48,13 +44,12 @@ public class HandlerTest {
                 .thenReturn(ct);
 
 
+        var res = handler.handleRequest(request, context);
 
-        var res = handler.handleRequest(request,context);
-
-        assertEquals(200,res.getStatusCode());
+        assertEquals(200, res.getStatusCode());
         assertEquals(5, res.getHeaders().size());
         assertTrue(res.getHeaders().containsKey("Access-Control-Allow-Origin"));
-        assertEquals("*",res.getHeaders().get("Access-Control-Allow-Origin"));
+        assertEquals("*", res.getHeaders().get("Access-Control-Allow-Origin"));
         assertNull(res.getBody());
     }
 }

@@ -6,8 +6,6 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.SdkBytes;
-import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
-import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient;
 import software.amazon.awssdk.services.kinesis.KinesisAsyncClient;
 import software.amazon.awssdk.services.kinesis.model.PutRecordRequest;
 
@@ -24,12 +22,8 @@ public class FeedbackApiHandler implements RequestHandler<APIGatewayProxyRequest
 
     private final KinesisAsyncClient kinesisClient;
 
-    private final SdkAsyncHttpClient httpClient;
-
     public FeedbackApiHandler(){
-        this.httpClient = buildHttpClient();
         this.kinesisClient = KinesisAsyncClient.builder()
-                .httpClient(httpClient)
                 .build();
     }
 
@@ -40,7 +34,6 @@ public class FeedbackApiHandler implements RequestHandler<APIGatewayProxyRequest
             var req = buildRecordRequest(input.getBody());
             logger.log(String.format("Putting record %s",req.toString()));
             var resp = kinesisClient.putRecord(req).get();
-            httpClient.close();
 
             return buildResponse(200,resp.encryptionTypeAsString());
         } catch (AwsServiceException ex) {
@@ -53,12 +46,6 @@ public class FeedbackApiHandler implements RequestHandler<APIGatewayProxyRequest
 
     }
 
-    private SdkAsyncHttpClient buildHttpClient() {
-        return NettyNioAsyncHttpClient.builder()
-                .maxConcurrency(100)
-                .maxPendingConnectionAcquires(10000)
-                .build();
-    }
 
     private PutRecordRequest buildRecordRequest(String eventBody) {
         return PutRecordRequest.builder()
