@@ -215,15 +215,6 @@ resource "aws_iam_policy" "classifier_bucket" {
   "Statement": [
  {
             "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:ListBucket",
-                "s3:PutObject"
-            ],
-            "Resource": "*"
-        },
- {
-            "Effect": "Allow",
             "Action": "s3:*",
             "Resource": [
                 "arn:aws:s3:::*"

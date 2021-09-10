@@ -1,0 +1,15 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'org.abondar.experimental.feedback.trainer'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(":Common")
+}
+
+mainClassName = 'org.abondar.experimental.feedback.trainer.Main'

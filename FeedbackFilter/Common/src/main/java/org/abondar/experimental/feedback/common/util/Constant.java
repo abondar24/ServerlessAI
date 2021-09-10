@@ -11,13 +11,21 @@ public class Constant {
             "Content-Type", "application/json"
     );
 
-    public static final String BUCKET = "";
+    public static final String TRAIN_BUCKET = "feedback-train";
+
+    public static final String RESULT_BUCKET = "feedback-result";
 
     public static final String TRANSLATE_STREAM = "feedback-str";
 
     public static final String SENTIMENT_STREAM = "feedback-sent";
 
     public static final String CLASSIFY_STREAM = "feedback-cls";
+
+    public static final String CLASSIFIER = "feedback-filter";
+
+    public static final String CLASSIFIER_ENDPOINT = "arn:aws:iam::203212890819:endpoint/"+CLASSIFIER;
+
+    public static final String CLASSIFIER_ROLE_ARN = "arn:aws:iam::203212890819:role/classifier_role";
 
     private Constant(){}
 }

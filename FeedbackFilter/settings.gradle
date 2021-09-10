@@ -3,4 +3,5 @@ include 'Common'
 include 'FeedbackApi'
 include 'Translate'
 include 'Sentiment'
+include 'Trainer'
 

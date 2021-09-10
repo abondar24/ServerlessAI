@@ -30,6 +30,7 @@ subprojects{
         implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
         implementation 'com.amazonaws:aws-lambda-java-events:3.9.0'
         implementation("software.amazon.kinesis:amazon-kinesis-client:2.3.6")
+        implementation("software.amazon.awssdk:comprehend:2.15.82")
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 
