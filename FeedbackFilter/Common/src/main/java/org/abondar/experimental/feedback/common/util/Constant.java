@@ -27,5 +27,7 @@ public class Constant {
 
     public static final String CLASSIFIER_ROLE_ARN = "arn:aws:iam::203212890819:role/classifier_role";
 
+    public static final Float  CLASS_SCORE = 0.85f;
+
     private Constant(){}
 }

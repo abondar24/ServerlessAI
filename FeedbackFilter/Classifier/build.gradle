@@ -1,0 +1,7 @@
+group 'org.abondar.experimental.feedback.classifier'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':Common')
+    implementation 'software.amazon.awssdk:s3'
+}
