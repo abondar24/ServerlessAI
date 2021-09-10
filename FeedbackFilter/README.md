@@ -47,6 +47,14 @@ cd ../cloud-resources
 terraform destroy
 ```
 
+## Prepare training data
+```
+cd TrainData
+
+./download.sh
+./prepropc.sh
+```
+
 ## Trainer
 Starts training of classifier using uploaded data and creates the endpoint for invoking.
 
@@ -62,3 +70,4 @@ java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar
 # Notes
 - CORS must be enabled manually on API gateway
 - Before running classifier training all cloud resources must be deployed and data must be uploaded. 
+- Only data.csv file is needed for lambda
