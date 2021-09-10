@@ -4,13 +4,17 @@ public class Main {
 
     public static void main(String[] args) {
         var trainer = new FeedbackTrainer();
-        var classifierArn = trainer.createDocumentClassifier();
 
-        if (classifierArn.isEmpty()){
-            System.exit(1);
+        if (args.length == 2 && args[0].equals("-e")) {
+            trainer.createClassifierEndpoint(args[1]);
+        } else if (args.length ==1 && args[0].equals("-c")) {
+
+            var classifierArn = trainer.createDocumentClassifier();
+            if (classifierArn.isEmpty()){
+                System.exit(1);
+            }
+            System.out.printf("Created classifier with arn %s\n", classifierArn);
         }
 
-        System.out.printf("Created classifier with arn %s\n", classifierArn);
-        trainer.createClassifierEndpoint(classifierArn);
     }
 }

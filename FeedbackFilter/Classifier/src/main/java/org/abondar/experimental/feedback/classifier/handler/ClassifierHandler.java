@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ENDPOINT;
+import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ENDPOINT_ARN;
 import static org.abondar.experimental.feedback.common.util.Constant.CLASS_SCORE;
 import static org.abondar.experimental.feedback.common.util.Constant.RESULT_BUCKET;
 
@@ -60,7 +60,7 @@ public class ClassifierHandler implements RequestHandler<KinesisEvent, Void> {
                 var payload = r.getKinesis().getData().array();
                 var msg = mapper.readValue(payload, Message.class);
 
-                var res = comprehendClient.classifyDocument(builder -> builder.endpointArn(CLASSIFIER_ENDPOINT)
+                var res = comprehendClient.classifyDocument(builder -> builder.endpointArn(CLASSIFIER_ENDPOINT_ARN)
                         .text(msg.getText())
                         .build()).get();
 

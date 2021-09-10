@@ -1,7 +1,5 @@
 package org.abondar.experimental.feedback.trainer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.services.comprehend.ComprehendAsyncClient;
 import software.amazon.awssdk.services.comprehend.model.LanguageCode;
 import software.amazon.awssdk.services.comprehend.model.Tag;
@@ -10,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER;
-import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ENDPOINT;
+import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ENDPOINT_ARN;
 import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ROLE_ARN;
 import static org.abondar.experimental.feedback.common.util.Constant.TRAIN_BUCKET;
 
@@ -47,8 +45,8 @@ public class FeedbackTrainer {
 
     public void createClassifierEndpoint(String classifierArn) {
         System.out.println("Creating classifier endpoint");
-        
-        client.createEndpoint(builder -> builder.endpointName(CLASSIFIER_ENDPOINT)
+
+        var res = client.createEndpoint(builder -> builder.endpointName(CLASSIFIER)
                 .modelArn(classifierArn)
                 .desiredInferenceUnits(1)
                 .tags(List.of(
@@ -57,5 +55,11 @@ public class FeedbackTrainer {
                                 .value("book")
                                 .build()))
                 .build());
+
+        try {
+            System.out.println(res.get().endpointArn());
+        } catch (InterruptedException | ExecutionException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 }

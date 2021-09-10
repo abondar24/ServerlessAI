@@ -64,7 +64,10 @@ cd Trainer
 
 ../gradlew clean build
 
-java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar
+java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar -c 
+
+java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar -e <trained-classifier-arn> 
+
 ```
 
 # Notes
