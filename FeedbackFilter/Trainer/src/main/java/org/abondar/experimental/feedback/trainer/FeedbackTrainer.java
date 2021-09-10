@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER;
-import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ENDPOINT_ARN;
 import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ROLE_ARN;
 import static org.abondar.experimental.feedback.common.util.Constant.TRAIN_BUCKET;
 

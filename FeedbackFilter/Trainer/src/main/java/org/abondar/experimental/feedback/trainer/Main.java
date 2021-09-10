@@ -14,6 +14,8 @@ public class Main {
                 System.exit(1);
             }
             System.out.printf("Created classifier with arn %s\n", classifierArn);
+        } else {
+            System.err.println("Enter key -e or -c to continue");
         }
 
     }
