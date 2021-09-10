@@ -50,11 +50,15 @@ terraform destroy
 - CORS must be enabled manually on API gateway
 - Verify via API Gateway console that the API is actually deployed and deploy manually if not.
 
-2. Client - Tiny web client for calling lambdas
+## Client 
+
+Tiny web client for calling lambdas
 
 ### Build and run
 ```
+cd Client 
+
 ../gradlew clean build
 
-java -jar <path-to-jar> <path-to-image>
+java -jar <path-to-jar>/Client-1.0-SNAPSHOT-all.jar samples/<image>.jpg
 ```

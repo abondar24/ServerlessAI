@@ -24,8 +24,9 @@ Response:
  502 - AWS infrastructure not available 
 ``` 
 
-2. Translate - reads posted messages from stream, makes translation and pushes messages to stream for sentiment analysis
-3. Sentient -  detects type of translated feedback. If it is negative,mixed neutral or positive with score less than 85%, it is pushed to classifier stream
+2. Translate - Reads posted messages from stream, makes translation and pushes messages to stream for sentiment analysis
+3. Sentient -  Detects type of translated feedback. If it is negative,mixed neutral or positive with score less than 85%, it is pushed to classifier stream
+4. Classifier - Uses trained classifier and saves json with results to the bucket
 ## Build and deploy lambda
 
 ```
@@ -46,5 +47,18 @@ cd ../cloud-resources
 terraform destroy
 ```
 
+## Trainer
+Starts training of classifier using uploaded data and creates the endpoint for invoking.
+
+### Build and Run 
+```
+cd Trainer
+
+../gradlew clean build
+
+java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar
+```
+
 # Notes
 - CORS must be enabled manually on API gateway
+- Before running classifier training all cloud resources must be deployed and data must be uploaded. 

@@ -6,6 +6,7 @@ Examples of using AWS Lambda for Machine learning based on 'AI as a service' Boo
 1. [Image Recognition](ImageRecognition/README.md)
 2. [TODO List](TodoList/README.md)
 3. [Identity Verifier](IdentityVerifier/README.md)
+4. [Feedback Filter](FeedbackFilter/README.md)
 
 # Tools
 - Java 11
@@ -25,3 +26,6 @@ Examples of using AWS Lambda for Machine learning based on 'AI as a service' Boo
 - Transcribe
 - Polly
 - Textract
+- Kinesis
+- Comprehend
+- Translate
