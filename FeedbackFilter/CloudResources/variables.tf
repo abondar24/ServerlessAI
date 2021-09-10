@@ -10,6 +10,10 @@ variable "lambda_exec_role" {
   default = "lambda_id_role"
 }
 
+variable "classifier_exec_role" {
+  default = "classifier_role"
+}
+
 variable "lambda_api_zip" {
   default = "FeedbackApi-1.0-SNAPSHOT.zip"
 }
@@ -102,6 +106,22 @@ variable "lambda_bucket" {
   default = "feedback-lambdas"
 }
 
+variable "train_bucket" {
+  default = "feedback-train"
+}
+
+variable "result_bucket" {
+  default = "feedback-result"
+}
+
 variable "archive_type" {
   default = "zip"
+}
+
+variable "training_data_dir" {
+  default = "../TrainingData"
+}
+
+variable "training_data" {
+  default = "data.csv"
 }
