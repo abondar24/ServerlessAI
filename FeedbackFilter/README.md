@@ -70,7 +70,31 @@ java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar -e <trained-classifier-arn>
 
 ```
 
+## Client
+Uploads data to the app and gets results from bucket
+
+### Build and Run
+```
+cd Trainer
+
+../gradlew clean build
+
+java -jar <path-to-jar>/Client-1.0-SNAPSHOT-all.jar -u <feedback-json-file>
+
+java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar -c <filepath-to-results> 
+
+```
+Sample json
+```
+ {
+    originalText: "Bad service. I don't like it",
+    source: 'twitter',
+    orignator: '@myTwitter'
+  }
+```
+
 # Notes
 - CORS must be enabled manually on API gateway
 - Before running classifier training all cloud resources must be deployed and data must be uploaded. 
 - Only data.csv file is needed for lambda
+- Create endpoint via Trainer after classifier is trained

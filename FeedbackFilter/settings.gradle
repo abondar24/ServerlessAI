@@ -5,4 +5,5 @@ include 'Translate'
 include 'Sentiment'
 include 'Trainer'
 include 'Classifier'
+include 'Client'
 

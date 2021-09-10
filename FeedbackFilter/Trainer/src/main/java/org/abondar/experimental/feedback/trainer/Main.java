@@ -1,5 +1,8 @@
 package org.abondar.experimental.feedback.trainer;
 
+import static org.abondar.experimental.feedback.common.util.Error.WRONG_NUMBER_OF_ARGUMENTS;
+import static org.abondar.experimental.feedback.common.util.Error.WRONG_TRAINER_KEY;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -14,8 +17,10 @@ public class Main {
                 System.exit(1);
             }
             System.out.printf("Created classifier with arn %s\n", classifierArn);
+        } else if (args.length==0){
+            System.err.println(WRONG_NUMBER_OF_ARGUMENTS);
         } else {
-            System.err.println("Enter key -e or -c to continue");
+            System.err.println(WRONG_TRAINER_KEY);
         }
 
     }

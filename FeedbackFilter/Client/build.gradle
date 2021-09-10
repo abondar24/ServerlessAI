@@ -1,0 +1,16 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'org.abondar.experimental.feedback.client'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(":Common")
+    implementation ("software.amazon.awssdk:s3")
+}
+
+mainClassName = 'org.abondar.experimental.feedback.client.Main'
