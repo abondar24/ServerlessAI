@@ -231,3 +231,36 @@ resource "aws_iam_role_policy_attachment" "classifier_bucket" {
   role = aws_iam_role.classifier_exec_role.name
   policy_arn = aws_iam_policy.classifier_bucket.arn
 }
+
+resource "aws_iam_policy" "lambda_cls" {
+  name = "lambda_cls"
+  path = "/"
+  description = "IAM policy for detecting sentiments from lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "comprehend:DetectSentiment",
+        "comprehend:StartDocumentClassificationJob",
+        "comprehend:DescribeDocumentClassificationJob",
+        "comprehend:classifyDocument"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+resource "aws_iam_role_policy_attachment" "lambda_cls" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_cls.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_cls_bucket" {
+  role = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.classifier_bucket.arn
+}

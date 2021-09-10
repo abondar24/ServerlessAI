@@ -80,6 +80,35 @@ resource "aws_lambda_event_source_mapping" "sentiment_source" {
   starting_position = "LATEST"
   batch_size = 100
   enabled = true
+}
 
 
+resource "aws_lambda_function" "classifier" {
+  s3_bucket = var.lambda_bucket
+  s3_key = var.lambda_classifier_zip
+  function_name = var.lambda_classifier
+  role = aws_iam_role.lambda_exec_role.arn
+  handler = var.lambda_classifier_handler
+
+  source_code_hash = filebase64sha256("${var.lambda_classifier_zip_dir}/${var.lambda_classifier_zip}")
+
+  timeout = 200
+  memory_size = 2048
+  runtime = var.java
+
+  depends_on = [
+    aws_s3_bucket_object.classifier_upload,
+    aws_iam_role_policy_attachment.lambda_cls,
+    aws_iam_role_policy_attachment.lambda_bucket,
+    aws_iam_policy.lambda_logging,
+    aws_cloudwatch_log_group.classifier,
+  ]
+}
+
+resource "aws_lambda_event_source_mapping" "classifier_source" {
+  event_source_arn  = aws_kinesis_stream.classifier_stream.arn
+  function_name     = aws_lambda_function.classifier.arn
+  starting_position = "LATEST"
+  batch_size = 100
+  enabled = true
 }

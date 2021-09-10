@@ -21,6 +21,13 @@ resource "aws_s3_bucket_object" "sentiment_upload" {
   etag = filemd5("${var.lambda_sentiment_zip_dir}/${var.lambda_sentiment_zip}")
 }
 
+resource "aws_s3_bucket_object" "classifier_upload" {
+  bucket = aws_s3_bucket.lmb.id
+  key =  var.lambda_classifier_zip
+  source = "${var.lambda_classifier_zip_dir}/${var.lambda_classifier_zip}"
+  etag = filemd5("${var.lambda_classifier_zip_dir}/${var.lambda_classifier_zip}")
+}
+
 resource "aws_s3_bucket_object" "train_data_upload" {
   bucket = aws_s3_bucket.train.id
   key =  var.training_data

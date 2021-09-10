@@ -62,6 +62,22 @@ variable "lambda_sentiment_handler" {
   default = "org.abondar.experimental.feedback.sentiment.handler.SentimentHandler"
 }
 
+variable "lambda_classifier_zip" {
+  default = "Classifier-1.0-SNAPSHOT.zip"
+}
+
+variable "lambda_classifier_zip_dir" {
+  default = "../Classifier/build/distributions"
+}
+
+variable "lambda_classifier_handler" {
+  default = "org.abondar.experimental.feedback.classifier.handler.ClassifierHandler"
+}
+
+variable "lambda_classifier" {
+  default = "Classifier"
+}
+
 variable "integration_type" {
   default = "AWS_PROXY"
 }

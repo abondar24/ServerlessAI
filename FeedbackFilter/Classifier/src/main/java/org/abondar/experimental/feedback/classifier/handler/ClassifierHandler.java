@@ -7,17 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.feedback.common.data.FeedbackClass;
 import org.abondar.experimental.feedback.common.data.Message;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
-import software.amazon.awssdk.core.client.builder.SdkDefaultClientBuilder;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.http.SdkHttpClient;
-import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
 import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.comprehend.ComprehendAsyncClient;
 import software.amazon.awssdk.services.comprehend.model.DocumentClass;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -26,7 +20,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ENDPOINT;
-import static org.abondar.experimental.feedback.common.util.Constant.CLASSIFIER_ROLE_ARN;
 import static org.abondar.experimental.feedback.common.util.Constant.CLASS_SCORE;
 import static org.abondar.experimental.feedback.common.util.Constant.RESULT_BUCKET;
 
@@ -73,7 +66,7 @@ public class ClassifierHandler implements RequestHandler<KinesisEvent, Void> {
 
                 if (!res.classes().isEmpty()) {
                     var cls = determineClass(res.classes());
-                    saveResultToBucket(cls,msg);
+                    saveResultToBucket(cls, msg);
                 }
 
             } catch (IOException | InterruptedException | ExecutionException ex) {
