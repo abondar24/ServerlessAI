@@ -73,3 +73,13 @@ resource "aws_lambda_function" "sentiment" {
     aws_cloudwatch_log_group.sentiment,
   ]
 }
+
+resource "aws_lambda_event_source_mapping" "sentiment_source" {
+  event_source_arn  = aws_kinesis_stream.sentiment_stream.arn
+  function_name     = aws_lambda_function.sentiment.arn
+  starting_position = "LATEST"
+  batch_size = 100
+  enabled = true
+
+
+}

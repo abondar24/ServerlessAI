@@ -114,8 +114,7 @@ resource "aws_iam_policy" "lambda_kinesis" {
   "Statement": [
     {
       "Action": [
-        "kinesis:PutRecord",
-        "kinesis:PutRecords"
+        "kinesis:*"
       ],
       "Resource": "*",
       "Effect": "Allow"
