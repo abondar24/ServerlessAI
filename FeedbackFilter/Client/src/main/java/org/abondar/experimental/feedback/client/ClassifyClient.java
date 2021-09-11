@@ -68,13 +68,15 @@ public class ClassifyClient {
                     .maxKeys(10)
                     .build()).get();
 
-            var latest = res.contents().stream().max(Comparator.comparing(S3Object::eTag));
+            var latest = res.contents().stream().max(Comparator.comparing(S3Object::lastModified));
             if (latest.isPresent()){
                 var obj =latest.get();
                 if (!obj.key().isEmpty()){
-                    s3Client.getObject(builder -> builder.bucket(RESULT_BUCKET)
+                   var resp=  s3Client.getObject(builder -> builder.bucket(RESULT_BUCKET)
                             .key(obj.key())
                             .build(), Path.of(outputPath));
+
+                    System.out.println(resp.get());
                 } else {
                     System.out.println("empty key");
                 }

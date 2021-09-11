@@ -86,21 +86,23 @@ public class ClassifierHandler implements RequestHandler<KinesisEvent, Void> {
             var doc = maxDoc.get();
             if (doc.score() > CLASS_SCORE) {
                 cls = FeedbackClass.valueOf(doc.name().toUpperCase());
+                System.out.println(cls);
             }
         }
-
+        System.out.println(cls);
         return cls.toString();
     }
 
-    private void saveResultToBucket(String cls, Message message) throws IOException {
+    private void saveResultToBucket(String cls, Message message) throws IOException,InterruptedException,ExecutionException {
         var uuid = UUID.randomUUID().toString();
         var body = mapper.writeValueAsString(message);
 
-        s3Client.putObject(builder -> {
+        var res= s3Client.putObject(builder -> {
             builder.bucket(RESULT_BUCKET)
                     .key(cls + "/" + uuid + ".json")
                     .build();
         }, AsyncRequestBody.fromString(body));
 
+        System.out.println(res.get());
     }
 }

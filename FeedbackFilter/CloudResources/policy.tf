@@ -243,10 +243,7 @@ resource "aws_iam_policy" "lambda_cls" {
   "Statement": [
     {
       "Action": [
-        "comprehend:DetectSentiment",
-        "comprehend:StartDocumentClassificationJob",
-        "comprehend:DescribeDocumentClassificationJob",
-        "comprehend:classifyDocument"
+        "comprehend:*"
       ],
       "Resource": "*",
       "Effect": "Allow"

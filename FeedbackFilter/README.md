@@ -84,13 +84,13 @@ java -jar <path-to-jar>/Client-1.0-SNAPSHOT-all.jar -u <feedback-json-file>
 java -jar <path-to-jar>/Trainer-1.0-SNAPSHOT-all.jar -c <filepath-to-results> 
 
 ```
-Sample json
+Sample input json
 ```
  {
-    originalText: "Bad service. I don't like it",
-    source: 'twitter',
-    orignator: '@myTwitter'
-  }
+  "originalText": "Bad service. I don't like it",
+  "source": "twitter",
+  "orignator": "@myTwitter"
+}
 ```
 
 # Notes

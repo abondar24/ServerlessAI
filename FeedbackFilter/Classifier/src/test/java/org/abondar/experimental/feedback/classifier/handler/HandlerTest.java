@@ -12,6 +12,7 @@ import software.amazon.awssdk.services.comprehend.ComprehendAsyncClient;
 import software.amazon.awssdk.services.comprehend.model.ClassifyDocumentResponse;
 import software.amazon.awssdk.services.comprehend.model.DocumentClass;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -22,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class HandlerTest {
@@ -127,8 +127,13 @@ public class HandlerTest {
         when(comprehendClient.classifyDocument(any(Consumer.class)))
                 .thenReturn(ct);
 
+        var ct1 = CompletableFuture.completedFuture(
+                PutObjectResponse.builder().build());
+        when(s3Client.putObject(any(Consumer.class), any(AsyncRequestBody.class)))
+                .thenReturn(ct1);
+
         var res = handler.handleRequest(event, context);
-        verify(s3Client).putObject(any(Consumer.class), any(AsyncRequestBody.class));
+
 
         assertNull(res);
     }

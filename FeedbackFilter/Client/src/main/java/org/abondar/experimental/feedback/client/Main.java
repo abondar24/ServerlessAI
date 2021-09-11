@@ -9,7 +9,7 @@ import static org.abondar.experimental.feedback.common.util.Error.WRONG_NUMBER_O
 public class Main {
     public static void main(String[] args) {
 
-        var url = " https://avp6698ta4.execute-api.eu-west-1.amazonaws.com/test/feedback";
+        var url = "https://avp6698ta4.execute-api.eu-west-1.amazonaws.com/test/feedback";
         var client = new ClassifyClient(url);
 
         try {

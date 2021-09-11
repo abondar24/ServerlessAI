@@ -23,7 +23,7 @@ public class Constant {
 
     public static final String CLASSIFIER = "feedback-filter";
 
-    public static final String CLASSIFIER_ENDPOINT_ARN = "arn:aws:iam::203212890819:endpoint/"+CLASSIFIER;
+    public static final String CLASSIFIER_ENDPOINT_ARN = "arn:aws:comprehend:eu-west-1:203212890819:document-classifier-endpoint/"+CLASSIFIER;
 
     public static final String CLASSIFIER_ROLE_ARN = "arn:aws:iam::203212890819:role/classifier_role";
 

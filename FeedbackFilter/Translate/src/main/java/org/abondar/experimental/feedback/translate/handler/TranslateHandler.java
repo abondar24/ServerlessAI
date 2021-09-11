@@ -122,11 +122,12 @@ public class TranslateHandler implements RequestHandler<KinesisEvent, Void> {
         return req;
     }
 
-    private void pushToSentimentStream(Message message) throws IOException{
+    private void pushToSentimentStream(Message message) throws IOException,InterruptedException,ExecutionException{
         var body = mapper.writeValueAsString(message);
         var recordRequest = buildRecordRequest(body);
 
-        kinesisClient.putRecord(recordRequest);
+        var res = kinesisClient.putRecord(recordRequest);
+        System.out.println(res.get().toString());
     }
 
     private PutRecordRequest buildRecordRequest(String eventBody) {
